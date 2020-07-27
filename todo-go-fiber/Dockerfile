@@ -15,10 +15,10 @@ FROM alpine:3.12
 WORKDIR /home/dv4all
 
 COPY --from=build /home/build/todoapi /home/dv4all
-COPY ./views /home/dv4all/views
+COPY ./static /home/dv4all/static
 
 EXPOSE 5432
-EXPOSE 8080
+# EXPOSE 8080
 
 CMD ["/home/dv4all/todoapi"]
 

@@ -18,7 +18,8 @@ func Register() error {
 	api := fiber.New()
 
 	// basic log middleware comparable with
-	api.Use(logger.LogMiddleware)
+	api.Use(logger.LogMiddleware())
+	// api.Use(Logger)
 	//todo list
 	api.Get("/todos", getTodoLists)
 	api.Post("/todos", addTodoList)

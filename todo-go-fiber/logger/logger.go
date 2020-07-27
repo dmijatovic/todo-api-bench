@@ -22,7 +22,7 @@ func createLogEntry(ctx *fiber.Ctx) {
 }
 
 //LogMiddleware logs request method and URL.path
-func LogMiddleware(ctx *fiber.Ctx) func(*fiber.Ctx) {
+func LogMiddleware() func(*fiber.Ctx) {
 	return func(ctx *fiber.Ctx) {
 		// pass to next
 		createLogEntry(ctx)
