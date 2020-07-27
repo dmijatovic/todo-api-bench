@@ -25,18 +25,18 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/rs-todo-api:0.0.2
+    image: dv4all/todo-mux-api:0.0.2
     environment:
-      SERVER.HOST: 0.0.0.0
-      SERVER.PORT: 8080
-      PG.HOST: pgdb
-      PG.PORT: 5432
-      PG.USER: postgres
-      PG.PASSWORD: changeme
-      PG.DBNAME: todo_db
-      PG.POOL.MAX_SIZE: 30
+      API_HOST: 0.0.0.0:8081
+      API_NAME: todo-mux-api
+      PG_HOST: pgdb
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASS: changeme
+      PG_DB: todo_db
+      # PG_POOL.MAX_SIZE: 30
     ports:
-      - "8080:8080"
+      - "8081:8081"
     networks:
       - net
     depends_on:
