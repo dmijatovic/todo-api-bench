@@ -13,13 +13,14 @@ function saveResults(err, result){
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"todo-actix-api",
+  title:"todo-fiber-api",
+  url:"http://localhost:8082",
   requests:[{
       method:'GET',
       path:'/',
     },{
       method:'POST',
-      path:'/todos',
+      path:'/todos/',
       headers:{
         'content-type':'application/json',
         'autohorization':'Bearer FAKE_JWT_KEY'
@@ -28,7 +29,7 @@ const loadTest = autocannon({
       onResponse:(status, body, context)=>{
         if (status === 200) {
           const resp = JSON.parse(body)
-          context['list_id'] = resp['id']
+          context['list_id'] = resp['payload']['id']
         }
       }
     },{
@@ -40,7 +41,13 @@ const loadTest = autocannon({
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
         },
-        body:JSON.stringify(utils.todoItem)
+        body:JSON.stringify(utils.todoItem),
+        onResponse:(status, body, context)=>{
+          if (status === 200) {
+            const resp = JSON.parse(body)
+            context['todo_id'] = resp['payload']['id']
+          }
+        }
       })
     },{
       method: 'GET',

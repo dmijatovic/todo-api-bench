@@ -13,7 +13,7 @@ function saveResults(err, result){
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"todo-go-http",
+  title:"todo-mux-api",
   url:"http://localhost:8081",
   requests:[{
       method:'GET',
