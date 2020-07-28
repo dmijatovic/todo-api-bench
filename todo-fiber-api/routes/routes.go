@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"dv4all/todo-go-fiber/logger"
 	"dv4all/todo-go-fiber/pgdb"
 	"dv4all/todo-go-fiber/response"
 	"dv4all/todo-go-fiber/utils"
@@ -9,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
 )
 
 // Register all api routes
@@ -18,8 +18,8 @@ func Register() error {
 	api := fiber.New()
 
 	// basic log middleware comparable with
-	api.Use(logger.LogMiddleware())
-	// api.Use(Logger)
+	// api.Use(logger.LogMiddleware())
+	api.Use(middleware.Logger())
 	//todo list
 	api.Get("/todos", getTodoLists)
 	api.Post("/todos", addTodoList)
