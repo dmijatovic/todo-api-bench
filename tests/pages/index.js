@@ -15,7 +15,7 @@ function HomePage() {
 
   console.log("reports...", state)
 
-  const header=['Title','2xx', 'non2xx','duration','connections']
+  const header=['title','2xx', 'non2xx','duration','connections', 'finish']
 
   const reportHeader = () =>{
     return (
@@ -40,21 +40,13 @@ function HomePage() {
     const html = state.map((item,pos) =>{
       return (
         <tr key={pos}>
-          <td>
-            {item['title']}
-          </td>
-          <td>
-            {item['2xx']}
-          </td>
-          <td>
-            {item['non2xx']}
-          </td>
-          <td>
-            {item['duration']}
-          </td>
-          <td>
-            {item['connections']}
-          </td>
+          {header.map(col=>{
+            return (
+              <td>
+                {item[col]}
+              </td>
+            )
+          })}
         </tr>
       )
     })
