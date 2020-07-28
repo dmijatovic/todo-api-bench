@@ -10,6 +10,7 @@
     "test:rs-actix": "node autocannon/load_test_actix.js",
     "test:go-mux": "node autocannon/load_test_mux.js",
     "test:go-fiber": "node autocannon/load_test_fiber.js",
+    "test:js-polka": "node autocannon/load_test_polka.js",
     "dev": "next",
     "build": "next build",
     "start": "next start"

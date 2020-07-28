@@ -13,7 +13,7 @@ function HomePage() {
       })
   },[])
 
-  console.log("reports...", state)
+  // console.log("reports...", state)
 
   const header=['title','2xx', 'non2xx','duration','connections', 'finish']
 
@@ -42,7 +42,7 @@ function HomePage() {
         <tr key={pos}>
           {header.map(col=>{
             return (
-              <td>
+              <td key={`${pos}-${col}`}>
                 {item[col]}
               </td>
             )
