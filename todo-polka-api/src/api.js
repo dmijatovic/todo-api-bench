@@ -1,15 +1,14 @@
 
 const polka = require('polka')
 const {json} = require('body-parser')
-const process = require('process')
 
+const getEnv = require('./utils/getEnv')
 const resp = require("./utils/resp")
-const config = require("./api.config")
+// const config = require("./api.config")
 const {loggerMiddleware} = require('./utils/log')
-
 const todos = require('./routes/todos')
 
-const PORT = process.env.API_PORT || config.apiPort || 5000
+const PORT = parseInt(getEnv('API_PORT', '8080'))
 
 const api = polka()
   .use(json())

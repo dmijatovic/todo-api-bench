@@ -27,14 +27,14 @@ services:
     build: .
     image: dv4all/todo-polka-api:0.0.1
     environment:
-      API_HOST: 0.0.0.0:8083
-      API_NAME: todo-mux-api
+      API_PORT: 8083
+      API_NAME: todo-polka-api
       PG_HOST: pgdb
       PG_PORT: 5432
       PG_USER: postgres
       PG_PASS: changeme
       PG_DB: todo_db
-      # PG_POOL.MAX_SIZE: 30
+      PG_POOL_MAX_SIZE: 30
     ports:
       - "8083:8083"
     networks:

@@ -1,22 +1,30 @@
-// import {Pool} from 'pg'
 
 const {Pool} = require('pg')
-const config = require('../api.config.js')
 const log = require('../utils/log')
+const getEnv = require('../utils/getEnv')
+
+const pgOptions={
+  "host": getEnv("PG_HOST","localhost"),
+  "port": parseInt(getEnv("PG_PORT","5432")),
+  "database":getEnv("PG_DB","todo_db"),
+  "user":getEnv("PG_USER","postgres"),
+  "password":getEnv("PG_PASS","changeme"),
+  "max":parseInt(getEnv("PG_POOL_MAX_SIZE","20"))
+}
 
 // create new pool
-const pool = new Pool(config.pgOptions)
+const pool = new Pool(pgOptions)
 
 pool.connect()
   .then(c =>{
     if (c) {
       log.logInfo(`Connected to PostgreSQL`)
     } else {
-      log.logError(`Filed to connect to PostgreSQL [${config.pgOptions.host}] ERROR: client not returned from connection pool`)
+      log.logError(`Filed to connect to PostgreSQL [${pgOptions.host}] ERROR: client not returned from connection pool`)
     }
   })
   .catch(err=>{
-    log.logError(`Filed to connect to PostgreSQL [${config.pgOptions.host}] ERROR: ${err.message}`)
+    log.logError(`Filed to connect to PostgreSQL [${pgOptions.host}] ERROR: ${err.message}`)
     pool.end()
     process.exit(-1)
   })
