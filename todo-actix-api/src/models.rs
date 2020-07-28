@@ -7,7 +7,7 @@ pub struct Status {
   pub status:String
 }
 
-#[derive(Serialize, Deserialize, PostgresMapper)]
+#[derive(Serialize, Deserialize, PostgresMapper, Debug)]
 #[pg_mapper(table="todo_list")]
 pub struct TodoList{
   pub id:i32,

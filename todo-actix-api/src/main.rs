@@ -37,10 +37,12 @@ async fn main() -> io::Result<()>{
       .data(pool.clone())
       .service(handlers::home)
       .service(handlers::create_todo_list)
+      .service(handlers::update_todo_list)
       .service(handlers::get_todo_lists)
       .service(handlers::get_list_items)
       .service(handlers::create_todo_item)
       .service(handlers::check_todo_item)
+      .service(handlers::delete_todo_item)
   })
   .bind(format!("{}:{}",config.server.host,config.server.port))?
   .run()

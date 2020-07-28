@@ -1,9 +1,9 @@
-use actix_web::{get, post, put};
+use actix_web::{get, post, put, delete};
 use actix_web::{Responder, web, HttpResponse};
 use deadpool_postgres::{Pool, Client};
 use std::io::ErrorKind::Other;
 
-use crate::models::{Status,CreateTodoList,PostTodoItem, CreateTodoItem,ApiResponse};
+use crate::models::{Status,CreateTodoList,TodoList, PostTodoItem, CreateTodoItem,ApiResponse};
 use crate::db;
 use crate::errors::{AppError};
 
@@ -43,12 +43,20 @@ pub async fn create_todo_list(db_pool: web::Data<Pool>, json: web::Json<CreateTo
 
   // return response
   result.map(|todos| HttpResponse::Ok().json(todos))
-  // match result {
-  //   Ok(todos) => HttpResponse::Ok().json(todos),
-  //   Err(_) => HttpResponse::InternalServerError().into()
-  // }
 }
 
+// update todo list
+#[put("/todos")]
+pub async fn update_todo_list(db_pool: web::Data<Pool>, json: web::Json<TodoList>) -> Result<impl Responder, AppError> {
+
+  let client: Client = db_pool.get()
+    .await
+    .map_err(AppError::db_error)?;
+
+  let result = db::update_todo_list(&client, &json).await;
+
+  result.map(|todos| HttpResponse::Ok().json(todos))
+}
 
 // get todo items from the list
 #[get("/todos/{list_id}/items")]
@@ -94,7 +102,7 @@ pub async fn create_todo_item(db_pool: web::Data<Pool>, path: web::Path<(i32,)>,
 }
 
 #[put("/todos/{list_id}/items/{item_id}")]
-pub async fn check_todo_item(db_pool: web::Data<Pool>, path: web::Path<(u32,u32)>) -> impl Responder {
+pub async fn check_todo_item(db_pool: web::Data<Pool>, path: web::Path<(i32,i32)>) -> impl Responder {
 
   let client: Client = db_pool.get().await
     .expect("Error connecting to the database");
@@ -111,4 +119,21 @@ pub async fn check_todo_item(db_pool: web::Data<Pool>, path: web::Path<(u32,u32)
     Err(ref e) if e.kind() == Other => HttpResponse::Ok().json(ApiResponse{status:200,status_text: String::from("Already checked:")}),
     Err(_) => HttpResponse::InternalServerError().into()
   }
+}
+
+#[delete("/todo/item/{item_id}")]
+pub async fn delete_todo_item(db_pool: web::Data<Pool>, id: web::Path<i32>) -> impl Responder {
+
+  // let resp = String::from(format!("Test this back {}",path));
+  let client: Client = db_pool.get().await
+    .expect("Error connecting to the database");
+
+  let result = db::delete_todo_item(&client, id.clone()).await;
+
+  result.map(|todos| HttpResponse::Ok().json(todos))
+
+  // match result {
+  //   Ok(items) => HttpResponse::Ok().json(items),
+  //   Err(_) => HttpResponse::InternalServerError().into()
+  // }
 }

@@ -67,6 +67,35 @@ pub async fn create_todo_list(client: &Client, title: String) -> Result<TodoList
 
 }
 
+pub async fn update_todo_list(client: &Client, list: &TodoList) -> Result<TodoList, AppError> {
+
+  // get all items from todo list
+  let statement = client.prepare("update todo_list set title=$1 where id=$2 returning id,title;")
+    .await
+    .map_err(AppError::db_error)?;
+
+  // println!("{:?}", list);
+
+  //here we pass query and variables to be added
+  let res = client.query(&statement,&[&list.title.clone(), &list.id.clone()])
+    .await
+    .map_err(AppError::db_error)?;
+
+  println!("res: {:?}", res);
+
+  res.iter()
+    .map(|row| TodoList::from_row_ref(row).unwrap())
+    .collect::<Vec<TodoList>>()
+    .pop()
+    .ok_or(AppError{
+      message: Some("Error updating todo list. Check if id is valid.".to_string()),
+      cause: Some("Failed to update. Invalid id?".to_string()),
+      error_type: AppErrorType::DbError
+    })
+
+}
+
+
 
 pub async fn create_todo_item(client: &Client, todo_item: &CreateTodoItem) -> Result<TodoItem, AppError> {
 
@@ -94,8 +123,8 @@ pub async fn create_todo_item(client: &Client, todo_item: &CreateTodoItem) -> Re
 }
 
 
-pub async fn check_todo_item(client: &Client, list_id: u32, item_id: u32) -> Result<(),io::Error>{
-  let statement = client.prepare("update todo_items set checked = true where list_id = $1 and id = $2 and checked = false").await.unwrap();
+pub async fn check_todo_item(client: &Client, list_id: i32, item_id: i32) -> Result<(),io::Error>{
+  let statement = client.prepare("update todo_item set checked = true where list_id = $1 and id = $2 and checked = false").await.unwrap();
 
   let result = client.execute(&statement,&[&list_id,&item_id])
     .await
@@ -105,4 +134,27 @@ pub async fn check_todo_item(client: &Client, list_id: u32, item_id: u32) -> Res
     ref updated if *updated == 1 => Ok(()),
     _ => Err(io::Error::new(io::ErrorKind::Other,"Failed to check todo item"))
   }
+}
+
+pub async fn delete_todo_item(client: &Client, item_id: i32) -> Result<TodoItem,AppError>{
+
+  let statement = client.prepare("delete from todo_item where id=$1 returning id,title,checked,list_id;").await.unwrap();
+
+  let result = client.query(&statement,&[&item_id])
+    .await
+    .expect("Error deleting todo item");
+
+  // println!("result: {:?}", result);
+
+  result.iter()
+    .map(|row| TodoItem::from_row_ref(row).unwrap())
+    .collect::<Vec<TodoItem>>()
+    .pop()
+    .ok_or(AppError{
+      message: Some("Error deleting todo item. Check if id is valid.".to_string()),
+      cause: Some("Failed to delete. Invalid id?".to_string()),
+      error_type: AppErrorType::DbError
+    })
+    // .ok_or(io::Error::new(io::ErrorKind::Other,"Failed to delete"))
+
 }
