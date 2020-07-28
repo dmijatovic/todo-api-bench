@@ -20,7 +20,7 @@ import (
 var AppName string
 
 // connection to postgres
-func oauth2DB() *sql.DB {
+func todoDB() *sql.DB {
 	// get connection props from environment
 	pgHost := utils.GetEnv("PG_HOST", "localhost")
 	pgPort, _ := strconv.Atoi(utils.GetEnv("PG_PORT", "5432"))
@@ -42,7 +42,7 @@ func oauth2DB() *sql.DB {
 }
 
 // start http server
-func oauth2HTTP() *http.Server {
+func todoHTTP() *http.Server {
 	// get host url and port
 	apiHost := utils.GetEnv("API_HOST", ":8080")
 	// create new router
@@ -93,9 +93,9 @@ func main() {
 	// create close channel
 	close := make(chan bool, 1)
 	//connect to database
-	db := oauth2DB()
+	db := todoDB()
 	//start api on http
-	api := oauth2HTTP()
+	api := todoHTTP()
 	//run api in separate routine
 	go func(api *http.Server) {
 		err := api.ListenAndServe()
