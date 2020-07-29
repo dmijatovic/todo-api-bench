@@ -1,4 +1,4 @@
-import {Application} from "../deps.ts"
+import {Application} from "./deps.ts"
 
 import getEnv from "./utils/getEnv.ts"
 import router from './routes/router.ts'

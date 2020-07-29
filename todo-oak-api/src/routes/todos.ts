@@ -1,5 +1,5 @@
 
-import {Request, Response} from "../../deps.ts"
+import {Request, Response, BodyJson} from "../deps.ts"
 import {respOK, respErr} from "../utils/response.ts"
 import * as db from "../pgdb/todos.ts"
 
@@ -20,15 +20,19 @@ export async function getAllTodoLists({response:res}:{response:Response}){
 
 // destructure request and response from Context and rename to req and res
 export async function addTodoList({request:req, response:res}:{request:Request, response:Response}){
-  const body = await req.body()
-  // console.log("body", body)
+  // extract data from json body
+  const body:BodyJson = await req.body({type:"json"})
+  const {title} = await body.value
 
   res.headers.set("Content-Type","application/json")
-  if (body.type!="json"){
+  if (body.type!="json" || !title){
     res.body = respErr(400,"JSON body expected")
     res.status = 400
   }else{
-    return db.AddTodoList(body.value)
+    const list:db.BaseTodoList={
+      title
+    }
+    return db.AddTodoList(list)
       .then(todolist=>{
         res.body = respOK(todolist)
         res.status=200
@@ -42,13 +46,18 @@ export async function addTodoList({request:req, response:res}:{request:Request, 
 
 export async function updateTodoList({request:req, response:res}:{request:Request, response:Response}){
   const body = await req.body()
+  const {id, title} = await body.value
 
   res.headers.set("Content-Type","application/json")
   if (body.type!="json"){
     res.body = respErr(400,"JSON body expected")
     res.status = 400
   }else{
-    return db.UpdateTodoList(body.value)
+    const list:db.TodoList={
+      id,
+      title
+    }
+    return db.UpdateTodoList(list)
       .then(todolist=>{
         res.body = respOK(todolist)
         res.status=200
@@ -91,15 +100,17 @@ export function getTodoItems({params, response:res}:{params:any, response:Respon
 
 export async function addTodoItem({request:req, response:res, params}:{request:Request, response:Response, params:any}){
   const body = await req.body()
+  const {title, checked} = await body.value
 
   res.headers.set("Content-Type","application/json")
   if (body.type!="json"){
     res.body = respErr(400,"JSON body expected")
     res.status = 400
   }else{
-    const newItem = {
-      ...body.value,
+    const newItem:db.BaseTodoItem = {
       list_id: params['lid'],
+      title,
+      checked
     }
     return db.AddTodoItem(newItem)
       .then(todo=>{
@@ -114,13 +125,20 @@ export async function addTodoItem({request:req, response:res, params}:{request:R
 
 export async function updateTodoItem({request:req, response:res}:{request:Request, response:Response}){
   const body = await req.body()
+  const {id,list_id,title, checked} = await body.value
 
   res.headers.set("Content-Type","application/json")
   if (body.type!="json"){
     res.body = respErr(400,"JSON body expected")
     res.status = 400
   }else{
-    return db.UpdateTodoItem(body.value)
+    const todo:db.TodoItem = {
+      id,
+      list_id,
+      title,
+      checked
+    }
+    return db.UpdateTodoItem(todo)
       .then(todo=>{
         res.body = respOK(todo)
       })

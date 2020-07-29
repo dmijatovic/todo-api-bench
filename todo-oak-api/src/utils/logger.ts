@@ -1,4 +1,4 @@
-import {Request, Response} from '../../deps.ts'
+import {Request, Response} from '../deps.ts'
 import getEnv from "./getEnv.ts"
 
 const APP_NAME = getEnv("APP_NAME","todo-oak-api")
@@ -21,5 +21,6 @@ export default async ({request, response}:{request:Request, response:Response}, 
   // const url:URL = request.url
   // log when returned (for response.status)
   const msg:string = `${request.method} ${request.url.pathname} - ${response.status}`
+  // const msg:string = `${request.method} - ${response.status}`
   LogInfo(msg)
 }

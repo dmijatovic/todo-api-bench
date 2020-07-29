@@ -1,5 +1,5 @@
 import {runQuery} from "./pgdb.ts"
-import {QueryResult, QueryConfig} from "../../deps.ts"
+import {QueryResult, QueryConfig} from "../deps.ts"
 
 export interface BaseTodoList{
   title: string
@@ -39,7 +39,7 @@ export function GetAllTodoLists():Promise<PgDbResults>{
     //beter to catch errors in route fn
 }
 
-export function AddTodoList(tl:BaseTodoList):Promise<TodoList>{
+export function AddTodoList(tl:BaseTodoList|any):Promise<TodoList>{
   const sql:QueryConfig = {
     text:`INSERT INTO todo_list (title) VALUES($1) RETURNING id, title;`,
     args:[tl.title]

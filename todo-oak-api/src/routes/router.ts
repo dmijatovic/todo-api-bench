@@ -1,4 +1,4 @@
-import {Router} from "../../deps.ts"
+import {Router} from "../deps.ts"
 
 import Home from "./home.ts"
 import * as todos from "./todos.ts"

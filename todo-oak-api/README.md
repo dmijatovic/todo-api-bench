@@ -6,6 +6,8 @@
 # run deno
 deno run --allow-net --allow-read --allow-env ./src/main.ts
 
+# cache dependencies locally
+deno cache ./src/main.ts
 # build app in dist folder
 # dist folder need to exist
 deno bundle ./src/main.ts ./dist/api.bundle.js

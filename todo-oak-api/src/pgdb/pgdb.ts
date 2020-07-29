@@ -1,5 +1,5 @@
 
-import {Pool, PoolClient, QueryResult, QueryConfig} from "../../deps.ts"
+import {Pool, PoolClient, QueryResult, QueryConfig} from "../deps.ts"
 import getEnv from "../utils/getEnv.ts"
 
 const POOL_CONNECTIONS = parseInt(getEnv("PG_POOL_MAX_SIZE","20"))
