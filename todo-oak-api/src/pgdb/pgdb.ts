@@ -1,10 +1,11 @@
 
 import {Pool, PoolClient, QueryResult, QueryConfig} from "../../deps.ts"
+import getEnv from "../utils/getEnv.ts"
 
-const POOL_CONNECTIONS = 20;
+const POOL_CONNECTIONS = parseInt(getEnv("PG_POOL_MAX_SIZE","20"))
 
 export const dbPool = new Pool({
-  hostname: "localhost",
+  hostname: getEnv("PG_HOST","localhost"),
   port: 5432,
   user: "postgres",
   password: "changeme",

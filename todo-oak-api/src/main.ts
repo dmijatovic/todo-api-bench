@@ -1,12 +1,13 @@
 import {Application} from "../deps.ts"
 
+import getEnv from "./utils/getEnv.ts"
 import router from './routes/router.ts'
-import logger from './utils/logger.ts'
-
-import {dbPool, runQuery} from "./pgdb/pgdb.ts"
+import {dbPool} from "./pgdb/pgdb.ts"
+import logger, {LogInfo} from './utils/logger.ts'
 
 const api = new Application()
-
+// initialize logger (get appName)
+// initLogger()
 // db connection
 const client = await dbPool.connect()
 
@@ -17,13 +18,13 @@ const client = await dbPool.connect()
 // const keyFile:string = Deno.env.get("KEY_FILE") || "./cert/server.pem"
 
 const options={
-  port:8080,
+  port:parseInt(getEnv("API_PORT","8080")),
   // secure: false,
   // certFile: certFile,
   // keyFile: keyFile
 }
 
-console.log("Starting server...", options.port)
+LogInfo(`server on ${options.port}`)
 // use logger
 api.use(logger)
 // routes
