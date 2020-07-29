@@ -1,0 +1,22 @@
+{
+  "name": "todo-express-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "build": "ncc build src/index.js -o dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.3.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
+    "nodemon": "^2.0.4"
+  }
+}

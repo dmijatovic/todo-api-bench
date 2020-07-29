@@ -1,0 +1,57 @@
+version: '3'
+services:
+  pgdb:
+    container_name: pgdb
+    # use latest official postgres version
+    image: "postgres:12-alpine"
+    env_file:
+      # configure postgres
+      - ../postgres/database.env
+    expose:
+      - "5432"
+    volumes:
+      # persist data even if container shuts down
+      - pgdb:/var/lib/postgresql/data/
+      # run init sql script to create tables
+      - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - net
+    deploy:
+      resources:
+        limits:
+          memory: '512M'
+          cpus: '2'
+
+  todo-api:
+    container_name: todo-api
+    build: .
+    image: dv4all/todo-express-api:0.0.1
+    environment:
+      API_PORT: 8084
+      API_NAME: todo-polka-api
+      PG_HOST: pgdb
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASS: changeme
+      PG_DB: todo_db
+      PG_POOL_MAX_SIZE: 30
+    expose:
+      - "5432"
+    ports:
+      - "8084:8084"
+    networks:
+      - net
+    depends_on:
+      - pgdb
+    deploy:
+      resources:
+        limits:
+          memory: '512M'
+          cpus: '2'
+
+networks:
+  net:
+
+# named volumes can be managed easier using docker-compose
+volumes:
+  pgdb:
