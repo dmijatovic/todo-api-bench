@@ -12,6 +12,7 @@
     "test:go-fiber": "node autocannon/load_test_fiber.js",
     "test:js-polka": "node autocannon/load_test_polka.js",
     "test:js-express": "node autocannon/load_test_express.js",
+    "test:ts-oak": "node autocannon/load_test_oak.js",
     "dev": "next",
     "build": "next build",
     "start": "next start"
