@@ -28,7 +28,7 @@ services:
     image: dv4all/todo-oak-api:0.0.1
     environment:
       API_PORT: 8084
-      API_NAME: todo-polka-api
+      API_NAME: todo-oak-api
       PG_HOST: pgdb
       PG_PORT: 5432
       PG_USER: postgres

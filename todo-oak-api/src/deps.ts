@@ -1,4 +1,4 @@
-export { Application, Router, Context,
+export { Application as Oak, Router, Context,
   Request, Response, BodyJson
 } from "https://deno.land/x/oak@v6.0.1/mod.ts"
 
