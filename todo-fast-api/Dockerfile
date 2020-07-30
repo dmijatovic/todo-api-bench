@@ -1,6 +1,8 @@
 # FROM tiangolo/uvicorn-gunicorn-fastapi:python3.6-alpine3.8-2020-06-06
 
-FROM python:3.6
+# FROM python:3.6
+
+FROM python:slim-buster
 
 WORKDIR /home/dv4all
 
