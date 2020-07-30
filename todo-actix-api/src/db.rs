@@ -81,7 +81,7 @@ pub async fn update_todo_list(client: &Client, list: &TodoList) -> Result<TodoLi
     .await
     .map_err(AppError::db_error)?;
 
-  println!("res: {:?}", res);
+  // println!("res: {:?}", res);
 
   res.iter()
     .map(|row| TodoList::from_row_ref(row).unwrap())
