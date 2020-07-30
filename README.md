@@ -23,4 +23,4 @@ This repo requires `docker and docker-compose` to run the api. For running load 
 
 ## How this repo works
 
-Each folder contains api solition. All api are basically the same. They resemble a simple todo api and support basic CRUD operations. In each api folder you will find readme file where you can read how you can start the api. The intention is that each api can be started with a simple `docker-compose up` command.
+Each folder contains complete todo api solition. All api's are funcionally identical. They reasemble simple todo api with basic CRUD operations. Each api folder has readme file where you can read how to start the api and run load test. My intention to have each api be started with a simple `docker-compose up` command and load test with `npm run test:{todo-api}`.
