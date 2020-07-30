@@ -6,7 +6,7 @@ API_NAME=os.environ.get('API_NAME',"todo-fast_api")
 
 API_RELOAD=bool(os.environ.get('API_RELOAD',"True"))
 API_DEBUG=bool(os.environ.get('API_DEBUG',"True"))
-API_WORKERS=int(os.environ.get('API_WORKERS',"1"))
+API_WORKERS=int(os.environ.get('API_WORKERS',"5"))
 
 # SECRET_KEY=os.environ.get('FOOD_API_SECRET','01545c0cdd271a8177bea35d4d4b0517')
 # expiration time in seconds
