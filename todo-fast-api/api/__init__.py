@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 from fastapi import FastAPI
 from api.db import database
 # from fastapi.staticfiles import StaticFiles
@@ -9,6 +10,7 @@ api=FastAPI()
 @api.on_event("startup")
 async def startup():
   try:
+    sleep(3)
     await database.connect()
     print("Connected to PostgreSQL...")
   except Exception as e:
