@@ -8,7 +8,7 @@ export function useReport(){
       .then(r => r.json())
       .then(data=>{
         const {report} = data
-        console.log("setReport...")
+        // console.log("setReport...")
         setResults(report)
       })
   },[])

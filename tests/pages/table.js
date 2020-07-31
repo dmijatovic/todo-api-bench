@@ -1,5 +1,7 @@
 import {useReport} from "../utils/useReport"
 import ReportTable from "../components/ReportTable"
+import EmptyPlaceholder from "../components/EmptyPlaceholder"
+
 
 export default()=>{
   const [report, _] = useReport()
@@ -12,6 +14,8 @@ export default()=>{
           <dv4-loader-timer>Loading message...</dv4-loader-timer>
         </section>
       )
+    }else if (report.length===0){
+      return <EmptyPlaceholder />
     }else{
       return (
         <section>

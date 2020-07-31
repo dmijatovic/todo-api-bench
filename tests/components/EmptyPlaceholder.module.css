@@ -1,0 +1,25 @@
+
+.section{
+  width: 30rem;
+  height: 30rem;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+}
+
+.icon{
+  height:10rem;
+  width:10rem;
+  fill: #666;
+}
+
+.header{
+  /* color: darkblue; */
+}
+
+.alinea{
+
+}
