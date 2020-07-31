@@ -3,6 +3,28 @@ html{
   font-family: Roboto, sans-serif;
 }
 
+body{
+  color:#333;
+}
+
+article{
+  max-width:100rem;
+  margin:auto;
+}
+
 table td, th{
   padding: 0.25rem;
+}
+
+.hc-chart-section{
+  min-height:600px;
+}
+
+table.hc-tooltip-tbl td{
+  padding: 0.125rem;
+  color:#333;
+}
+
+table.hc-tooltip-tbl td.tooltip-lbl{
+  color: #666;
 }
