@@ -10,6 +10,7 @@ function buildTable(info){
       <tr><td class="tooltip-lbl">Connections</td><td>${info.connections}</td></tr>
       <tr><td class="tooltip-lbl">Duration</td><td>${info.duration}</td></tr>
       <tr><td class="tooltip-lbl">Timeouts</td><td>${info.timeouts}</td></tr>
+      <tr><td class="tooltip-lbl">Errors</td><td>${info.errors}</td></tr>
     </table>
   `
   return tbl
@@ -71,7 +72,7 @@ const options = {
  * @param {Array} report array of objects as loaded from api and producted by autocannon
  * @param {Number} testTime test time specified in autocannon in seconds
  */
-export function getOptions(report=[], testTime=3){
+export function getOptions(report=[], testTime=30){
   const categories={}, cat=[], series=[]
 
   // convert data to tools
