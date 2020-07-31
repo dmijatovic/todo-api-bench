@@ -15,19 +15,5 @@ const pgOptions={
 // create new pool
 const pool = new Pool(pgOptions)
 
-pool.connect()
-  .then(c =>{
-    if (c) {
-      log.logInfo(`Connected to PostgreSQL`)
-    } else {
-      log.logError(`Filed to connect to PostgreSQL [${pgOptions.host}] ERROR: client not returned from connection pool`)
-    }
-  })
-  .catch(err=>{
-    log.logError(`Filed to connect to PostgreSQL [${pgOptions.host}] ERROR: ${err.message}`)
-    pool.end()
-    process.exit(-1)
-  })
-
 // export default pool
 module.exports = pool
