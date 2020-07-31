@@ -25,7 +25,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-oak-api:0.0.1
+    image: dv4all/todo-oak-api:0.0.3
     environment:
       API_PORT: 8085
       API_NAME: todo-oak-api

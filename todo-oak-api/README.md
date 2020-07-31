@@ -45,7 +45,7 @@ npm run dev
 
 ```bash
 # run deno
-deno run --allow-net --allow-read --allow-env ./src/main.ts
+deno run --allow-net --allow-read --allow-env --unstable ./src/main.ts
 
 # cache dependencies locally
 deno cache ./src/main.ts

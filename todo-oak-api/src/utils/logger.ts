@@ -1,16 +1,16 @@
 import {Request, Response} from '../deps.ts'
 import getEnv from "./getEnv.ts"
 
-const APP_NAME = getEnv("APP_NAME","todo-oak-api")
+const API_NAME = getEnv("API_NAME","todo-oak-api")
 
 export function LogInfo(message:string){
-  const msg:string=`${Date.now()} ${APP_NAME} INFO ${message}`
+  const msg:string=`${Date.now()} ${API_NAME} INFO ${message}`
   console.log(msg)
   // Deno.stdout(msg)
 }
 
 export function LogError(message:string){
-  const msg:string=`${Date.now()} ${APP_NAME} ERROR ${message}`
+  const msg:string=`${Date.now()} ${API_NAME} ERROR ${message}`
   console.error(msg)
 }
 
