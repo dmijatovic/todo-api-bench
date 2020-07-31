@@ -33,7 +33,7 @@ module.exports = {
     //default url (actix)
     url:"http://localhost:8080",
     connections:10,
-    duration: 3,
+    duration:30,
   },
   // Test data for post and put
   todoList:{
