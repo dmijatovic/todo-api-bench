@@ -1,16 +1,22 @@
 #!/bin/bash
 
+# Load test execution
+loadtest(){
+  # navigate to tests folder
+  cd ../tests/
+  # wait for 5 sec before test
+  sleep 5
+  # start load test
+  npm run $1
+}
+
 # ---------------------
 # ACTIX load test
 # start actix api
 cd todo-actix-api
 docker-compose up -d
-# run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:rs-actix
+# run load test
+loadtest test:rs-actix
 # close docker
 cd ../todo-actix-api
 docker-compose down --volumes
@@ -21,12 +27,8 @@ docker-compose down --volumes
 # start express api
 cd ../todo-express-api
 docker-compose up -d
-# run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:js-express
+# run load test
+loadtest test:js-express
 # close docker
 cd ../todo-express-api
 docker-compose down --volumes
@@ -37,11 +39,7 @@ docker-compose down --volumes
 cd ../todo-fast-api
 docker-compose up -d
 # run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:py-fast
+loadtest test:py-fast
 # close docker
 cd ../todo-fast-api
 docker-compose down --volumes
@@ -52,13 +50,20 @@ docker-compose down --volumes
 cd ../todo-fiber-api
 docker-compose up -d
 # run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:go-fiber
+loadtest test:go-fiber
 # close docker
 cd ../todo-fiber-api
+docker-compose down --volumes
+
+# ---------------------
+# FLASK load test
+# start flask api
+cd ../todo-flask-api
+docker-compose up -d
+# run load tests
+loadtest test:py-flask
+# close docker
+cd ../todo-flask-api
 docker-compose down --volumes
 
 # ---------------------
@@ -67,11 +72,7 @@ docker-compose down --volumes
 cd ../todo-mux-api
 docker-compose up -d
 # run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:go-mux
+loadtest test:go-mux
 # close docker
 cd ../todo-mux-api
 docker-compose down --volumes
@@ -82,11 +83,7 @@ docker-compose down --volumes
 cd ../todo-oak-api
 docker-compose up -d
 # run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:ts-oak
+loadtest test:ts-oak
 # close docker
 cd ../todo-oak-api
 docker-compose down --volumes
@@ -97,11 +94,7 @@ docker-compose down --volumes
 cd ../todo-polka-api
 docker-compose up -d
 # run load tests
-cd ../tests/
-# wait for 5 sec before load tests
-sleep 5
-# start load test
-npm run test:js-polka
+loadtest test:js-polka
 # close docker
 cd ../todo-polka-api
 docker-compose down --volumes
