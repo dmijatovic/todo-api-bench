@@ -30,7 +30,8 @@ const options = {
   xAxis:{
     title:{
       text:'Runs'
-    }
+    },
+    allowDecimals: false
     // categories:['Cat1', 'Cat2', 'Cat3','Cat4']
   },
   yAxis:{
