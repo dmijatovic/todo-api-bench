@@ -29,7 +29,7 @@ async fn main() -> io::Result<()>{
   env_logger::init();
 
   //start server
-  println!("Starting server on http://{}:{}",config.server.host,config.server.port);
+  println!("Starting server on http://{}:{} using {} workers",config.server.host,config.server.port, config.server.workers);
 
   HttpServer::new(move || {
     App::new()
@@ -45,6 +45,7 @@ async fn main() -> io::Result<()>{
       .service(handlers::delete_todo_item)
   })
   .bind(format!("{}:{}",config.server.host,config.server.port))?
+  .workers(config.server.workers.into())
   .run()
   .await
 }
