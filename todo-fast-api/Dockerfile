@@ -12,6 +12,10 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["python3", "main.py"]
+# CMD ["python3", "main.py"]
+# NOTE! the arguments are in
+# env variable GUNICORN_CMD_ARGS
+# see docker-compose file
+CMD ["gunicorn", "api:api"]
 
 
