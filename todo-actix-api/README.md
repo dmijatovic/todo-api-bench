@@ -40,3 +40,7 @@ npm run test:rs-actix
 # see reports on localhost:3000
 npm run dev
 ```
+
+## Remarks
+
+After experimenting with different amount of workers om my fastest machine I achieved highest score with 2 workers (301k on 30sec. load test). Increasing the number of workers to 3,4 and even 8 produced lower scores. Or reducing to 1 workes yield lower result. There is a link between number of workers and the api performance but the higher is not always better.
