@@ -25,7 +25,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-fast-api:0.0.1
+    image: dv4all/todo-fast-api:0.0.2
     environment:
       GUNICORN_CMD_ARGS: --bind=0.0.0.0:8086 --workers=4 --worker-class=uvicorn.workers.UvicornWorker
       API_ENV: production
