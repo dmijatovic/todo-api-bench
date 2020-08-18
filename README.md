@@ -4,7 +4,7 @@ Testing various api techologies and learning how to (properly) use them.
 
 ## Dislaimer
 
-My experience in some of the technologies is limited. The scores might not reflect the full potential of the language or used library. Although these solutions seem reasonably simple there are still a lot of factors that influence the scores. All feedback, advice and contribution is welcome. I am interessted in bringing all of used techologies to their maximum performace and increase my knowledge.
+My experience with some of used technologies is limited. The scores might not reflect the full potential of the language or used library. Although these solutions seem reasonably simple there are still a lot of factors that influence the scores. All feedback, advice and contribution is welcome. I am interessted in bringing all of used techologies to their maximum performace and increase my knowledge.
 
 ## Background
 
@@ -24,7 +24,7 @@ I have tested following api libraries:
 
 ## Other interessting technologies not yet tested
 
-- `dotnet core (C#)`: I need to further investigate appropriate approach and create api. It would be great if someone with excellent knowledge of C# could contribute this todo-api.
+- `dotnet core (C#)`: I need to further investigate appropriate approach and create api. It would be great if someone with the knowledge of C# could contribute this todo-api :-).
 
 ## What these load test results actually mean
 
