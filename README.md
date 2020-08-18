@@ -1,54 +1,68 @@
 # Todo API load tests
 
-Testing api techologies performance and learning how to (properly) use them.
+Testing various api techologies and learning how to (properly) use them.
 
 ## Dislaimer
 
-My experience in some of the technologies is limited. The scores might not reflect the full potential of the language or used library. All feedback, advice and contribution is welcome. I am interessted in bringing all of used techologies to their maximum performace and increase my knowledge.
+My experience in some of the technologies is limited. The scores might not reflect the full potential of the language or used library. Although these solutions seem reasonably simple there are still a lot of factors that influence the scores. All feedback, advice and contribution is welcome. I am interessted in bringing all of used techologies to their maximum performace and increase my knowledge.
 
 ## Background
 
-I primarily used nodejs and express to serve data to my frontends in the past. Over the time I have seen alternative solutions my clients used for developing the api's for web applications. I see a number of interessting alternatives to nodejs/express in 2020. My focus is to test currently populair approaches in the open source world, covering the languages I alrady know (JavaScript, Python) and 2 new languages. I have selected Go and Rust because these are modern languages and stronly web related. I discared Java, C++, PHP and many others by my personal prefference what I would like to learn. During my investigation I saw discussions about the performance of various api libraries. I got the idea to create one repo with all api solutions and perform load tests on each of them.
+I primarily used nodejs and express to serve data to my frontends in the past. Over the time I have seen alternative solutions my clients used for developing the api's for web applications. I see a number of interessting alternatives to nodejs/express in 2020. My goal is to test populair approaches for building api's in the open source world, covering programming languages I already know (JavaScript, Python) and 2 new languages. I selected Go and Rust because these are modern languages and web oriented. I discared Java, C++, PHP and many others based on my personal prefference. During my investigation I came accross discussions about the performance of various api libraries. That brought me to idea to create this repo with all api solutions I am interessted in and to perform same load tests on each of them. For load tests I used [autocannon](https://github.com/mcollina/autocannon).
 
-Api server is important part of backend solution. Other important part is the database. To limit the variations I use PostreSQL with all api. Postgres is well supported in all technologies I want to test and quite populair at the moment.
+Api server is important part of backend solution. Other important part is the database. I use identical PostreSQL docker container with all api. Postgres is well supported in all technologies I want to test and quite populair and performant.
 
 ## Used technologies
 
 I have tested following api libraries:
 
-- `Golang`: Basic [net/http/mux](https://golang.org/pkg/net/http/) and [fiber](https://github.com/gofiber/fiber) which seem to be fast and uses kind-of-express-way routing idea.
-- `Rust`: I started with [actix-web](https://github.com/actix/actix-web) which is popular and achieves the highest performance scores in the benachmark.
-- `NodeJS`: I wanted to try [polka](https://github.com/lukeed/polka) because it seem to be one of the fastest nodejs servers. [Express](https://expressjs.com/) is used as a benchmark to Polka.
-- `Deno`: I am interessted how deno perfomes as well. Most popular choice seem to be [oak](https://github.com/oakserver/oak) http server
-- `Python`: I used [Flask](https://flask.palletsprojects.com/en/1.1.x/) first and then [FastApi](https://github.com/tiangolo/fastapi) as it is marked as the fastest python library for api's.
-- `dotnet core (C#)`: I need to further investigate approapriate approach and then create api. It would be great if someone with excellent knowledge of C# could contribute this api.
+- `Golang`: Basic [net/http/mux](https://golang.org/pkg/net/http/) and [fiber](https://github.com/gofiber/fiber) which seem to be fast and uses kind-of-express-way ideas.
+- `Rust`: I started with [actix-web](https://github.com/actix/actix-web) which is popular and achieves the highest performance scores in the [benchmark](https://www.techempower.com/benchmarks/#section=data-r0&hw=ph&test=composite&a=2).
+- `NodeJS`: I wanted to try [polka](https://github.com/lukeed/polka). It seem to be one of the fastest nodejs servers. [Express](https://expressjs.com/) is used as a benchmark to Polka.
+- `Deno`: I am interessted how deno perfomes as well. It is new technology recently moved to version 1. Most popular choice medio 2020 seem to be [oak](https://github.com/oakserver/oak) http server.
+- `Python`: I used [Flask](https://flask.palletsprojects.com/en/1.1.x/) first and then [FastApi](https://github.com/tiangolo/fastapi). FastApi is marked as the fastest python library for api's.
+
+## Other interessting technologies not yet tested
+
+- `dotnet core (C#)`: I need to further investigate appropriate approach and create api. It would be great if someone with excellent knowledge of C# could contribute this todo-api.
 
 ## What these load test results actually mean
 
-Load tests of each solution give the `combined performance result` of
+Load tests of each solution give the `combined performance result` which include:
 
 - the efficiency of used language (JavaScript, Python, Go, Rust)
 - the efficiency of http library and the router (tls/https is not used)
 - the efficiency of library used to communicate with PostgreSQL (db driver)
-- how well all of this performs in the defined Docker containers (Linux Alpine or Debian)
-- the efficiency of machine running these load tests
+- the efficiency of machine running the load tests
+- how well all of this performs in Docker containers (Linux Alpine or Debian OS) on the test machine
 
 ## Conclusion
 
-I runned load tests on 3 machines (2 laptops and 1 desktop) for all api's. All results are saved in separate branches with the name of the machine (eg. dell-xps-2018...). There seem to be a differences in the ranking/score based on used hardware/machine. This is bit surprising to me. It means to me that different programming languages and maybe(?) libraries utilize specific hardware better. Again, it could be that my library knowledge is limited and has influence on the scores. As an example, see the image below where the performance of FastApi significanly improved (run 9+) after tweaking it for the number of workers used on this specific machine (dell-xps-2018). Fluctuations in actix-api are also due to experimenting with the number of used workers. Note that on my other machine a different number of workers yield the highest score.
+I runned load tests on 3 machines (2 laptops and 1 desktop) for all api's. All machines use Linux OS (Ubuntu/Linux Mint). The results are saved in the separate branches with the name of the machine (eg. dell-xps-2018...). I noticed slight differences in the ranking between used hardware/machine. This is a bit surprising. It looks to me that different programming languages and maybe(?) libraries utilize specific hardware better. In addition, it could be that my knowledge of specific library is limited and has influence on the scores. As an example, see the image below where the performance of FastApi significantly improves (run 9+) after tweaking api for the number of workers used on the specific machine (dell-xps-2018). Fluctuations in actix-api are also partially causeed by experimenting with the number of used workers. I noticed that different number of workers produces the highest score on different machines/hardware.
 
-The absolute scores per machine are different, of course, but `rust api using actix-web is clearly the fastest and python/flask api is the slowest on all tested machines`. NodeJS (polka, express), Deno (oak) and Golang api's (fiber and standard http/mux) are in the middle of the pack. Surprisingly Python FastAPI seem to be performing better than Golang api's after I optimized number of workers used. There might be some room to improve performance of Golang api's too but my knowledge of Golang at this moment is fairly limited.
+The absolute scores/numbers per machine are different of course, but `rust api using actix-web is clearly the fastest and python/flask api is the slowest on all tested machines`. NodeJS (polka, express), Deno (oak) and Golang api's (fiber and standard http/mux) are in the middle of the chart. Surprisingly Python FastAPI seem to be performing very close to Golang and NodeJS/Deno api's after I optimized the number of workers. There might be some room to improve performance of Golang api's too but my knowledge of Golang at this moment is fairly limited.
 
-The scores from my dell-xps-2018 machine are shown in the image bellow. An interactive version of this chart is avaliable on `http://localhost:3000` (NextJS app) after runing `npm run dev` in the tests folder.
+The scores from my dell-xps-2018 laptop are shown in the image bellow. An interactive version of this chart with more scores is avaliable on `http://localhost:3000` (NextJS app) after runing `npm run dev` in the tests folder. Of course this means that you first need to clone this repo locally on your machine :-).
 <br/><br/>
 
 <img src="todo-api-loadtest-dell-xps-200817.png">
 
 <br/><br/>
 
+Based on the load tests outcomes and my experience trying new languages Golang and Rust I decided to invest more time in learning Rust rather than Golang. But I must admit that Golang seem to be easier to learn and faster in compiling than Rust.
+
 # Development
 
 This repo requires `docker and docker-compose` to run todo api's. For running load test and viewing simple table results you need `nodejs and npm`.
+
+Running the load tests for the first time will require more time than the subsequent runs because all docker images need to be downloaded to your local machine.
+
+The easiest way to run load tests on Linux/Mac is to use test-round.sh bash script. The script will create required containers in the background, run the test and then cleanup containers and the volumes used. You might need to make the script executable first.
+
+```bash
+# make executable
+sudo chmod +x test-round.sh
+```
 
 ## How this repo works
 
@@ -76,4 +90,4 @@ cd ../
 
 All contributions are more than welcome as I am interessted in bringing all of used techologies to maximum performace and increase my knowledge.
 
-If you want to contribute the scores of your machine please do so. I can create new branch with your machine name. Based on my experience with running the api's on three different machines I expect that results on some other machines (and OS-es) could be quite different. This fact on its own will be quite interessting.
+If you want to contribute the scores of your machine please do so. I can create new branch with your machine name. Based on my experience with running the api's on three different machines I expect that results on some other machines (and OS-es) could be quite different.
