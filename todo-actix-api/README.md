@@ -4,7 +4,7 @@ This api is build using [actix web framework](https://github.com/actix/actix-web
 
 ## Usage
 
-To start the todo api use docker-compose file. The api should be avaliable on localhost:8080 by default.
+To start the todo api use docker-compose file. The api should be available on localhost:8080 by default.
 
 ```bash
 

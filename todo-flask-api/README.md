@@ -5,7 +5,7 @@ I am quirous to compare it to this basic flask solution.
 
 ## Usage
 
-To start the todo api use docker-compose file. The api should be avaliable on localhost:8083 by default.
+To start the todo api use docker-compose file. The api should be available on localhost:8083 by default.
 
 ```bash
 
