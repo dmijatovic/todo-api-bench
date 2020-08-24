@@ -19,7 +19,7 @@ function HomePage() {
     }else{
       return <ReportChart
         className="hc-chart-section"
-        options={getOptions(report)} />
+        options={getOptions(report,30)} />
     }
   }
 
