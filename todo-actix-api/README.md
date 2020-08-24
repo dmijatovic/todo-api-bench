@@ -4,7 +4,7 @@ This api is build using [actix web framework](https://github.com/actix/actix-web
 
 ## Usage
 
-To start the todo api use docker-compose file. The api should be avaliable on localhost:8080 by default.
+To start the todo api use docker-compose file. The api should be available on localhost:8080 by default.
 
 ```bash
 
@@ -40,3 +40,7 @@ npm run test:rs-actix
 # see reports on localhost:3000
 npm run dev
 ```
+
+## Remarks
+
+After experimenting with different amount of workers om my fastest machine I achieved highest score with 2 workers (301k on 30sec. load test). Increasing the number of workers to 3,4 and even 8 produced lower scores. Or reducing to 1 workes yield lower result. There is a link between number of workers and the api performance but the higher is not always better.

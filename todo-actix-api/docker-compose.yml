@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   pgdb:
     container_name: pgdb
@@ -19,8 +19,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: '512M'
-          cpus: '2'
+          memory: "512M"
+          cpus: "2"
 
   todo-api:
     container_name: todo-api
@@ -29,7 +29,7 @@ services:
     environment:
       SERVER.HOST: 0.0.0.0
       SERVER.PORT: 8080
-      SERVER.WORKERS: 4
+      SERVER.WORKERS: 2
       PG.HOST: pgdb
       PG.PORT: 5432
       PG.USER: postgres
@@ -45,8 +45,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: '512M'
-          cpus: '2'
+          memory: "512M"
+          cpus: "2"
 
 networks:
   net:

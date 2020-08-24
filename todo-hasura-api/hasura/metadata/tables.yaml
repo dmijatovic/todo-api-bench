@@ -1,0 +1,6 @@
+- table:
+    schema: public
+    name: todo_item
+- table:
+    schema: public
+    name: todo_list
