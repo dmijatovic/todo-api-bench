@@ -42,5 +42,38 @@ module.exports = {
   todoItem:{
     "title":"Todo item",
     "checked": false
+  },
+  //hasura GraphQL queries
+  qql:{
+    getTodoList:{
+      "query": "query TodoLists {\n  todo_list {\n    id\n    title\n  }\n}\n",
+      "variables": null,
+      "operationName": "TodoLists"
+    },
+    addTodoList:{
+      "query": "mutation AddTodoList {\n  insert_todo_list_one(object: {title: \"This is my list title\"}) {\n  id\n  title\n}\n}\n",
+      "variables": null,
+      "operationName": "AddTodoList"
+    },
+    updateTodoList:(id=1,title="default title")=>({
+      "query": `mutation UpdateTodoList {\n  update_todo_list_by_pk(pk_columns: {id: ${id}}, _set: {title: \"${title}\"}) {\n    id\n    title\n  }\n}\n`,
+      "variables": null,
+      "operationName": "UpdateTodoList"
+    }),
+    addTodoItem:(list_id=1,title="",checked=false)=>({
+      "query": `mutation MutateTodoItems {\n  insert_todo_item_one(object: {list_id: ${list_id}, title: \"${title}\", checked: ${checked}}) {\n    id\n    list_id\n    title\n    checked\n  }\n}\n`,
+      "variables": null,
+      "operationName": "MutateTodoItems"
+    }),
+    getTodoItemForList:(list_id=1)=>({
+      "query": `query GetTodoItems {\n  todo_item(where: {list_id: {_eq: ${list_id}}}) {\n    id\n    checked\n    list_id\n    title\n  }\n}\n\n`,
+      "variables": null,
+      "operationName": "GetTodoItems"
+    }),
+    deleteTodoItem:(id)=>({
+      "query": `mutation MutateTodoItems {\n  delete_todo_item_by_pk(id: ${id}) {\n    id\n    list_id\n    title\n    checked\n  }\n}\n`,
+      "variables": null,
+      "operationName": "MutateTodoItems"
+    })
   }
 }

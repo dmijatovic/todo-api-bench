@@ -4,7 +4,7 @@ This api is build using [express node server](https://expressjs.com/en/guide/rou
 
 ## Usage
 
-To start the todo api use docker-compose file. The api should be avaliable on localhost:8083 by default.
+To start the todo api use docker-compose file. The api should be available on localhost:8083 by default.
 
 ```bash
 
