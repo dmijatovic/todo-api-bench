@@ -19,7 +19,7 @@ Below it the table with the overview of tested techologied and my personal opion
 | Api             | Langauge      | Library     | Performance |
 | --------------- | ------------- | ----------- | ----------- |
 | todo-actix-api  | Rust          | actix-web   | excellent   |
-| todo-express-api| NodeJS        | express     | very good   |
+| todo-express-api| NodeJS        | express     | good        |
 | todo-fast-api   | Python        | fastapi     | good        |
 | todo-fiber-api  | Golang        | fiber       | good        |
 | todo-flask-api  | Python        | flask       | fair        |
