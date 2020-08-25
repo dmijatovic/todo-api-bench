@@ -4,7 +4,7 @@ This api is build using [fiber web framework](https://github.com/gofiber/fiber).
 
 ## Usage
 
-To start the todo api use docker-compose file. The api should be avaliable on localhost:8082 by default.
+To start the todo api use docker-compose file. The api should be available on localhost:8082 by default.
 
 ```bash
 
