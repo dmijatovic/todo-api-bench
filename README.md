@@ -45,7 +45,7 @@ The absolute scores/numbers per machine are different of course, but `rust api u
 The scores from my dell-xps-2018 laptop are shown in the image below. An interactive version of this chart with more scores is available on `http://localhost:3000` (NextJS app) after runing `npm run dev` in the tests folder. Of course this means that you first need to clone this repo locally on your machine :-).
 <br/><br/>
 
-<img src="todo-api-loadtest-dell-xps-200817.png">
+<img src="tests/report/todo-api-loadtest-dell-xps-200817.png">
 
 <br/><br/>
 
