@@ -38,7 +38,7 @@ cd ../tests
 # OPTIONAL: if not installed run npm install
 
 # run test
-npm run test:js-polka
+npm run test:ql-hasura
 
 # see reports on localhost:3000
 npm run dev
