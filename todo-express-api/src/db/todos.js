@@ -7,7 +7,7 @@ function GetAllTodoLists(){
     throw Error("PostgreSQL client missing. Check DB connection")
   }
   // constuct SQL statement
-  const sql=`SELECT * FROM todo_list;`
+  const sql=`SELECT * FROM todo_list LIMIT 50;`
   return pgdb.query(sql)
     .then( result =>{
       const {rows} = result
@@ -80,7 +80,7 @@ function GetTodoItems(lid=0){
   if (lid===0){
     throw Error("Missing list id property")
   }
-  const sql=`SELECT id, list_id, title, checked FROM todo_item WHERE list_id=$1 ;`
+  const sql=`SELECT id, list_id, title, checked FROM todo_item WHERE list_id=$1;`
   const values = [lid]
   return pgdb.query(sql,values)
     .then( result =>{

@@ -2,6 +2,8 @@
 
 This api is build using [actix web framework](https://github.com/actix/actix-web).
 
+**In select statement there is a LIMIT set to 50 todo list items!**
+
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8080 by default.

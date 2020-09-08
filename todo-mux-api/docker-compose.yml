@@ -25,7 +25,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-mux-api:0.0.2
+    image: dv4all/todo-mux-api:0.0.3
     environment:
       API_HOST: 0.0.0.0:8081
       API_NAME: todo-mux-api

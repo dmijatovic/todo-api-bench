@@ -10,6 +10,11 @@ module.exports = {
     if (err) {
       console.error(err)
     }else{
+      // basic stats
+      const {IdNotRetuned, Created} = result
+      console.log(`IdNotRetuned tot: ${(IdNotRetuned.list + IdNotRetuned.item)}, lists: ${IdNotRetuned.list}, items:${IdNotRetuned.item}`)
+      console.log(`Created tot: ${(Created.list + Created.item)}, lists: ${Created.list}, items: ${Created.item}`)
+
       // console.log("Results received:", result)
       const fileName = `report/load_test_${Date.now()}.json`
       fs.writeFileSync(fileName, JSON.stringify(result))
@@ -20,7 +25,11 @@ module.exports = {
     if (err) {
       console.error(err)
     }else{
-      //add
+      // basic stats
+      const {IdNotRetuned, Created} = result
+      console.log(`IdNotRetuned tot: ${(IdNotRetuned.list + IdNotRetuned.item)}, lists: ${IdNotRetuned.list}, items:${IdNotRetuned.item}`)
+      console.log(`Created tot: ${(Created.list + Created.item)}, lists: ${Created.list}, items: ${Created.item}`)
+      // add to report
       db.get('report')
         .push(result)
         .write()
@@ -46,7 +55,7 @@ module.exports = {
   //hasura GraphQL queries
   qql:{
     getTodoList:{
-      "query": "query TodoLists {\n  todo_list {\n    id\n    title\n  }\n}\n",
+      "query": "query TodoLists {\n  todo_list(limit: 50){\n    id\n    title\n  }\n}\n",
       "variables": null,
       "operationName": "TodoLists"
     },

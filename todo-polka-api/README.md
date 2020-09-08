@@ -2,6 +2,8 @@
 
 This api is build using [polka node server](https://github.com/lukeed/polka).
 
+**In select statement there is a LIMIT set to 50 todo list items!**
+
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8083 by default.
