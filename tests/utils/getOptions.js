@@ -6,13 +6,15 @@ function buildTable(info){
       <tr><td class="tooltip-lbl">Api variant</td><td><b>${info['title']}</b></td></tr>
       <tr><td class="tooltip-lbl">2xx OK</td><td>${info['2xx']}</td></tr>
       <tr><td class="tooltip-lbl">Non2xx</td><td>${info['non2xx']}</td></tr>
-      <tr><td class="tooltip-lbl">Latency (mean)</td><td>${info['latency']['mean']}</td></tr>
-      <tr><td class="tooltip-lbl">Connections</td><td>${info.connections}</td></tr>
+      <tr><td class="tooltip-lbl">Created items</td><td>${info.Created ? (info.Created.list + info.Created.item):"n/a"}</td></tr>
+      <tr><td class="tooltip-lbl">Id not returned</td><td>${info.IdNotRetuned ? (info.IdNotRetuned.list + info.IdNotRetuned.item):"n/a"}</td></tr>
+      <tr><td class="tooltip-lbl">Latency (mean)</td><td>${info['latency']['mean']} ms</td></tr>
       <tr><td class="tooltip-lbl">Duration</td><td>${info.duration}</td></tr>
-      <tr><td class="tooltip-lbl">Timeouts</td><td>${info.timeouts}</td></tr>
-      <tr><td class="tooltip-lbl">Errors</td><td>${info.errors}</td></tr>
+      <tr><td class="tooltip-lbl">Connections</td><td>${info.connections}</td></tr>
     </table>
   `
+  // <tr><td class="tooltip-lbl">Timeouts</td><td>${info.timeouts}</td></tr>
+  // <tr><td class="tooltip-lbl">Errors</td><td>${info.errors}</td></tr>
   return tbl
 }
 
