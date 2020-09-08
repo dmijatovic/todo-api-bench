@@ -4,7 +4,9 @@ This demo is created to bachmark golan basic http module agains go fiber and api
 
 The load test are performed with autocannon (nodejs) in all cases. Load test are performed on todo api point which does not requires authentication. I might later include JWT token authentication. At this point we test basic read (home), read of items from database and insert into database. In generall the i/o is usually the bottleneck. I am interested does it makes a sense to have fast api server while we know that writing/reading to the database usually is the slowest operation. Therefore postgres database with exactly same specs will be used in all these banchmarks, what will be different are the http api servers.
 
-The results of load tests are saves in tests folder as json files.
+The results of load tests are saved in tests folder as json files.
+
+**In select statement there is a LIMIT set to 50 todo list items!**
 
 ## Dependecies
 

@@ -2,6 +2,8 @@
 
 This api is build using [express node server](https://expressjs.com/en/guide/routing.html). Express is most popular server in the NodeJS comminity. It should be slower than Polka server which is build to be light and fast. Using this benhmark I will test this on todo api app.
 
+**In select statement there is a LIMIT set to 50 todo list items!**
+
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8083 by default.

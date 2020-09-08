@@ -1,8 +1,8 @@
 # API load test and report
 
-The load test is performed with autocannon.
+The load test is performed with autocannon. An simple report is shown using nextjs.
 
-An simple table report is shown using nextjs.
+**In order to measure performance with similair amount of records the GET route for all todo lists has a LIMIT set to 50 items in each API!**
 
 ## Installation
 

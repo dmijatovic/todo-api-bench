@@ -2,7 +2,8 @@
 
 At the moment the fastest api solution with python seem to be [FastAPI using async SQL database](https://fastapi.tiangolo.com/advanced/async-sql-databases/). For database we use PostgreSQL (as with others).
 
-In the first version I decided not to use SqlAlchemy to keep api simple and light. The databases module supports thebasic CRUD queries I want to test.
+In the first version I decided not to use SqlAlchemy to keep api simple and light. The databases module supports the basic CRUD queries I want to test.
+**In select statement there is a LIMIT set to 50 todo list items!**
 
 ## Usage
 

@@ -5,6 +5,8 @@ Hasura is GraphQL engine (api) designed to work 'out of the box' with Postgres. 
 
 However when first started up it needs to select tables in order to create queries. In order to be able to start todo-api with created tables and hasura definitions we need to apply Hasura migrations.
 
+**In select statement of loadtest I set a LIMIT to 50 todo list items! This is inline with other API's**
+
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8087 by default.
