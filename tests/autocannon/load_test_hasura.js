@@ -50,7 +50,7 @@ const loadTest = autocannon({
       onResponse:(status, body, context)=>{
         if (status === 200) {
           const resp = JSON.parse(body)
-          if (resp && resp[data]){
+          if (resp && resp['data']){
             context['list_id'] = resp['data']['insert_todo_list_one']['id']
             created.list+=1
           }else{
