@@ -25,7 +25,7 @@ services:
   api:
     container_name: api
     build: .
-    image: dv4all/todo-flask-api:0.0.2
+    image: dv4all/todo-flask-api:0.0.3
     env_file:
       # configure flask api
       - ./todo_api.env

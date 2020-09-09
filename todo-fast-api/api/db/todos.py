@@ -5,7 +5,7 @@ from api.db import schema
 # TODO LIST QUERIES
 
 async def GetAllTodoLists():
-  sql="SELECT id, title from todo_list;"
+  sql="SELECT id, title from todo_list LIMIT 50;"
   rows = await db.fetch_all(query=sql)
   return rows
 

@@ -12,23 +12,21 @@ I primarily used nodejs and express to serve data to my frontends in the past. O
 
 Api server is an important part of the backend solution. Another important part is the database. I use identical PostgreSQL docker container with all api's. Postgres is well supported in all technologies I want to test and quite popular and performant.
 
-## Performace overview
+## Performance overview
 
-Below it the table with the overview of tested techologied and my personal opionion. The performance is rated on 5 point scale: excellent, very good, good, fair, poor. Note! that **I have not graded any of api with poor performance**.
+Below it the overview of tested techologies and my personal opinion. The performance is rated on 5-point scale: excellent, very good, good, fair and poor. Note! that **I have not rated any of api's to have poor performance**. The ease of creating the api is rated on 4-point scale: easy, fair, hard and very hard. Rust was without doubt the hardest api for me to develop. For me was Golang lot easier to learn.
 
-| Api             | Langauge      | Library     | Performance |
-| --------------- | ------------- | ----------- | ----------- |
-| todo-actix-api  | Rust          | actix-web   | excellent   |
-| todo-express-api| NodeJS        | express     | good        |
-| todo-fast-api   | Python        | fastapi     | good        |
-| todo-fiber-api  | Golang        | fiber       | good        |
-| todo-flask-api  | Python        | flask       | fair        |
-| todo-hasura-api | Haskel/GraphQL| hasura      | fair        |
-| todo-mux-api    | Golang        | net/http    | good        |
-| todo-oak-api    | Deno          | oak         | very good   |
-| todo-polka-api  | NodeJS        | polka       | very good   |
-
-<br/><br/>
+| Api              | Langauge       | Library   | Performance | Easy to make | My Rank |
+| ---------------- | -------------- | --------- | ----------- | ------------ | ------- |
+| todo-actix-api   | Rust           | actix-web | excellent   | very hard    | 1       |
+| todo-express-api | NodeJS         | express   | good/fair   | fair         | 3       |
+| todo-fast-api    | Python         | fastapi   | very/good   | fair         | 2       |
+| todo-fiber-api   | Golang         | fiber     | very/good   | fair         | 2       |
+| todo-flask-api   | Python         | flask     | fair        | easy         | 4       |
+| todo-hasura-api  | Haskel/GraphQL | hasura    | fair        | easy         | 4       |
+| todo-mux-api     | Golang         | net/http  | good        | hard         | 3       |
+| todo-oak-api     | Deno           | oak       | very good   | fair         | 2       |
+| todo-polka-api   | NodeJS         | polka     | very good   | fair         | 2       |
 
 ### Links to used libraries
 
@@ -83,7 +81,7 @@ sudo chmod +x test-round.sh
 
 ## How this repo works
 
-Each todo* folder contains complete api solution. All api's are functionally identical. They perform simple CRUD operations on Postgres database (todo_db). Each api folder has readme file where you can read how to start the api and run load test.
+Each todo\* folder contains complete api solution. All api's are functionally identical. They perform simple CRUD operations on Postgres database (todo_db). Each api folder has readme file where you can read how to start the api and run load test.
 
 1. install npm dependencies for load tests and test report webpage.
 

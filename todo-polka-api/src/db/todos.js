@@ -7,7 +7,7 @@ function GetAllTodoLists(){
     throw Error("PostgreSQL client missing. Check DB connection")
   }
   // constuct SQL statement
-  const sql=`SELECT * FROM todo_list;`
+  const sql=`SELECT * FROM todo_list LIMIT 50;`
   return pgdb.query(sql)
     .then( result =>{
       const {rows} = result

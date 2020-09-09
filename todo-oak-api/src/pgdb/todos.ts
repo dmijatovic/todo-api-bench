@@ -26,7 +26,7 @@ export interface TodoItem extends BaseTodoItem{
 }
 
 export function GetAllTodoLists():Promise<PgDbResults>{
-  const sql=`SELECT id, title FROM todo_list;`
+  const sql=`SELECT id, title FROM todo_list LIMIT 50;`
   return runQuery(sql)
     .then((result:QueryResult) =>{
       // console.log(result)

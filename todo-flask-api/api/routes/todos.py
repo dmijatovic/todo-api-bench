@@ -9,9 +9,9 @@ from api.utils.data import wrapResponse, wrapError, getPaginationParams, getOrde
 Get all todo lists
 """
 def getTodoLists(request):
-  # select top 10 items
+  # select top 50 items
   page=1
-  per_page=10
+  per_page=50
   paginated = TodoList.query\
       .paginate(page=page,per_page=per_page)
 
