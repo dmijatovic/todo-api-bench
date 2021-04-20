@@ -65,7 +65,7 @@ For development we use denon (nodemon look-a-like).
 
 ```bash
 # install denon
-deno install --allow-read --allow-run --allow-write --allow-net -f --unstable https://deno.land/x/denon@2.3.0/denon.ts
+deno install --allow-read --allow-run --allow-write --allow-net -f --unstable https://deno.land/x/denon@2.4.7/denon.ts
 
 # use denon to restart
 denon run --allow-net --allow-env ./src/main.ts
