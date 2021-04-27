@@ -1,19 +1,46 @@
-FROM rust:1.45-slim as build
+FROM rust:1.45 as build
 
-WORKDIR /home/build
+# set working directory
+# this need to be in usr somehow to work when comipiling for scratch container
+# at the end we will use empty container with only rust application code
+# this can run in Docker as docker is native linux environment
+WORKDIR /usr/src
 
+# Prepare for static linking
+# we need to update and upgrade
+# then install musl-tools (required bu brotli used by actix)
+# define target to linux-musl
+RUN apt-get update && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y musl-tools && \
+    rustup target add x86_64-unknown-linux-musl
+
+
+# define user,
+# create new project in the container
+RUN USER=root cargo new todo-actix
+
+# change to that dir
+WORKDIR /usr/src/todo-actix
+
+# copy all files (expect what is defined in .dockerignore)
 COPY . .
 
+# build release version
 RUN cargo build --release
+# install application in the container
+RUN cargo install --target x86_64-unknown-linux-musl --path .
 
-# Release image
-FROM debian:10-slim
-
-WORKDIR /home/dv4all
-
-COPY --from=build /home/build/target/release/todo-actix /home/dv4all/
-
-CMD ["/home/dv4all/todo-actix"]
-
+# Copy created executable to an empty Docker image
+# if you have some static files/data you would also
+# need to copy that (this project doesn't)
+FROM scratch
+# copy app executable
+COPY --from=build /usr/local/cargo/bin/todo-actix .
+# COPY static .
+# define root user?!?
+USER 1000
+# run application
+CMD ["./todo-actix"]
 
 

@@ -7,6 +7,10 @@ This api is build using [actix web framework](https://github.com/actix/actix-web
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8080 by default.
+There are 2 docker files:
+
+- Basic: this file uses rust image 1.45-slim to build rust application and for release uses debian:10-slim. The `image size is 80MB`. This file is initally used but later I moved to second version.
+- From scratch: this approach builds application and uses FROM scratch docker image (empty). The `image size is 10MB`. With this approach we only set application in the image. We do need to take care that all resources used by application are included in the image. In addition, the compilation target need to be native linux (x86_64-unknown-linux-musl).
 
 ```bash
 
