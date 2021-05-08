@@ -120,6 +120,21 @@ docker-compose down --volumes
 take_a_break 5
 
 # ---------------------
+# NANOEXPRESS load test
+# start express api
+cd ../todo-nanoexpress-api
+docker-compose up -d
+# wait
+take_a_break 45
+# run load test
+loadtest test:js-nanoexpress
+# close docker
+cd ../todo-nanoexpress-api
+docker-compose down --volumes
+# wait
+take_a_break 5
+
+# ---------------------
 # DENO OAK load test
 # start oak api
 cd ../todo-oak-api
