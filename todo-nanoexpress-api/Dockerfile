@@ -1,13 +1,18 @@
-FROM node:14-alpine
+FROM node:12-buster-slim as build
 
 WORKDIR /home/dv4all
 
 COPY ./package*.json ./
-
 RUN npm install
 
 COPY . .
+RUN npm run build
 
-RUN ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
+FROM node:12-buster-slim
 
-CMD ["npm","start"]
+WORKDIR /home/dv4all
+
+COPY --from=build /home/dv4all/dist .
+COPY --from=build /home/dv4all/node_modules/uWebSockets.js/uws_linux_x64* ./
+
+CMD ["node","index.js"]
