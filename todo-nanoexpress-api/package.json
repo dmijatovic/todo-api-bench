@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "build": "ncc build src/index.js -o dist"
   },
@@ -16,7 +16,7 @@
     "pg": "^8.6.0"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.3",
+    "@vercel/ncc": "^0.28.5",
     "nodemon": "^2.0.7"
   }
 }
