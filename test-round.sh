@@ -30,6 +30,21 @@ docker-compose down --volumes
 take_a_break 5
 
 # ---------------------
+# DOTNET load test
+# start express api
+cd ../todo-dotnet-api
+docker-compose up -d
+# wait
+take_a_break 45
+# run load test
+loadtest test:dotnet-mssql
+# close docker
+cd ../todo-dotnet-api
+docker-compose down --volumes
+# wait
+take_a_break 5
+
+# ---------------------
 # EXPRESS load test
 # start express api
 cd ../todo-express-api

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test:rs-actix": "node autocannon/load_test_actix.js",
+    "test:dotnet-mssql": "node autocannon/load_test_dotnet.js",
     "test:js-express": "node autocannon/load_test_express.js",
     "test:js-nanoexpress": "node autocannon/load_test_nanoexpress.js",
     "test:py-fast": "node autocannon/load_test_fastapi.js",
