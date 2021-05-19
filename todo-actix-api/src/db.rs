@@ -3,7 +3,7 @@ use std::io;
 use tokio_pg_mapper::FromTokioPostgresRow;
 
 use crate::errors::{AppError, AppErrorType};
-use crate::models::{CreateTodoItem, TodoItem, TodoList};
+use crate::models::{PostTodoItem, TodoItem, TodoList};
 
 pub async fn get_todo_lists(client: &Client) -> Result<Vec<TodoList>, AppError> {
   //get all items from todo list
@@ -25,10 +25,37 @@ pub async fn get_todo_lists(client: &Client) -> Result<Vec<TodoList>, AppError> 
   Ok(todos)
 }
 
+pub async fn get_todo_list(client: &Client, list_id: i32) -> Result<TodoList, AppError> {
+  //get specific todo list
+  //question mark at the end optionaly returns if value is present
+  let statement = client
+    .prepare("select id,title from todo_list where id = $1;")
+    .await
+    .map_err(AppError::db_error)?;
+
+  let todo = client
+    .query(&statement, &[&list_id])
+    .await
+    .map_err(AppError::db_error)?;
+
+  //return todos vector
+  // Ok(todo)
+  todo
+    .iter()
+    .map(|row| TodoList::from_row_ref(row).unwrap())
+    .collect::<Vec<TodoList>>()
+    .pop()
+    .ok_or(AppError {
+      message: Some("Error fetching todo list".to_string()),
+      cause: Some("Unknown error".to_string()),
+      error_type: AppErrorType::DbError,
+    })
+}
+
 pub async fn get_list_items(client: &Client, list_id: i32) -> Result<Vec<TodoItem>, AppError> {
   // get all items from todo list
   let statement = client
-    .prepare("select * from todo_item where list_id = $1 order by id;")
+    .prepare("select * from todo_item where list_id = $1 LIMIT 50;")
     .await
     .map_err(AppError::db_error)?;
 
@@ -101,7 +128,7 @@ pub async fn update_todo_list(client: &Client, list: &TodoList) -> Result<TodoLi
 
 pub async fn create_todo_item(
   client: &Client,
-  todo_item: &CreateTodoItem,
+  todo_item: &PostTodoItem,
 ) -> Result<TodoItem, AppError> {
   // get all items from todo list
   let statement = client.prepare("insert into todo_item (title,checked,list_id) values($1,$2,$3) returning id,title,checked,list_id;")
@@ -112,11 +139,7 @@ pub async fn create_todo_item(
   let res = client
     .query(
       &statement,
-      &[
-        &todo_item.item.title,
-        &todo_item.item.checked,
-        &todo_item.list_id,
-      ],
+      &[&todo_item.title, &todo_item.checked, &todo_item.list_id],
     )
     .await
     .map_err(AppError::db_error)?;
@@ -134,16 +157,26 @@ pub async fn create_todo_item(
     })
 }
 
-pub async fn check_todo_item(client: &Client, list_id: i32, item_id: i32) -> Result<(), io::Error> {
+pub async fn update_todo_item(
+  client: &Client,
+  todo_item: &PostTodoItem,
+  item_id: i32,
+) -> Result<(), io::Error> {
   let statement = client
-    .prepare(
-      "update todo_item set checked = true where list_id = $1 and id = $2 and checked = false",
-    )
+    .prepare("update todo_item set list_id=$1,title=$2,checked=$3 where id = $4;")
     .await
     .unwrap();
 
   let result = client
-    .execute(&statement, &[&list_id, &item_id])
+    .execute(
+      &statement,
+      &[
+        &todo_item.list_id,
+        &todo_item.title,
+        &todo_item.checked,
+        &item_id,
+      ],
+    )
     .await
     .expect("Error checking todo item");
 
@@ -151,7 +184,7 @@ pub async fn check_todo_item(client: &Client, list_id: i32, item_id: i32) -> Res
     ref updated if *updated == 1 => Ok(()),
     _ => Err(io::Error::new(
       io::ErrorKind::Other,
-      "Failed to check todo item",
+      "Failed to update todo item",
     )),
   }
 }
@@ -180,4 +213,31 @@ pub async fn delete_todo_item(client: &Client, item_id: i32) -> Result<TodoItem,
       error_type: AppErrorType::DbError,
     })
   // .ok_or(io::Error::new(io::ErrorKind::Other,"Failed to delete"))
+}
+
+pub async fn get_todo_item(client: &Client, item_id: i32) -> Result<TodoItem, AppError> {
+  //get specific todo list
+  //question mark at the end optionaly returns if value is present
+  let statement = client
+    .prepare("select id,title from todo_item where id = $1;")
+    .await
+    .map_err(AppError::db_error)?;
+
+  let todo = client
+    .query(&statement, &[&item_id])
+    .await
+    .map_err(AppError::db_error)?;
+
+  //return todos vector
+  // Ok(todo)
+  todo
+    .iter()
+    .map(|row| TodoItem::from_row_ref(row).unwrap())
+    .collect::<Vec<TodoItem>>()
+    .pop()
+    .ok_or(AppError {
+      message: Some("Error fetching todo item".to_string()),
+      cause: Some("Unknown error".to_string()),
+      error_type: AppErrorType::DbError,
+    })
 }

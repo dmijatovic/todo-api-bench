@@ -52,10 +52,16 @@ npm run dev
 In the 2021 update we want to test identical endpoints and achieve idential load as much as possible. There might be slight differences but the idea is to align (at least) all REST api to use identical tests. GraphQL is different concerning the endpoint approach but the comparable load and operations will be tested.
 
 - `GET /` homepage is simple json return with message:"Api active" or something like that
-- `POST /todolist` create new todo list
-- `PUT /todolist` update existing todo list
-- `GET /todolist/{list_id}` get a specific todo list
+- `POST /list` create new todo list
+- `PUT /list` update existing todo list
 - `POST /todo` create todo item
-- `PUT /todo` update todo item by id
-- `GET /todo/list/{list_id}` get all todo items of specific list based on list_id
-- `DELETE /todo/id/{todo_id}` get specific todo by id
+- `PUT /todo/{todo_id}` update todo item by id
+- `GET /list/{list_id}` get a specific todo list.
+- `GET /list` LIMIT to 50 items!
+- `GET /todo/list/{list_id}` get all todo items of specific list based on list_id. LIMIT to 50 items!
+- `GET /todo/{todo_id}` get todo items by id
+- `DELETE /todo/{todo_id}` get specific todo by id
+
+**For GET request that can return lot of items set LIMIT to 50 items!**
+**MAX_POOL_SIZE to be 30, if it can be defined**
+**SERVER.WORKERS to be set to 2, if it can be defined**
