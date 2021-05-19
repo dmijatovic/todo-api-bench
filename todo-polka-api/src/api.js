@@ -21,16 +21,17 @@ api.get("/",(req,res)=>{
 
 
 // TODO LIST
-api.get("/todos", todos.getAllTodoLists)
-api.post("/todos", todos.addTodoList)
-api.put("/todos", todos.updateTodoList)
-api.delete("/todos/:id", todos.deleteTodoList)
+api.get("/list", todos.getAllTodoLists)
+api.post("/list", todos.addTodoList)
+api.put("/list", todos.updateTodoList)
+api.get("/list/:lid", todos.getTodoList)
 
 //TODO ITEMS
-api.get("/todos/:lid/items", todos.getTodoItems)
-api.post("/todos/:lid/items", todos.addTodoItem)
-api.put("/todos/item", todos.updateTodoItem)
-api.delete("/todos/item/:id", todos.deleteTodoItem)
+api.post("/todo", todos.addTodoItem)
+api.put("/todo/:id", todos.updateTodoItem)
+api.delete("/todo/:id", todos.deleteTodoItem)
+api.get("/todo/list/:lid", todos.getTodoItems)
+api.get("/todo/:id", todos.getTodoItem)
 
 module.exports={
   api,

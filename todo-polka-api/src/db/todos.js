@@ -93,13 +93,46 @@ function GetTodoItems(lid=0){
     })
 }
 
-function AddTodoItem(lid=0,todo){
+
+function GetTodoItem(id=0){
+  if (id===0){
+    throw Error("Missing list id property")
+  }
+  const sql=`SELECT id, list_id, title, checked FROM todo_item WHERE id=$1 ;`
+  const values = [id]
+  return pgdb.query(sql,values)
+    .then( result =>{
+      const {rows} = result
+      if (rows){
+        return rows
+      } else {
+        return null
+      }
+    })
+}
+
+function GetTodoList(lid=0){
   if (lid===0){
     throw Error("Missing list id property")
   }
+  const sql=`SELECT id, title, checked FROM todo_list WHERE id=$1 ;`
+  const values = [lid]
+  return pgdb.query(sql,values)
+    .then( result =>{
+      const {rows} = result
+      if (rows){
+        return rows
+      } else {
+        return null
+      }
+    })
+}
 
+
+
+function AddTodoItem(todo){
   const sql=`INSERT INTO todo_item (list_id, title, checked) VALUES($1,$2,$3) RETURNING id, list_id, title, checked;`
-  const values = [lid,todo['title'],todo['checked']]
+  const values = [todo['list_id'],todo['title'],todo['checked']]
 
   return pgdb.query(sql,values)
     .then( result =>{
@@ -161,10 +194,12 @@ function DeleteTodoItem(id=0){
 
 module.exports={
   GetAllTodoLists,
+  GetTodoList,
   AddTodoList,
   UpdateTodoList,
   DeleteTodoList,
   GetTodoItems,
+  GetTodoItem,
   AddTodoItem,
   UpdateTodoItem,
   DeleteTodoItem
