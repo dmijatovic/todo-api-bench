@@ -13,6 +13,6 @@ FROM node:12-buster-slim
 WORKDIR /home/dv4all
 
 COPY --from=build /home/dv4all/dist .
-COPY --from=build /home/dv4all/node_modules/uWebSockets.js/uws_linux_x64* ./
+COPY --from=build /home/dv4all/node_modules/nanoexpress/node_modules/uWebSockets.js/uws_linux_x64* ./
 
 CMD ["node","index.js"]

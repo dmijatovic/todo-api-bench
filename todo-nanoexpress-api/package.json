@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nanoexpress": "^3.0.2",
+    "nanoexpress": "3.2.2",
     "pg": "^8.6.0"
   },
   "devDependencies": {

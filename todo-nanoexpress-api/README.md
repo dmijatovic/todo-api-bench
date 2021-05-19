@@ -1,6 +1,6 @@
 # Todo nanoexpress api
 
-This api is build using [nanoexpress node server](https://nanoexpress.js.org/). .
+This api is build using [nanoexpress node server](https://nanoexpress.js.org/).
 
 **In select statement there is a LIMIT set to 50 todo list items!**
 
@@ -45,6 +45,8 @@ npm run dev
 
 ## Dependencies
 
+**Nanoexpress depends on [uWS](https://github.com/uNetworking/uWebSockets) which is not avaliable via NPM**.
+
 ```bash
 # project dependencies
 npm i -s nanoexpress pg
@@ -54,12 +56,12 @@ npm i -D @zeit/ncc nodemon
 
 ## Dockerfile
 
-Nanoexpress depends on uWS native C++ library. When using node-alpine version we need to link to proper uWS library.
+Nanoexpress depends on uWS native C++ library. When compiling the code into one file we also need to include these files.
+In addition, the uWS C++ file is not fully compatible with Alipine version of linux. So I used node:v12-buster-slim and copy uWS native files from nanoexpres/node_modules to package folder.
 
 `Note! Simple alpine version does not works (Dockerfile_alpine)`
 
 ```Dockerfile
-# link to proper lib for alpine version
-RUN ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
-
+# copy C++ uws files for linux (we use debian as base image)
+COPY --from=build /home/dv4all/node_modules/nanoexpress/node_modules/uWebSockets.js/uws_linux_x64* ./
 ```
