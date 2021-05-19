@@ -21,10 +21,10 @@ api.get("/",(req,res)=>{
 
 
 // TODO LIST
-api.get("/list", todos.getAllTodoLists)
 api.post("/list", todos.addTodoList)
 api.put("/list", todos.updateTodoList)
 api.get("/list/:lid", todos.getTodoList)
+api.get("/list", todos.getAllTodoLists)
 
 //TODO ITEMS
 api.post("/todo", todos.addTodoItem)

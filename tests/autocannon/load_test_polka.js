@@ -73,7 +73,7 @@ const loadTest = autocannon({
         }
       }
     },{
-      method:'PUT',      
+      method:'PUT',
       setupRequest:(req, context)=>({
         ...req,
         path:`/list`,

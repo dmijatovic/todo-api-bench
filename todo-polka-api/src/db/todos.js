@@ -129,7 +129,6 @@ function GetTodoList(lid=0){
 }
 
 
-
 function AddTodoItem(todo){
   const sql=`INSERT INTO todo_item (list_id, title, checked) VALUES($1,$2,$3) RETURNING id, list_id, title, checked;`
   const values = [todo['list_id'],todo['title'],todo['checked']]
