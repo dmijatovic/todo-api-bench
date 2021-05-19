@@ -20,7 +20,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-nanoexpress-api:0.0.5
+    image: dv4all/todo-nanoexpress-api:0.0.6
     environment:
       API_PORT: 8089
       API_NAME: todo-nanoexpress-api

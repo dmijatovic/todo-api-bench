@@ -55,8 +55,8 @@ module.exports = {
   settings:{
     //default url (actix)
     url:"http://localhost:8080",
-    connections:1,
-    duration:5,
+    connections:10,
+    duration:30,
   },
   // Test data for post and put
   todoList:{

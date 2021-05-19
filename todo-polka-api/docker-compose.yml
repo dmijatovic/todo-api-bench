@@ -20,7 +20,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-polka-api:0.0.2
+    image: dv4all/todo-polka-api:0.0.3
     environment:
       API_PORT: 8083
       API_NAME: todo-polka-api
