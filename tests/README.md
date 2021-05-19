@@ -56,11 +56,12 @@ In the 2021 update we want to test identical endpoints and achieve idential load
 - `PUT /list` update existing todo list
 - `POST /todo` create todo item
 - `PUT /todo/{todo_id}` update todo item by id
-- `GET /list/{list_id}` get a specific todo list.
 - `GET /list` LIMIT to 50 items!
 - `GET /todo/list/{list_id}` get all todo items of specific list based on list_id. LIMIT to 50 items!
 - `GET /todo/{todo_id}` get todo items by id
 - `DELETE /todo/{todo_id}` get specific todo by id
+<!-- NOT IMPLEMENTED -->
+- `GET /list/{list_id}` get a specific todo list.
 
 **For GET request that can return lot of items set LIMIT to 50 items!**
 **MAX_POOL_SIZE to be 30, if it can be defined**

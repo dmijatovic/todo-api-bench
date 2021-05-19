@@ -75,6 +75,7 @@ function UpdateTodoList(req,res){
     })
 }
 
+// NOT REQUERED FOR BECHMARK
 function DeleteTodoList(req,res){
   const {id} = req.params
   if (!id){
@@ -96,35 +97,19 @@ function DeleteTodoList(req,res){
     })
 }
 
-function GetTodoItems(req,res){
-  const {lid} = req.params
-  if (!lid){
-    return sendError(res,"Missing list id property")
-  }
-  const sql=`SELECT id, list_id, title, checked FROM todo_item WHERE list_id=$1;`
-  const values = [lid]
-  return pgdb.query(sql,values)
-    .then( result =>{
-      const {rows} = result
-      return sendPayload(res,rows)
-    })
-    .catch(e=>{
-      return sendError(res,e.message)
-    })
-}
-
 function AddTodoItem(req,res){
-  const {lid} = req.params
-  const {title,checked} = JSON.parse(req.body)
-  if (!lid){
-    throw Error("Missing list id property")
+  // const {lid} = req.params
+  const {list_id,title,checked} = JSON.parse(req.body)
+  if (!list_id){
+    // throw Error("Missing list id property")
+    return sendError(res,"Missing property title")
   }
   if(!title){
     return sendError(res,"Missing property title")
   }
 
   const sql=`INSERT INTO todo_item (list_id, title, checked) VALUES($1,$2,$3) RETURNING id, list_id, title, checked;`
-  const values = [lid,title,checked]
+  const values = [list_id,title,checked]
 
   return pgdb.query(sql,values)
     .then( result =>{
@@ -141,9 +126,11 @@ function AddTodoItem(req,res){
 }
 
 function UpdateTodoItem(req,res){
-  const {id,list_id,title,checked} = JSON.parse(req.body)
+  const {id} = req.params
+  const {list_id,title,checked} = JSON.parse(req.body)
   if (!id){
-    throw Error("Missing id property")
+    // throw Error("Missing id property")
+    return sendError(res,"Missing property id")
   }
   if(!title){
     return sendError(res,"Missing property title")
@@ -155,7 +142,7 @@ function UpdateTodoItem(req,res){
     checked=$3
     WHERE id=$4
     RETURNING id, list_id, title, checked;`
-  const values = [list_id,title,checked,id]
+  const values = [list_id,title,checked,parseInt(id)]
 
   return pgdb.query(sql,values)
     .then( result =>{
@@ -195,13 +182,66 @@ function DeleteTodoItem(req,res){
     })
 }
 
+function GetTodoList(req,res){
+  const {lid} = req.params
+  if (!lid){
+    return sendError(res,"Missing list id property")
+  }
+  const sql=`SELECT id, title FROM todo_list WHERE id=$1;`
+  const values = [lid]
+  return pgdb.query(sql,values)
+    .then( result =>{
+      const {rows} = result
+      return sendPayload(res,rows)
+    })
+    .catch(e=>{
+      return sendError(res,e.message)
+    })
+}
+
+function GetTodoItems(req,res){
+  const {lid} = req.params
+  if (!lid){
+    return sendError(res,"Missing list id property")
+  }
+  const sql=`SELECT id, list_id, title, checked FROM todo_item WHERE list_id=$1;`
+  const values = [lid]
+  return pgdb.query(sql,values)
+    .then( result =>{
+      const {rows} = result
+      return sendPayload(res,rows)
+    })
+    .catch(e=>{
+      return sendError(res,e.message)
+    })
+}
+
+function GetTodoItem(req,res){
+  const {id} = req.params
+  if (!id){
+    return sendError(res,"Missing todo id property")
+  }
+  const sql=`SELECT id, list_id, title, checked FROM todo_item WHERE id=$1;`
+  const values = [parseInt(id)]
+  return pgdb.query(sql,values)
+    .then( result =>{
+      const {rows} = result
+      return sendPayload(res,rows)
+    })
+    .catch(e=>{
+      return sendError(res,e.message)
+    })
+}
+
 
 module.exports={
   GetAllTodoLists,
+  GetTodoList,
   AddTodoList,
   UpdateTodoList,
   DeleteTodoList,
   GetTodoItems,
+  GetTodoItem,
   AddTodoItem,
   UpdateTodoItem,
   DeleteTodoItem
