@@ -30,7 +30,7 @@ type TodoItem struct {
 
 // GetAllTodoLists returns all todo lists from db
 func GetAllTodoLists() ([]TodoList, error) {
-	rows, err := sqlDB.Query("SELECT id, title from todo_list;")
+	rows, err := sqlDB.Query("SELECT id, title from todo_list LIMIT 50;")
 	if err != nil {
 		log.Println("GetAllTodoLists...", err)
 		return nil, err

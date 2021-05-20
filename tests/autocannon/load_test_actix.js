@@ -2,41 +2,81 @@ const autocannon = require('autocannon')
 const utils = require('./utils')
 
 let abort=false
+const noId={
+  list:0,
+  item:0
+}
+const created={
+  list:0,
+  item:0
+}
+
+let statusByRoute={}
+
+// get test title from env
+const TEST_TITLE = "todo-actix-api"
+// update base url from env
+utils.settings.url = "http://localhost:8080"
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,result)
+  utils.saveToLowdb(err,{
+    ...result,
+    IdNotRetuned:{
+      ...noId
+    },
+    Created:{
+      ...created
+    },
+    statusByRoute
+  })
 }
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"todo-actix-api",
+  title:TEST_TITLE,
   requests:[{
       method:'GET',
       path:'/',
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "GET/",
+          statusByRoute
+        )
+      }
     },{
       method:'POST',
-      path:'/todos',
+      path:'/list',
       headers:{
         'content-type':'application/json',
         'autohorization':'Bearer FAKE_JWT_KEY'
       },
       body:JSON.stringify(utils.todoList),
       onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "POST/list",
+          statusByRoute
+        )
         if (status === 200) {
           const resp = JSON.parse(body)
-          context['list_id'] = resp['id']
+          if (resp && resp['id']){
+            context['list_id'] = resp['id']
+            created.list+=1
+          } else {
+            noId.list+=1
+          }
         }
       }
     },{
-      method:'PUT',
-      path:'/todos',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos`,
+        method:'PUT',
+        path:'/list',
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
@@ -45,49 +85,124 @@ const loadTest = autocannon({
           id: context['list_id'],
           title:"Autocannon title update"
         })
-      })
+      }),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "PUT/list",
+          statusByRoute
+        )
+      }
     },{
-      method: 'POST',
+      method:'POST',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos/${context['list_id']}/items`,
+        path:`/todo`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
         },
-        body:JSON.stringify(utils.todoItem)
+        body:JSON.stringify(utils.todoItemForList(context['list_id']))
       }),
       onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "POST/todo",
+          statusByRoute
+        )
         if (status === 200) {
           const resp = JSON.parse(body)
-          context['todo_id'] = resp['id']
+          if (resp && resp['id']){
+            context['todo_id'] = resp['id']
+            created.item+=1
+          }else{
+            noId.item+=1
+          }
+        }else{
+          context['todo_id'] = 1;
         }
+      }
+    },{
+      setupRequest:(req, context)=>({
+        ...req,
+        method:'PUT',
+        path:`/todo/${context['todo_id']}`,
+        headers:{
+          'content-type':'application/json',
+          'autohorization':'Bearer FAKE_JWT_KEY'
+        },
+        body:JSON.stringify(utils.todoItemUpdate(
+          context['list_id'],
+          context['todo_id']
+        ))
+      }),
+      onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          `PUT/todo/{todo_id}`,
+          statusByRoute
+        )
+      }
+    },{
+      method:'GET',
+      path:'/list',
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "GET/list",
+          statusByRoute
+        )
       }
     },{
       method: 'GET',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos/${context['list_id']}/items`,
+        path:`/todo/list/${context['list_id']}`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
         }
-      })
+      }),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "GET/todo/list/{list_id}",
+          statusByRoute
+        )
+      }
+    },{
+      method: 'GET',
+      setupRequest:(req, context)=>({
+        ...req,
+        path:`/todo/${context['todo_id']}`,
+        headers:{
+          'content-type':'application/json',
+          'autohorization':'Bearer FAKE_JWT_KEY'
+        }
+      }),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "GET/todo/{todo_id}",
+          statusByRoute
+        )
+      }
     },{
       method:"DELETE",
-      setupRequest:(req, context)=>{
-        let id=1
-        if (context['todo_id']){
-          id=context['todo_id']
+      setupRequest:(req, context)=>({
+        ...req,
+        path:`/todo/${context['todo_id']}`,
+        headers:{
+          'content-type':'application/json',
+          'autohorization':'Bearer FAKE_JWT_KEY'
         }
-        return {
-          ...req,
-          path:`/todo/item/${id}`,
-          headers:{
-            'content-type':'application/json',
-            'autohorization':'Bearer FAKE_JWT_KEY'
-          }
-        }
+      }),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "DELETE/todo/{todo_id}",
+          statusByRoute
+        )
       }
     }
   ]

@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mssql:
+    container_name: mssql
+    # use latest official postgres version
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    command: /bin/bash /home/mssql/entrypoint.sh
+    env_file:
+      # configure postgres
+      - database.env
+    ports:
+      - 1433:1433
+    volumes:
+      # persist data even if container shuts down
+      - todo_data:/var/opt/mssql
+      # run init sql script to create database and tables
+      - ./entrypoint.sh:/home/mssql/entrypoint.sh
+      - ./init.sh:/home/mssql/init.sh
+      - ./init.sql:/home/mssql/init.sql
+
+# named volumes can be managed easier using docker-compose
+volumes:
+  todo_data:

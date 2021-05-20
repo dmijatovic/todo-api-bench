@@ -1,11 +1,11 @@
 {
   "name": "todo-polka-api",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
-  "type":"commonjs",
+  "type": "commonjs",
   "scripts": {
-    "dev":"nodemon src/index.js",
+    "dev": "nodemon src/index.js",
     "build": "ncc build src/index.js -o dist"
   },
   "keywords": [],

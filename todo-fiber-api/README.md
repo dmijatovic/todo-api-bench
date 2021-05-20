@@ -2,9 +2,13 @@
 
 This api is build using [fiber web framework](https://github.com/gofiber/fiber).
 
+**In select statement there is a LIMIT set to 50 todo list items!**
+
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8082 by default.
+
+**In select statement there is a LIMIT set to 50 todo list items!**
 
 ```bash
 

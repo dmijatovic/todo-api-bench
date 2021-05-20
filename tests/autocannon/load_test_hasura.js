@@ -2,13 +2,29 @@ const autocannon = require('autocannon')
 const utils = require('./utils')
 
 let abort=false
+const noId={
+  list:0,
+  item:0
+}
+const created={
+  list:0,
+  item:0
+}
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,result)
+  utils.saveToLowdb(err,{
+    ...result,
+    IdNotRetuned:{
+      ...noId
+    },
+    Created:{
+      ...created
+    }
+  })
 }
 
 const loadTest = autocannon({
@@ -34,7 +50,12 @@ const loadTest = autocannon({
       onResponse:(status, body, context)=>{
         if (status === 200) {
           const resp = JSON.parse(body)
-          context['list_id'] = resp['data']['insert_todo_list_one']['id']
+          if (resp && resp['data']){
+            context['list_id'] = resp['data']['insert_todo_list_one']['id']
+            created.list+=1
+          }else{
+            noId.list+=1
+          }
         }
       }
     },{
@@ -68,8 +89,12 @@ const loadTest = autocannon({
       onResponse:(status, body, context)=>{
         if (status === 200) {
           const resp = JSON.parse(body)
-          // console.log("todo_id", resp['payload']['id'])
-          context['todo_id'] = resp['data']['insert_todo_item_one']['id']
+          if (resp && resp['data']){
+            context['todo_id'] = resp['data']['insert_todo_item_one']['id']
+            created.item+=1
+          } else {
+            noId.item+=1
+          }
         }
       }
     },{

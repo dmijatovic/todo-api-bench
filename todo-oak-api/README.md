@@ -2,6 +2,8 @@
 
 This api is build using [deno oak server](https://deno.land/x/oak). Oak is popular server in Deno community.
 
+**In select statement there is a LIMIT set to 50 todo list items!**
+
 ## Usage
 
 To start the todo api use docker-compose file. The api should be available on localhost:8083 by default.
@@ -63,7 +65,7 @@ For development we use denon (nodemon look-a-like).
 
 ```bash
 # install denon
-deno install --allow-read --allow-run --allow-write --allow-net -f --unstable https://deno.land/x/denon@2.3.0/denon.ts
+deno install --allow-read --allow-run --allow-write --allow-net -f --unstable https://deno.land/x/denon@2.4.7/denon.ts
 
 # use denon to restart
 denon run --allow-net --allow-env ./src/main.ts

@@ -16,16 +16,11 @@ services:
       - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - net
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '2'
 
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-fiber-api:0.0.2
+    image: dv4all/todo-fiber-api:0.0.3
     environment:
       API_HOST: 0.0.0.0:8082
       API_NAME: todo-fiber-api
@@ -41,11 +36,6 @@ services:
       - net
     depends_on:
       - pgdb
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '2'
 
 networks:
   net:

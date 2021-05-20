@@ -1,8 +1,8 @@
 # API load test and report
 
-The load test is performed with autocannon.
+The load test is performed with autocannon. An simple report is shown using nextjs.
 
-An simple table report is shown using nextjs.
+**In order to measure performance with similair amount of records the GET route for all todo lists has a LIMIT set to 50 items in each API!**
 
 ## Installation
 
@@ -46,3 +46,23 @@ To chage autocannon settings you will need to modify nodejs scripts in the autoc
 npm run dev
 # report will be shown on http://localhost:3000
 ```
+
+## Endpoints tested
+
+In the 2021 update we want to test identical endpoints and achieve idential load as much as possible. There might be slight differences but the idea is to align (at least) all REST api to use identical tests. GraphQL is different concerning the endpoint approach but the comparable load and operations will be tested.
+
+- `GET /` homepage is simple json return with message:"Api active" or something like that
+- `POST /list` create new todo list
+- `PUT /list` update existing todo list
+- `POST /todo` create todo item
+- `PUT /todo/{todo_id}` update todo item by id
+- `GET /list` LIMIT to 50 items!
+- `GET /todo/list/{list_id}` get all todo items of specific list based on list_id. LIMIT to 50 items!
+- `GET /todo/{todo_id}` get todo items by id
+- `DELETE /todo/{todo_id}` get specific todo by id
+<!-- NOT IMPLEMENTED -->
+- `GET /list/{list_id}` get a specific todo list.
+
+**For GET request that can return lot of items set LIMIT to 50 items!**
+**MAX_POOL_SIZE to be 30, if it can be defined**
+**SERVER.WORKERS to be set to 2, if it can be defined**

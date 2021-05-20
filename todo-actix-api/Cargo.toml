@@ -1,6 +1,6 @@
 [package]
 name = "todo-actix"
-version = "0.0.1"
+version = "0.0.4"
 authors = ["Dusan Mijatovic (xps2018) <d.mijatovic@dv4all.nl>"]
 edition = "2018"
 

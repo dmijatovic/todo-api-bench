@@ -10,6 +10,11 @@ module.exports = {
     if (err) {
       console.error(err)
     }else{
+      // basic stats
+      const {IdNotRetuned, Created} = result
+      console.log(`IdNotRetuned tot: ${(IdNotRetuned.list + IdNotRetuned.item)}, lists: ${IdNotRetuned.list}, items:${IdNotRetuned.item}`)
+      console.log(`Created tot: ${(Created.list + Created.item)}, lists: ${Created.list}, items: ${Created.item}`)
+
       // console.log("Results received:", result)
       const fileName = `report/load_test_${Date.now()}.json`
       fs.writeFileSync(fileName, JSON.stringify(result))
@@ -20,13 +25,31 @@ module.exports = {
     if (err) {
       console.error(err)
     }else{
-      //add
+      // basic stats
+      const {IdNotRetuned, Created} = result
+      console.log(`IdNotRetuned tot: ${(IdNotRetuned.list + IdNotRetuned.item)}, lists: ${IdNotRetuned.list}, items:${IdNotRetuned.item}`)
+      console.log(`Created tot: ${(Created.list + Created.item)}, lists: ${Created.list}, items: ${Created.item}`)
+      // add to report
       db.get('report')
         .push(result)
         .write()
 
       console.log("Saved to lowdb json file")
     }
+  },
+  writeStatusByRoute:(status,route,statusByRoute)=>{
+    if (statusByRoute[route]){
+      if (statusByRoute[route][status]){
+        // increase for one
+        statusByRoute[route][status]+=1
+      }else{
+        statusByRoute[route][status]=1
+      }
+    }else{
+      statusByRoute[route]={};
+      statusByRoute[route][status]=1;
+    }
+    return statusByRoute
   },
   // settings
   settings:{
@@ -43,10 +66,21 @@ module.exports = {
     "title":"Todo item",
     "checked": false
   },
+  todoItemForList:(lid=1)=>({
+    list_id:lid,
+    title:"New item title from autocannon",
+    checked: false
+  }),
+  todoItemUpdate:(lid=1,id=1)=>({
+    id,
+    list_id:lid,
+    title:"Updated item title from autocannon",
+    checked: true
+  }),
   //hasura GraphQL queries
   qql:{
     getTodoList:{
-      "query": "query TodoLists {\n  todo_list {\n    id\n    title\n  }\n}\n",
+      "query": "query TodoLists {\n  todo_list(limit: 50){\n    id\n    title\n  }\n}\n",
       "variables": null,
       "operationName": "TodoLists"
     },

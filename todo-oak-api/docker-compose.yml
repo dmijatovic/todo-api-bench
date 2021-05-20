@@ -16,16 +16,11 @@ services:
       - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - net
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '2'
 
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-oak-api:0.0.3
+    image: dv4all/todo-oak-api:0.0.4
     environment:
       API_PORT: 8085
       API_NAME: todo-oak-api
@@ -43,11 +38,6 @@ services:
       - net
     depends_on:
       - pgdb
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '2'
 
 networks:
   net:

@@ -16,16 +16,11 @@ services:
       - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - net
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '1'
 
   api:
     container_name: api
     build: .
-    image: dv4all/todo-flask-api:0.0.2
+    image: dv4all/todo-flask-api:0.0.3
     env_file:
       # configure flask api
       - ./todo_api.env
@@ -35,11 +30,6 @@ services:
       - net
     depends_on:
       - pgdb
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '1'
 
   nginx:
     container_name: nginx
@@ -57,11 +47,6 @@ services:
       # - ./next-food/out:/usr/share/nginx/html
     networks:
       - net
-    deploy:
-      resources:
-        limits:
-          memory: '512M'
-          cpus: '1'
 
 networks:
   net:

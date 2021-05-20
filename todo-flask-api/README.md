@@ -1,7 +1,9 @@
 # Todo api in python with flask, uwsgi and SQLAlchemy
 
 At the moment the fastest api solution with python seem to be [FastAPI using async SQL database](https://fastapi.tiangolo.com/advanced/async-sql-databases/).
-I am quirous to compare it to this basic flask solution.
+I am quirious to compare it to this basic flask solution.
+
+**In select statement there is a LIMIT set to 50 todo list items!**
 
 ## Usage
 
