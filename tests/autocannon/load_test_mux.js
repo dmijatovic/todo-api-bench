@@ -11,6 +11,14 @@ const created={
   item:0
 }
 
+let statusByRoute={}
+
+// get test title from env
+const TEST_TITLE = "todo-mux-api"
+// update base url from env
+utils.settings.url = "http://localhost:8081"
+
+
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
@@ -23,20 +31,34 @@ function saveResults(err, result){
     },
     Created:{
       ...created
-    }
+    },
+    statusByRoute
   })
 }
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"todo-mux-api",
-  url:"http://localhost:8081",
+  title:TEST_TITLE,
   requests:[{
       method:'GET',
       path:'/',
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "GET/",
+          statusByRoute
+        )
+      }
     },{
       method:'GET',
-      path:'/todos',
+      path:'/todos/',
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "GET/todos",
+          statusByRoute
+        )
+      }
     },{
       method:'POST',
       path:'/todos/',
@@ -46,6 +68,11 @@ const loadTest = autocannon({
       },
       body:JSON.stringify(utils.todoList),
       onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "POST/todos",
+          statusByRoute
+        )
         if (status === 200) {
           const resp = JSON.parse(body)
           if (resp && resp['payload']){
@@ -66,7 +93,23 @@ const loadTest = autocannon({
           'autohorization':'Bearer FAKE_JWT_KEY'
         },
         body:JSON.stringify(utils.todoItem)
-      })
+      }),
+      onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "POST/todos/{list_id}/items",
+          statusByRoute
+        )
+        if (status === 200) {
+          const resp = JSON.parse(body)
+          if (resp && resp['payload']){
+            context['todo_id'] = resp['payload']['id']
+            created.item+=1
+          }else{
+            noId.item+=1
+          }
+        }
+      }
     },{
       method: 'GET',
       setupRequest:(req, context)=>({
@@ -78,15 +121,11 @@ const loadTest = autocannon({
         }
       }),
       onResponse:(status, body, context)=>{
-        if (status === 200) {
-          const resp = JSON.parse(body)
-          if (resp && resp['payload']){
-            context['todo_id'] = resp['payload']['id']
-            created.item+=1
-          }else{
-            noId.item+=1
-          }
-        }
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          `GET/todos/{list_id}/items`,
+          statusByRoute
+        )
       }
     }
   ]

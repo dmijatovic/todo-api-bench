@@ -37,6 +37,20 @@ module.exports = {
       console.log("Saved to lowdb json file")
     }
   },
+  writeStatusByRoute:(status,route,statusByRoute)=>{
+    if (statusByRoute[route]){
+      if (statusByRoute[route][status]){
+        // increase for one
+        statusByRoute[route][status]+=1
+      }else{
+        statusByRoute[route][status]=1
+      }
+    }else{
+      statusByRoute[route]={};
+      statusByRoute[route][status]=1;
+    }
+    return statusByRoute
+  },
   // settings
   settings:{
     //default url (actix)
@@ -52,6 +66,17 @@ module.exports = {
     "title":"Todo item",
     "checked": false
   },
+  todoItemForList:(lid=1)=>({
+    list_id:lid,
+    title:"New item title from autocannon",
+    checked: false
+  }),
+  todoItemUpdate:(lid=1,id=1)=>({
+    id,
+    list_id:lid,
+    title:"Updated item title from autocannon",
+    checked: true
+  }),
   //hasura GraphQL queries
   qql:{
     getTodoList:{

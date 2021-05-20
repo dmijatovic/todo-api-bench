@@ -1,0 +1,47 @@
+version: '3'
+services:
+  pgdb:
+    container_name: pgdb
+    # use latest official postgres version
+    image: "postgres:12-alpine"
+    env_file:
+      # configure postgres
+      - ../postgres/database.env
+    expose:
+      - "5432"
+    volumes:
+      # persist data even if container shuts down
+      - pgdb:/var/lib/postgresql/data/
+      # run init sql script to create tables
+      - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - net
+
+  todo-api:
+    container_name: todo-api
+    build: .
+    image: dv4all/todo-nanoexpress-api:0.0.6
+    environment:
+      API_PORT: 8089
+      API_NAME: todo-nanoexpress-api
+      PG_HOST: pgdb
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASS: changeme
+      PG_DB: todo_db
+      PG_POOL_MAX_SIZE: 30
+    expose:
+      - "5432"
+    ports:
+      - "8089:8089"
+    networks:
+      - net
+    depends_on:
+      - pgdb
+
+networks:
+  net:
+
+# named volumes can be managed easier using docker-compose
+volumes:
+  pgdb:

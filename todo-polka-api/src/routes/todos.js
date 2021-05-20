@@ -60,10 +60,33 @@ function getTodoItems(req, res){
     })
 }
 
-function addTodoItem(req, res){
+function getTodoItem(req, res){
+  const {id} = req.params
+  return db.GetTodoItem(id)
+    .then(data=>{
+      // console.log("data received...", data)
+      resp.respOK(res,data)
+    })
+    .catch(err=>{
+      resp.respErr(res,500,err.message)
+    })
+}
+
+function getTodoList(req, res){
   const {lid} = req.params
+  return db.GetTodoList(lid)
+    .then(data=>{
+      // console.log("data received...", data)
+      resp.respOK(res,data)
+    })
+    .catch(err=>{
+      resp.respErr(res,500,err.message)
+    })
+}
+
+function addTodoItem(req, res){
   const todo = req.body
-  return db.AddTodoItem(lid, todo)
+  return db.AddTodoItem(todo)
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)
@@ -74,8 +97,12 @@ function addTodoItem(req, res){
 }
 
 function updateTodoItem(req, res){
+  const {id} = req.query
   const todo = req.body
-  return db.UpdateTodoItem(todo)
+  return db.UpdateTodoItem({
+    ...todo,
+    id
+  })
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)
@@ -99,10 +126,12 @@ function deleteTodoItem(req, res){
 
 module.exports={
   getAllTodoLists,
+  getTodoList,
   addTodoList,
   updateTodoList,
   deleteTodoList,
   getTodoItems,
+  getTodoItem,
   addTodoItem,
   updateTodoItem,
   deleteTodoItem

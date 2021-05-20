@@ -30,6 +30,21 @@ docker-compose down --volumes
 take_a_break 5
 
 # ---------------------
+# DOTNET load test
+# start express api
+cd ../todo-dotnet-api
+docker-compose up -d
+# wait
+take_a_break 45
+# run load test
+loadtest test:dotnet-mssql
+# close docker
+cd ../todo-dotnet-api
+docker-compose down --volumes
+# wait
+take_a_break 5
+
+# ---------------------
 # EXPRESS load test
 # start express api
 cd ../todo-express-api
@@ -115,6 +130,21 @@ take_a_break 45
 loadtest test:go-mux
 # close docker
 cd ../todo-mux-api
+docker-compose down --volumes
+# wait
+take_a_break 5
+
+# ---------------------
+# NANOEXPRESS load test
+# start express api
+cd ../todo-nanoexpress-api
+docker-compose up -d
+# wait
+take_a_break 45
+# run load test
+loadtest test:js-nanoexpress
+# close docker
+cd ../todo-nanoexpress-api
 docker-compose down --volumes
 # wait
 take_a_break 5
