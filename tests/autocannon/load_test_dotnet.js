@@ -16,7 +16,7 @@ const created={
 let statusByRoute={}
 
 // get test title from env
-const TEST_TITLE = "dotnet-mysql-todo"
+const TEST_TITLE = "dotnet-mssql-todo"
 // update base url from env
 utils.settings.url = "http://localhost:5000"
 
