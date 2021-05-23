@@ -75,6 +75,21 @@ docker-compose down --volumes
 take_a_break 5
 
 # ---------------------
+# FASTIFY load test
+# start fastify api
+cd ../todo-fastify-api
+docker-compose up -d
+# wait
+take_a_break 45
+# run load test
+loadtest test:js-fastify
+# close docker
+cd ../todo-fastify-api
+docker-compose down --volumes
+# wait
+take_a_break 5
+
+# ---------------------
 # FIBER load test
 # start fiber api
 cd ../todo-fiber-api
