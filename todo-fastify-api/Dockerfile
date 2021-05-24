@@ -1,27 +1,17 @@
-FROM node:12-alpine3.12 as build
+FROM node:12-buster-slim as build
 
 WORKDIR /home/dv4all
 
 COPY ./package*.json ./
-
 RUN npm install
 
 COPY . .
-
-# RUN npm test
 RUN npm run build
 
-FROM alpine:3.12
+FROM node:12-buster-slim
 
 WORKDIR /home/dv4all
 
-RUN apk add --no-cache nodejs
-
 COPY --from=build /home/dv4all/dist .
 
-EXPOSE 5432
-
 CMD ["node","index.js"]
-
-
-
