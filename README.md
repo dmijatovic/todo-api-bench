@@ -28,8 +28,8 @@ Below it the overview of tested techologies and my personal opinion. The perform
 | todo-hasura-api  | Haskel/GraphQL | hasura      | fair        | easy | ??          | 4       |
 | todo-mux-api     | Golang         | net/http    | good        | hard | 14          | 3       |
 | todo-nanoexpress | NodeJS         | nanoexpress | excellent   | easy | 160 - 210   | 1       |
-| todo-oak-api     | Deno           | oak         | very good   | fair | 131         | 2       |
-| todo-polka-api   | NodeJS         | polka       | very good   | fair | 40          | 2       |
+| todo-oak-api     | Deno           | oak         | very good   | fair | 130         | 2       |
+| todo-polka-api   | NodeJS         | polka       | very good   | fair | 40 - 200    | 2       |
 
 \*\* Docker image size produced by Dockerfile used for the benchmark run. Miminal size achieved using alpine (or from scratch) but in some cases that had impact on maximum performance
 
