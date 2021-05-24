@@ -19,11 +19,11 @@ services:
 
   todo-api:
     container_name: todo-api
-    # smaller image does not impact performance
+    # scratch image does not impact performance
     build:
       context: .
-      dockerfile: Dockerfile_minimal
-    image: dv4all/todo-actix-api:0.0.8
+      dockerfile: Dockerfile_scratch
+    image: dv4all/todo-actix-api:0.0.9
     environment:
       SERVER.HOST: 0.0.0.0
       SERVER.PORT: 8080
