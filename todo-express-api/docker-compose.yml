@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   pgdb:
     container_name: pgdb
@@ -19,8 +19,9 @@ services:
 
   todo-api:
     container_name: todo-api
+    # alpine image impacts node performance
     build: .
-    image: dv4all/todo-express-api:0.0.3
+    image: dv4all/todo-express-api:0.0.5
     environment:
       API_PORT: 8084
       API_NAME: todo-express-api
