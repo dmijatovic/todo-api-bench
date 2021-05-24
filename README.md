@@ -20,16 +20,16 @@ Below it the overview of tested techologies and my personal opinion. The perform
 | ---------------- | -------------- | ----------- | ----------- | ---- | ----------- | ------- |
 | todo-actix-api   | Rust           | actix-web   | excellent   | hard | 10 - 80     | 1       |
 | todo-dotnet-api  | C# dotnet MS   | Entity      | fair        | hard | 215 - 1000  | 5       |
-| todo-express-api | NodeJS         | express     | good/fair   | easy | 40 - 200    | 3       |
-| todo-fast-api    | Python         | fastapi     | very/good   | fair | 300         | 2       |
+| todo-express-api | NodeJS         | express     | good        | easy | 40 - 200    | 3       |
+| todo-fast-api    | Python         | fastapi     | good        | fair | 300         | 2       |
 | todo-fastify-api | NodeJS         | fastify     | excellent   | easy | 40 - 200    | 1       |
-| todo-fiber-api   | Golang         | fiber       | very/good   | fair | 16          | 2       |
+| todo-fiber-api   | Golang         | fiber       | good        | fair | 16          | 2       |
 | todo-flask-api   | Python         | flask       | fair        | easy | 70          | 4       |
 | todo-hasura-api  | Haskel/GraphQL | hasura      | fair        | easy | ??          | 4       |
 | todo-mux-api     | Golang         | net/http    | good        | hard | 14          | 3       |
-| todo-nanoexpress | NodeJS         | nanoexpress | excellent   | easy | 160 - 210   | 1       |
-| todo-oak-api     | Deno           | oak         | very good   | fair | 130         | 2       |
-| todo-polka-api   | NodeJS         | polka       | very good   | fair | 40 - 200    | 2       |
+| todo-nanoexpress | NodeJS         | nanoexpress | excellent   | fair | 160 - 210   | 1       |
+| todo-oak-api     | Deno           | oak         | good        | fair | 131         | 2       |
+| todo-polka-api   | NodeJS         | polka       | excellent   | fair | 40          | 2       |
 
 \*\* Docker image size produced by Dockerfile used for the benchmark run. Minimal image size is achieved using alpine but it has impact on the maximum performance of node libraries (fastify and express). It seems that maximal performance with node libraries and reasonable image size is achieved using node-debian-slim as base image.
 
@@ -41,7 +41,7 @@ Below it the overview of tested techologies and my personal opinion. The perform
 - `Deno`: It is new technology recently moved to version 1. Most popular choice medio 2020 seem to be [Oak](https://github.com/oakserver/oak) http server.
 - `Python`: [Flask](https://flask.palletsprojects.com/en/1.1.x/) is popular basic web server widely used. [FastApi](https://github.com/tiangolo/fastapi) is marked as the fastest python library for api's. My tests confirm that FastApi is significantly faster than flask.
 - `GraphQL`: is alternative approach to standard REST api architecture. All other api's use REST approach. [Hasura](https://hasura.io/docs/1.0/graphql/manual/index.html) api, which is Haskel/GraphQL/Postgres implementation, implements the GraphQL endpoint and offers basic CRUD operations out of the box. It was quite easy to implement basic CRUD operations with Hasura. The performance is lower, which I expected, and the amount of traffic is significantly higher, which was surpring to me.
-- `dotnet core (C#)`: I created dotnet core api using Udemy training. It uses modern async approach. However is uses Entity framework and MSSQL as backend instead of Postgres. The performance was bellow my expectations. I assume that performance bottleneck is MSSQL but I have not had time (yet) to swap MSSQL with Postgres. In addition, I am not sure how many dotnet users do use Postgres. I assume that mainstram approach with C# is to use MSSQL, and that exactly why I choose MSSQL. It is more practical benchmark instead of searching for max performance. Anyway I expected better results from compiled, strongly typed language (again I think MSSQL is the performance bottleneck).
+- `dotnet and C#`: I created dotnet core api using Udemy training. It uses modern async approach. However is uses Entity framework and MSSQL as backend instead of Postgres. The performance was bellow my expectations. I assume that performance bottleneck is MSSQL but I have not had time (yet) to swap MSSQL with Postgres. In addition, I am not sure how many dotnet users do use Postgres. I assume that mainstram approach with C# is to use MSSQL, and that's exactly why I used MSSQL. It is more practical benchmark instead of one searching for the maxium performance. Anyway, I expected better results from compiled, strongly typed language (I think MS-SQL is the performance bottleneck).
 
 ## What these load test results mean actually (?)
 
@@ -64,9 +64,8 @@ The absolute scores/numbers per machine are different, but `rust api using actix
 The scores from my dell-xps-2018 laptop are shown in the image below. An interactive version of this chart with more scores is available on `http://localhost:3000` (NextJS app) after runing `npm run dev` in the tests folder. Of course this means that you first need to clone this repo locally on your machine :-).
 
 <br/><br/>
-
-<img src="tests/report/dell-xps-2018-i7-8550U-lm19.png">
 Benchmark results on Dell XPS i7-8550U (Linux Mint 19)
+<img src="tests/report/dell-xps-2018-i7-8550U-lm19.png">
 <br/><br/>
 
 Based on the load tests outcomes and my experience trying the new languages Golang and Rust I decided to invest more time in learning Rust rather than Golang. But I must admit that Golang seem to be easier to learn and faster in compiling than Rust.
@@ -74,10 +73,8 @@ Based on the load tests outcomes and my experience trying the new languages Gola
 Another pleasent surprise is Fastify. It performs very well, on AMD Ryzen machine it maches the rust-actix api performance and on Intel seem to be the second best performer in most cases. It is becoming very populair in the Node community and with good reason. Definetly word checking it if you are using node ecosystem.
 
 <br/><br/>
-
-<img src="tests/report/lm20-2020-R9-3900X.png">
 Benchmark results on AMD Ryzen 9 3900X machine (Linux Mint 20)
-
+<img src="tests/report/lm20-2020-R9-3900X.png">
 <br/><br/>
 
 ## Development
