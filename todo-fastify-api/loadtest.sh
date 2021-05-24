@@ -6,9 +6,9 @@ echo "wait 30 sec. for container to settle"
 sleep 30
 # run load test
 cd ../tests
-npm run test:js-nanoexpress
+npm run test:js-fastify
 # close solution and clear volumes
-cd ../todo-nanoexpress-api
+cd ../todo-fastify-api
 docker-compose down --volumes
 # notify
 echo "Load test completed..."

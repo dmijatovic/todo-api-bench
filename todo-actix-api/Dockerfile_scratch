@@ -1,4 +1,4 @@
-FROM rust:1.45 as build
+FROM rust:1.52 as build
 
 # set working directory
 # this need to be in usr somehow to work when comipiling for scratch container
@@ -8,7 +8,7 @@ WORKDIR /usr/src
 
 # Prepare for static linking
 # we need to update and upgrade
-# then install musl-tools (required bu brotli used by actix)
+# then install musl-tools (required by brotli used by actix)
 # define target to linux-musl
 RUN apt-get update && \
     apt-get dist-upgrade -y && \
@@ -34,6 +34,7 @@ RUN cargo install --target x86_64-unknown-linux-musl --path .
 # Copy created executable to an empty Docker image
 # if you have some static files/data you would also
 # need to copy that (this project doesn't)
+# it produces ~ 10MB image
 FROM scratch
 # copy app executable
 COPY --from=build /usr/local/cargo/bin/todo-actix .

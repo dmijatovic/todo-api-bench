@@ -19,8 +19,11 @@ services:
 
   todo-api:
     container_name: todo-api
-    build: .
-    image: dv4all/todo-actix-api:0.0.5
+    # smaller image does not impact performance
+    build:
+      context: .
+      dockerfile: Dockerfile_debian
+    image: dv4all/todo-actix-api:0.0.9
     environment:
       SERVER.HOST: 0.0.0.0
       SERVER.PORT: 8080

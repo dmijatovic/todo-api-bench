@@ -18,31 +18,30 @@ Below it the overview of tested techologies and my personal opinion. The perform
 
 | Api              | Langauge       | Library     | Performance | Ease | Size MB\*\* | My Rank |
 | ---------------- | -------------- | ----------- | ----------- | ---- | ----------- | ------- |
-| todo-actix-api   | Rust           | actix-web   | excellent   | hard | 10          | 1       |
-| todo-express-api | NodeJS         | express     | good/fair   | easy | 40          | 3       |
-| todo-fast-api    | Python         | fastapi     | very/good   | fair | 300         | 2       |
-| todo-fiber-api   | Golang         | fiber       | very/good   | fair | 16          | 2       |
+| todo-actix-api   | Rust           | actix-web   | excellent   | hard | 10 - 80     | 1       |
+| todo-dotnet-api  | C# dotnet MS   | Entity      | fair        | hard | 215 - 1000  | 5       |
+| todo-express-api | NodeJS         | express     | good        | easy | 40 - 200    | 3       |
+| todo-fast-api    | Python         | fastapi     | good        | fair | 300         | 2       |
+| todo-fastify-api | NodeJS         | fastify     | excellent   | easy | 40 - 200    | 1       |
+| todo-fiber-api   | Golang         | fiber       | good        | fair | 16          | 2       |
 | todo-flask-api   | Python         | flask       | fair        | easy | 70          | 4       |
-| todo-hasura-api  | Haskel/GraphQL | hasura      | fair        | easy |             | 4       |
+| todo-hasura-api  | Haskel/GraphQL | hasura      | fair        | easy | ??          | 4       |
 | todo-mux-api     | Golang         | net/http    | good        | hard | 14          | 3       |
-| todo-nanoexpress | NodeJS         | nanoexpress | excellent   | easy | 210         | 1       |
-| todo-oak-api     | Deno           | oak         | very good   | fair | 131         | 2       |
-| todo-polka-api   | NodeJS         | polka       | very good   | fair | 40          | 2       |
+| todo-nanoexpress | NodeJS         | nanoexpress | excellent   | fair | 160 - 210   | 1       |
+| todo-oak-api     | Deno           | oak         | good        | fair | 131         | 2       |
+| todo-polka-api   | NodeJS         | polka       | excellent   | fair | 40          | 2       |
 
-\*\* Docker image size produced by Dockerfile used for the benchmark run
+\*\* Docker image size produced by Dockerfile used for the benchmark run. Minimal image size is achieved using alpine but it has impact on the maximum performance of node libraries (fastify and express). It seems that maximal performance with node libraries and reasonable image size is achieved using node-debian-slim as base image.
 
 ### Links to used libraries
 
 - `Golang`: Default [net/http](https://golang.org/pkg/net/http/) library is used and [fiber](https://github.com/gofiber/fiber) which advertise itself to be very fast and uses kind-of-express-way approach (easy to switch from NodeJS/Express).
 - `Rust`: [Actix-web](https://github.com/actix/actix-web) is popular in Rust world and achieves the highest performance scores in the [benchmark](https://www.techempower.com/benchmarks/#section=data-r0&hw=ph&test=composite&a=2). In my load tests too it is the fastest api library.
-- `NodeJS`: [Polka](https://github.com/lukeed/polka) seem to be advertised as the fastest NodeJS web server. [Express](https://expressjs.com/) is used as a benchmark to Polka and as most popular node api server. Later is [nanoexpress](https://github.com/nanoexpress/nanoexpress) added as new fast solution.
+- `NodeJS`: [Polka](https://github.com/lukeed/polka) seem to be advertised as the fastest NodeJS web server. [Express](https://expressjs.com/) is used as a benchmark to Polka and as most popular node api server. Later is [nanoexpress](https://github.com/nanoexpress/nanoexpress) added as new fast solution. Last node library added is [fastify](https://www.fastify.io/). It achieved excellent results!
 - `Deno`: It is new technology recently moved to version 1. Most popular choice medio 2020 seem to be [Oak](https://github.com/oakserver/oak) http server.
 - `Python`: [Flask](https://flask.palletsprojects.com/en/1.1.x/) is popular basic web server widely used. [FastApi](https://github.com/tiangolo/fastapi) is marked as the fastest python library for api's. My tests confirm that FastApi is significantly faster than flask.
 - `GraphQL`: is alternative approach to standard REST api architecture. All other api's use REST approach. [Hasura](https://hasura.io/docs/1.0/graphql/manual/index.html) api, which is Haskel/GraphQL/Postgres implementation, implements the GraphQL endpoint and offers basic CRUD operations out of the box. It was quite easy to implement basic CRUD operations with Hasura. The performance is lower, which I expected, and the amount of traffic is significantly higher, which was surpring to me.
-
-## Other (for me) interesting technologies not (yet) tested
-
-- `dotnet core (C#)`: I need to further investigate appropriate approach and create api. It would be great if someone with the knowledge of C# could contribute this todo-api :-).
+- `dotnet and C#`: I created dotnet core api using Udemy training. It uses modern async approach. However is uses Entity framework and MSSQL as backend instead of Postgres. The performance was bellow my expectations. I assume that performance bottleneck is MSSQL but I have not had time (yet) to swap MSSQL with Postgres. In addition, I am not sure how many dotnet users do use Postgres. I assume that mainstram approach with C# is to use MSSQL, and that's exactly why I used MSSQL. It is more practical benchmark instead of one searching for the maxium performance. Anyway, I expected better results from compiled, strongly typed language (I think MS-SQL is the performance bottleneck).
 
 ## What these load test results mean actually (?)
 
@@ -56,20 +55,29 @@ Load tests of each solution give the `combined performance result` which include
 
 ## Conclusion
 
-I runned load tests on 3 machines (2 laptops and 1 desktop) for all api's. All machines use Linux OS (Ubuntu/Linux Mint). The results are saved in the separate branches with the name of the machine (eg. dell-xps-2018...). I noticed slight differences in the ranking between used hardware/machine. This is a bit surprising. It looks to me that different programming languages and maybe(?) libraries utilize specific hardware better. In addition, it could be that my knowledge of specific library is limited and has influence on the scores. As an example, see the image below where the performance of FastApi significantly improves (run 9+) after tweaking api for the number of workers used on the specific machine (dell-xps-2018). Fluctuations in actix-api are also partially caused by experimenting with the number of used workers. I noticed that different number of workers produces the highest score on different machines/hardware.
+I runned load tests on 4 machines (2 laptops and 2 desktop) for all api's. All machines use Linux OS (Ubuntu/Linux Mint). The results are saved in the separate branches with the name of the machine (eg. dell-xps-2018...). I noticed slight differences in the ranking between used hardware/machine. This is a bit surprising. It looks to me that different programming languages and libraries utilize specific hardware better. The biggest difference I noticed is performance difference between Intel machines and AMD Ryzen machine. Actix and Dotnet show better performance on the Intel processors.
 
-The absolute scores/numbers per machine are different of course, but `rust api using actix-web is clearly the fastest and python/flask api is the slowest on all tested machines`. NodeJS (polka, express), Deno (oak) and Golang api's (fiber and standard http/mux) are in the middle of the chart. Surprisingly Python FastAPI seem to be performing very close to Golang and NodeJS/Deno api's after I optimized the number of workers. There might be some room to improve performance of Golang api's too but my knowledge of Golang at this moment is fairly limited.
+In addition, my knowledge of specific library is limited and can influence the scores. As an example the performance of FastApi significantly improved (from 50k to 90k) after tweaking api for the number of workers used on a specific machine (dell-xps-2018). Similair fluctuations in actix-api were also caused by experimenting with the number of used workers. I also noticed that the different number of workers produces the highest score on different machines/hardware. Setting number of workers to higher number does not yield the better score all the time.
+
+The absolute scores/numbers per machine are different, but `rust api using actix-web is clearly one of the fastest and python/flask, hasura and dotnet are the slowest`. NodeJS (polka, express), Deno (oak) and Golang api's (fiber and standard http/mux) are in the middle of the chart. Surprisingly Python FastAPI seem to be performing very close to Golang and NodeJS/Deno api's after I optimized the number of workers. There might be some room to improve performance of Golang api's too but my knowledge of Golang at the moment is fairly limited.
 
 The scores from my dell-xps-2018 laptop are shown in the image below. An interactive version of this chart with more scores is available on `http://localhost:3000` (NextJS app) after runing `npm run dev` in the tests folder. Of course this means that you first need to clone this repo locally on your machine :-).
-<br/><br/>
-
-<img src="tests/report/todo-api-loadtest-dell-xps-200817.png">
 
 <br/><br/>
+Benchmark results on Dell XPS i7-8550U (Linux Mint 19)
+<img src="tests/report/dell-xps-2018-i7-8550U-lm19.png">
+<br/><br/>
 
-Based on the load tests outcomes and my experience trying new languages Golang and Rust I decided to invest more time in learning Rust rather than Golang. But I must admit that Golang seem to be easier to learn and faster in compiling than Rust.
+Based on the load tests outcomes and my experience trying the new languages Golang and Rust I decided to invest more time in learning Rust rather than Golang. But I must admit that Golang seem to be easier to learn and faster in compiling than Rust.
 
-# Development
+Another pleasent surprise is Fastify. It performs very well, on AMD Ryzen machine it maches the rust-actix api performance and on Intel seem to be the second best performer in most cases. It is becoming very populair in the Node community and with good reason. Definetly word checking it if you are using node ecosystem.
+
+<br/><br/>
+Benchmark results on AMD Ryzen 9 3900X machine (Linux Mint 20)
+<img src="tests/report/lm20-2020-R9-3900X.png">
+<br/><br/>
+
+## Development
 
 This repo requires `docker and docker-compose` to run todo api's. For running load test and viewing simple table results you need `nodejs and npm`.
 
