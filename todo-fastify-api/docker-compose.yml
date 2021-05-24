@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   pgdb:
     container_name: pgdb
@@ -19,6 +19,7 @@ services:
 
   todo-api:
     container_name: todo-api
+    # alpine image impacts node performance
     build: .
     image: dv4all/todo-fastify-api:0.0.3
     environment:
