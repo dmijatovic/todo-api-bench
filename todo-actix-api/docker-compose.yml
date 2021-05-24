@@ -20,7 +20,9 @@ services:
   todo-api:
     container_name: todo-api
     # smaller image does not impact performance
-    build: ./Dockerfile_minimal
+    build:
+      context: .
+      dockerfile: Dockerfile_minimal
     image: dv4all/todo-actix-api:0.0.8
     environment:
       SERVER.HOST: 0.0.0.0
