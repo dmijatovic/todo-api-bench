@@ -20,7 +20,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-fastify-api:0.0.2
+    image: dv4all/todo-fastify-api:0.0.3
     environment:
       API_PORT: 8080
       API_NAME: todo-fastify-api
