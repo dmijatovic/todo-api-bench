@@ -18,7 +18,6 @@ function buildTable(info){
   return tbl
 }
 
-
 const options = {
   title:{
     text:"Todo api load test (60sec)",
