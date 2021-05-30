@@ -1,0 +1,7 @@
+node_modules
+postgres
+auth
+.gitgnore
+dist
+.vscode
+deps

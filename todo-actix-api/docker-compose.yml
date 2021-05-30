@@ -16,16 +16,14 @@ services:
       - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - net
-    deploy:
-      resources:
-        limits:
-          memory: "512M"
-          cpus: "2"
 
   todo-api:
     container_name: todo-api
-    build: .
-    image: dv4all/todo-actix-api:0.0.3
+    # smaller image does not impact performance
+    build:
+      context: .
+      dockerfile: Dockerfile_debian
+    image: dv4all/todo-actix-api:0.0.9
     environment:
       SERVER.HOST: 0.0.0.0
       SERVER.PORT: 8080
@@ -42,11 +40,6 @@ services:
       - net
     depends_on:
       - pgdb
-    deploy:
-      resources:
-        limits:
-          memory: "512M"
-          cpus: "2"
 
 networks:
   net:

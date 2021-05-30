@@ -1,22 +1,22 @@
 // system
 use std::io;
 // third party
-use actix_web::{HttpServer, App};
 use actix_web::middleware::Logger;
+use actix_web::{App, HttpServer};
 
 // local modules
 mod config;
-mod models;
-mod handlers;
 mod db;
 mod errors;
+mod handlers;
+mod models;
 
 use dotenv::dotenv;
 use tokio_postgres::NoTls;
 // use crate::handlers::*;
 
 #[actix_rt::main]
-async fn main() -> io::Result<()>{
+async fn main() -> io::Result<()> {
   // load env variables
   dotenv().ok();
   let config = crate::config::Config::from_env().unwrap();
@@ -29,7 +29,10 @@ async fn main() -> io::Result<()>{
   env_logger::init();
 
   //start server
-  println!("Starting server on http://{}:{} using {} workers",config.server.host,config.server.port, config.server.workers);
+  println!(
+    "Starting server on http://{}:{} using {} workers",
+    config.server.host, config.server.port, config.server.workers
+  );
 
   HttpServer::new(move || {
     App::new()
@@ -39,12 +42,14 @@ async fn main() -> io::Result<()>{
       .service(handlers::create_todo_list)
       .service(handlers::update_todo_list)
       .service(handlers::get_todo_lists)
+      .service(handlers::get_todo_list)
       .service(handlers::get_list_items)
-      .service(handlers::create_todo_item)
-      .service(handlers::check_todo_item)
+      .service(handlers::update_todo_item)
       .service(handlers::delete_todo_item)
+      .service(handlers::get_todo_item)
+      .service(handlers::create_todo_item)
   })
-  .bind(format!("{}:{}",config.server.host,config.server.port))?
+  .bind(format!("{}:{}", config.server.host, config.server.port))?
   .workers(config.server.workers.into())
   .run()
   .await

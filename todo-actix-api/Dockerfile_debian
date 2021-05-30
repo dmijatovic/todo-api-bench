@@ -1,4 +1,4 @@
-FROM rust:1.45-slim as build
+FROM rust:1.52-slim as build
 
 WORKDIR /home/build
 
@@ -12,6 +12,9 @@ FROM debian:10-slim
 WORKDIR /home/dv4all
 
 COPY --from=build /home/build/target/release/todo-actix /home/dv4all/
+
+# root user
+USER 1000
 
 CMD ["/home/dv4all/todo-actix"]
 
