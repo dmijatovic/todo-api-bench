@@ -21,9 +21,9 @@ services:
     container_name: todo-api
     # alpine image impacts node performance
     build: .
-    image: dv4all/todo-fastify-api:0.0.3
+    image: dv4all/todo-fastify-api:0.0.4
     environment:
-      API_PORT: 8080
+      API_PORT: 8090
       API_NAME: todo-fastify-api
       PG_HOST: pgdb
       PG_PORT: 5432
@@ -34,7 +34,7 @@ services:
     expose:
       - "5432"
     ports:
-      - "8080:8080"
+      - "8090:8090"
     networks:
       - net
     depends_on:

@@ -154,8 +154,8 @@ take_a_break 5
 # start express api
 cd ../todo-nanoexpress-api
 docker-compose up -d
-# wait
-take_a_break 30
+# wait - seem to need more time to spanup
+take_a_break 45
 # run load test
 loadtest test:js-nanoexpress
 # close docker

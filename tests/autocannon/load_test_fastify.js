@@ -16,7 +16,7 @@ let statusByRoute={}
 // get test title from env
 const TEST_TITLE = "todo-fastify-api"
 // update base url from env
-utils.settings.url = "http://localhost:8080"
+utils.settings.url = "http://localhost:8090"
 
 function saveResults(err, result){
   if (abort===true) {
