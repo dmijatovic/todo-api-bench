@@ -13,8 +13,8 @@ function buildTable(info){
       <tr><td class="tooltip-lbl">Connections</td><td>${info.connections}</td></tr>
       <tr><td class="tooltip-lbl">System</td><td>${info?.system}</td></tr>
       <tr><td class="tooltip-lbl">Cores</td><td>${info?.coreCnt}</td></tr>
-      <tr><td class="tooltip-lbl">Speed before</td><td>${info?.speedBefore}</td></tr>
-      <tr><td class="tooltip-lbl">Speed before</td><td>${info?.speedAfter}</td></tr>
+      <tr><td class="tooltip-lbl">Before test</td><td>${info?.speedBefore}</td></tr>
+      <tr><td class="tooltip-lbl">After test</td><td>${info?.speedAfter}</td></tr>
       <tr><td class="tooltip-lbl">Start time</td><td>${info?.start}</td></tr>
       <tr><td class="tooltip-lbl">End time</td><td>${info?.finish}</td></tr>
     </table>
