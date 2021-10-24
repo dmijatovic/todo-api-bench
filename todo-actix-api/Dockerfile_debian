@@ -13,7 +13,9 @@ WORKDIR /home/dv4all
 
 COPY --from=build /home/build/target/release/todo-actix /home/dv4all/
 
-USER root
+# USER root
+# root user
+USER 1000
 
 CMD ["/home/dv4all/todo-actix"]
 
