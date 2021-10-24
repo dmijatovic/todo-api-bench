@@ -1,3 +1,4 @@
+const os = require('os')
 const fs = require('fs')
 const ldb = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
@@ -6,6 +7,7 @@ const adapter = new FileSync('./report/db.json')
 const db = ldb(adapter)
 
 module.exports = {
+  system: os.cpus()[0].model,
   saveToJsonFile: (err, result)=>{
     if (err) {
       console.error(err)
