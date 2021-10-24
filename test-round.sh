@@ -20,7 +20,7 @@ take_a_break(){
 cd todo-actix-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load test
 loadtest test:rs-actix
 # close docker
@@ -34,8 +34,8 @@ take_a_break 5
 # start express api
 cd ../todo-dotnet-api
 docker-compose up -d
-# wait
-take_a_break 45
+# wait - needs more time to spanup
+take_a_break 60
 # run load test
 loadtest test:dotnet-mssql
 # close docker
@@ -50,7 +50,7 @@ take_a_break 5
 cd ../todo-express-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load test
 loadtest test:js-express
 # close docker
@@ -65,7 +65,7 @@ take_a_break 5
 cd ../todo-fast-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:py-fast
 # close docker
@@ -80,7 +80,7 @@ take_a_break 5
 cd ../todo-fastify-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load test
 loadtest test:js-fastify
 # close docker
@@ -95,7 +95,7 @@ take_a_break 5
 cd ../todo-fiber-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:go-fiber
 # close docker
@@ -110,7 +110,7 @@ take_a_break 5
 cd ../todo-flask-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:py-flask
 # close docker
@@ -124,8 +124,8 @@ take_a_break 5
 # start polka api
 cd ../todo-hasura-api
 docker-compose up -d
-# wait
-take_a_break 45
+# wait - hasura needs more time to spanup all containers
+take_a_break 60
 # run load tests
 loadtest test:ql-hasura
 # close docker
@@ -140,7 +140,7 @@ take_a_break 5
 cd ../todo-mux-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:go-mux
 # close docker
@@ -155,7 +155,7 @@ take_a_break 5
 cd ../todo-nanoexpress-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load test
 loadtest test:js-nanoexpress
 # close docker
@@ -170,7 +170,7 @@ take_a_break 5
 cd ../todo-oak-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:ts-oak
 # close docker
@@ -185,7 +185,7 @@ take_a_break 5
 cd ../todo-polka-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:js-polka
 # close docker
@@ -198,7 +198,7 @@ docker-compose down --volumes
 cd ../todo-supabase-api
 docker-compose up -d
 # wait
-take_a_break 45
+take_a_break 30
 # run load tests
 loadtest test:supabase-api
 # close docker

@@ -16,20 +16,21 @@ Api server is an important part of the backend solution. Another important part 
 
 Below it the overview of tested techologies and my personal opinion. The performance is rated on 5-point scale: excellent, very good, good, fair and poor. Note! that **I have not rated any of api's to have poor performance**. The ease of creating the api is rated on 4-point scale: easy, fair, hard and very hard. Rust was without doubt the hardest api for me to develop. For me was Golang lot easier to learn.
 
-| Api              | Langauge       | Library     | Performance | Ease | Size MB\*\* | My Rank |
-| ---------------- | -------------- | ----------- | ----------- | ---- | ----------- | ------- |
-| todo-actix-api   | Rust           | actix-web   | excellent   | hard | 10 - 80     | 1       |
-| todo-dotnet-api  | C# dotnet MS   | Entity      | fair        | hard | 215 - 1000  | 5       |
-| todo-express-api | NodeJS         | express     | good        | easy | 40 - 200    | 3       |
-| todo-fast-api    | Python         | fastapi     | good        | fair | 300         | 2       |
-| todo-fastify-api | NodeJS         | fastify     | excellent   | easy | 40 - 200    | 1       |
-| todo-fiber-api   | Golang         | fiber       | good        | fair | 16          | 2       |
-| todo-flask-api   | Python         | flask       | fair        | easy | 70          | 4       |
-| todo-hasura-api  | Haskel/GraphQL | hasura      | fair        | easy | ??          | 4       |
-| todo-mux-api     | Golang         | net/http    | good        | hard | 14          | 3       |
-| todo-nanoexpress | NodeJS         | nanoexpress | excellent   | fair | 160 - 210   | 1       |
-| todo-oak-api     | Deno           | oak         | good        | fair | 131         | 2       |
-| todo-polka-api   | NodeJS         | polka       | excellent   | fair | 40          | 2       |
+| Api               | Langauge       | Library     | Performance | Ease | Size MB\*\* | My Rank |
+| ----------------- | -------------- | ----------- | ----------- | ---- | ----------- | ------- |
+| todo-actix-api    | Rust           | actix-web   | excellent   | hard | 10 - 80     | 1       |
+| todo-dotnet-api   | C# dotnet MS   | Entity      | fair        | hard | 215 - 1000  | 5       |
+| todo-express-api  | NodeJS         | express     | good        | easy | 40 - 200    | 3       |
+| todo-fast-api     | Python         | fastapi     | good        | fair | 300         | 2       |
+| todo-fastify-api  | NodeJS         | fastify     | very good   | easy | 40 - 200    | 1       |
+| todo-fiber-api    | Golang         | fiber       | good        | fair | 16          | 2       |
+| todo-flask-api    | Python         | flask       | fair        | easy | 70          | 4       |
+| todo-hasura-api   | Haskel/GraphQL | hasura      | fair        | easy | ??          | 4       |
+| todo-mux-api      | Golang         | net/http    | good        | hard | 14          | 3       |
+| todo-nanoexpress  | NodeJS         | nanoexpress | very good   | fair | 160 - 210   | 1       |
+| todo-oak-api      | Deno           | oak         | good        | fair | 131         | 2       |
+| todo-polka-api    | NodeJS         | polka       | very good   | fair | 40          | 2       |
+| todo-supabase-api | Haskel         | supabase    | fair        | easy | ??          | 2       |
 
 \*\* Docker image size produced by Dockerfile used for the benchmark run. Minimal image size is achieved using alpine but it has impact on the maximum performance of node libraries (fastify and express). It seems that maximal performance with node libraries and reasonable image size is achieved using node-debian-slim as base image.
 
@@ -41,7 +42,7 @@ Below it the overview of tested techologies and my personal opinion. The perform
 - `Deno`: It is new technology recently moved to version 1. Most popular choice medio 2020 seem to be [Oak](https://github.com/oakserver/oak) http server.
 - `Python`: [Flask](https://flask.palletsprojects.com/en/1.1.x/) is popular basic web server widely used. [FastApi](https://github.com/tiangolo/fastapi) is marked as the fastest python library for api's. My tests confirm that FastApi is significantly faster than flask.
 - `GraphQL`: is alternative approach to standard REST api architecture. All other api's use REST approach. [Hasura](https://hasura.io/docs/1.0/graphql/manual/index.html) api, which is Haskel/GraphQL/Postgres implementation, implements the GraphQL endpoint and offers basic CRUD operations out of the box. It was quite easy to implement basic CRUD operations with Hasura. The performance is lower, which I expected, and the amount of traffic is significantly higher, which was surpring to me.
-- `dotnet and C#`: I created dotnet core api using Udemy training. It uses modern async approach. However is uses Entity framework and MSSQL as backend instead of Postgres. The performance was bellow my expectations. I assume that performance bottleneck is MSSQL but I have not had time (yet) to swap MSSQL with Postgres. In addition, I am not sure how many dotnet users do use Postgres. I assume that mainstram approach with C# is to use MSSQL, and that's exactly why I used MSSQL. It is more practical benchmark instead of one searching for the maxium performance. Anyway, I expected better results from compiled, strongly typed language (I think MS-SQL is the performance bottleneck).
+- `dotnet core and C#`: I created dotnet core api using Udemy training. It uses modern async approach, the Entity framework and MSSQL instead of Postgres. The performance of this stack, in Docker continers, is bellow my expectations. Maybe the performance bottleneck is MSSQL or maybe running on Linux/Docker stack. The mainstram approach with C# is to use MSSQL and run the stack on the windows server. Anyway, I expected better results from compiled, strongly typed language like C# and dotnet core on Linux stack.
 
 ## What these load test results mean actually (?)
 

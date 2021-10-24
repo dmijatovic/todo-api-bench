@@ -7,7 +7,7 @@ const adapter = new FileSync('./report/db.json')
 const db = ldb(adapter)
 
 module.exports = {
-  system: os.cpus()[0].model,
+  system: `${os.cpus()[0]?.model} [${os.cpus()[0]?.speed}MHz]`,
   // settings
   settings:{
     //default url (actix)

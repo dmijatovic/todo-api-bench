@@ -33,7 +33,7 @@ function saveResults(err, result){
     Created:{
       ...created
     },
-    system: settings.system,
+    system: utils.system,
     statusByRoute
   })
 }
