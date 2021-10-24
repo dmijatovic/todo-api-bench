@@ -5,7 +5,7 @@ import EmptyPlaceholder from "../components/EmptyPlaceholder"
 
 export default()=>{
   const [report, _] = useReport()
-  const header=['title','2xx', 'non2xx','duration','connections', 'finish']
+  const header=['title','2xx', 'non2xx','duration','connections','system','coreCnt','speedBefore','speedAfter','finish']
 
   const tableSection = () =>{
     if (!report){

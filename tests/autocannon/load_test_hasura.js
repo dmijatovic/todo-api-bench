@@ -1,5 +1,6 @@
 const autocannon = require('autocannon')
 const utils = require('./utils')
+const saveAllResults = require('./saveResults')
 
 let abort=false
 const noId={
@@ -10,21 +11,24 @@ const created={
   list:0,
   item:0
 }
+let statusByRoute={}
+// record first core speed at the start of test
+const firstCoreStart = {
+  time: new Date().toISOString(),
+  speed: utils.getCoreSpeed(0)
+}
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,{
-    ...result,
-    IdNotRetuned:{
-      ...noId
-    },
-    Created:{
-      ...created
-    },
-    system: utils.system,
+  // save all stats
+  saveAllResults({
+    err,result,
+    noId,created,
+    firstCoreStart,
+    statusByRoute
   })
 }
 
@@ -40,6 +44,13 @@ const loadTest = autocannon({
         'autohorization':'Bearer FAKE_JWT_KEY'
       },
       body:JSON.stringify(utils.qql.getTodoList),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "gql.getTodoList",
+          statusByRoute
+        )
+      }
     },{
       method:'POST',
       path:'/v1/graphql',
@@ -49,6 +60,11 @@ const loadTest = autocannon({
       },
       body:JSON.stringify(utils.qql.addTodoList),
       onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "gql.addTodoList",
+          statusByRoute
+        )
         if (status === 200) {
           const resp = JSON.parse(body)
           if (resp && resp['data']){
@@ -71,7 +87,14 @@ const loadTest = autocannon({
         body:JSON.stringify(utils.qql.updateTodoList(
           context['list_id'],"Autocannon title update")
         )
-      })
+      }),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "gql.updateTodoList",
+          statusByRoute
+        )
+      }
     },{
       method: 'POST',
       path:'/v1/graphql',
@@ -88,6 +111,11 @@ const loadTest = autocannon({
         )),
       }),
       onResponse:(status, body, context)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "gql.addTodoItem",
+          statusByRoute
+        )
         if (status === 200) {
           const resp = JSON.parse(body)
           if (resp && resp['data']){
@@ -110,7 +138,14 @@ const loadTest = autocannon({
         body:JSON.stringify(utils.qql.getTodoItemForList(
           context['list_id']
         ))
-      })
+      }),
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "gql.getTodoItemForList",
+          statusByRoute
+        )
+      }
     },{
       method: 'POST',
       path:'/v1/graphql',
@@ -127,6 +162,13 @@ const loadTest = autocannon({
           },
           body:JSON.stringify(utils.qql.deleteTodoItem(id))
         }
+      },
+      onResponse:(status)=>{
+        statusByRoute = utils.writeStatusByRoute(
+          status,
+          "gql.deleteTodoItem",
+          statusByRoute
+        )
       }
     }
   ]

@@ -1,6 +1,7 @@
 const autocannon = require('autocannon')
 const { settings } = require('./utils')
 const utils = require('./utils')
+const saveAllResults = require('./saveResults')
 
 let abort=false
 const noId={
@@ -18,21 +19,22 @@ let statusByRoute={}
 const TEST_TITLE = "todo-actix-api"
 // update base url from env
 utils.settings.url = "http://localhost:8080"
+// record first core speed at the start of test
+const firstCoreStart = {
+  time: new Date().toISOString(),
+  speed: utils.getCoreSpeed(0)
+}
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,{
-    ...result,
-    IdNotRetuned:{
-      ...noId
-    },
-    Created:{
-      ...created
-    },
-    system: utils.system,
+  // record first core speed at the end of test
+  saveAllResults({
+    err,result,
+    noId,created,
+    firstCoreStart,
     statusByRoute
   })
 }
