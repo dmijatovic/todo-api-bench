@@ -14,9 +14,11 @@ const created={
 let statusByRoute={}
 
 // get test title from env
-const TEST_TITLE = "todo-fastify-api"
+const TEST_TITLE = "todo-supabase-api"
+// supabase requires token
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpYXQiOiAxNjM0NzY3MjAwLAogICAgImV4cCI6IDE3OTI1MzM2MDAKfQ.bo4PuooVKqKLC3C3tKDUQe09LKD04TdWKtJeKrTg5Wc'
 // update base url from env
-utils.settings.url = "http://localhost:8090"
+utils.settings.url = "http://localhost:8000"
 
 function saveResults(err, result){
   if (abort===true) {
@@ -41,56 +43,63 @@ const loadTest = autocannon({
   title:TEST_TITLE,
   requests:[{
       method:'GET',
-      path:'/',
+      path:'/rest/v1/todo_list?limit=50&offset=0',
+      headers:{
+        'apikey': token,
+        'prefer': 'count=exact'
+      },
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "GET/",
+          "GET/todo_list",
           statusByRoute
         )
       }
     },{
       method:'POST',
-      path:'/list',
+      path:'/rest/v1/todo_list',
       headers:{
+        'accept': 'application/json',
         'content-type':'application/json',
-        'autohorization':'Bearer FAKE_JWT_KEY'
+        'apikey': token,
+        'prefer': 'return=representation'
       },
       body:JSON.stringify(utils.todoList),
       onResponse:(status, body, context)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "POST/list",
+          "POST/todo_list",
           statusByRoute
         )
-        if (status === 200) {
+        if (status === 201) {
+          // supbase does not returns the value
           const resp = JSON.parse(body)
-          if (resp && resp['payload']){
-            context['list_id'] = resp['payload']['id']
+          if (resp && resp[0] && resp[0]['id']){
+            context['list_id'] = resp[0]['id']
             created.list+=1
-          } else {
+          }else{
             noId.list+=1
           }
         }
       }
     },{
-      method:'PUT',
+      method:'PATCH',
       setupRequest:(req, context)=>({
         ...req,
-        path:'/list',
+        path:`/rest/v1/todo_list?id=eq.${context['list_id'] || 1}`,
         headers:{
           'content-type':'application/json',
-          'autohorization':'Bearer FAKE_JWT_KEY'
+          'apikey': token,
+          'prefer': 'return=representation'
         },
         body:JSON.stringify({
-          id: context['list_id'],
           title:"Autocannon title update"
         })
       }),
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "PUT/list",
+          "PATCH/todo_list?id=eq.${list_id}",
           statusByRoute
         )
       }
@@ -98,59 +107,65 @@ const loadTest = autocannon({
       method: 'POST',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todo`,
+        path:`/rest/v1/todo_item`,
         headers:{
+          'accept': 'application/json',
           'content-type':'application/json',
-          'autohorization':'Bearer FAKE_JWT_KEY'
+          'apikey': token,
+          'prefer': 'return=representation'
         },
-        body:JSON.stringify(utils.todoItemForList(context['list_id']))
+        body:JSON.stringify(utils.todoItemForList(context['list_id']||1))
       }),
       onResponse:(status, body, context)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "POST/todo",
+          "POST/todo_item",
           statusByRoute
         )
-        if (status === 200) {
+        if (status === 201) {
           const resp = JSON.parse(body)
-          if (resp && resp['payload']){
-            context['todo_id'] = resp['payload']['id']
+          if (resp && resp[0] && resp[0]['id']){
+            context['todo_id'] = resp[0]['id']
             created.item+=1
           }else{
             noId.item+=1
           }
-        }else{
-          context['todo_id'] = 1;
         }
       }
     },{
       setupRequest:(req, context)=>({
         ...req,
-        method:'PUT',
-        path:`/todo/${context['todo_id']}`,
+        method:'PATCH',
+        path:`/rest/v1/todo_item?id=eq.${context['todo_id']||1}`,
         headers:{
+          'accept': 'application/json',
           'content-type':'application/json',
-          'autohorization':'Bearer FAKE_JWT_KEY'
+          'apikey': token,
+          'prefer': 'return=representation'
         },
-        body:JSON.stringify(utils.todoItemUpdate(
-          context['list_id'],
-          context['todo_id']
-        ))
+        body:JSON.stringify({
+          // PATCH supports sigle update
+          checked:true
+        })
       }),
       onResponse:(status, body, context)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          `PUT/todo/{todo_id}`,
+          "PATCH/todo_item?id=eq.${todo_id}",
           statusByRoute
         )
       }
     },{
       method:'GET',
-      path:'/list',
+      path:'/rest/v1/todo_item?limit=50&offset=0',
+      headers:{
+        'apikey': token,
+        'prefer': 'count=exact'
+      },
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "GET/list",
+          "GET/todo_item",
           statusByRoute
         )
       }
@@ -158,16 +173,16 @@ const loadTest = autocannon({
       method: 'GET',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todo/list/${context['list_id']}`,
+        path:`/rest/v1/todo_item?list_id=eq.${context['list_id']||1}&limit=50`,
         headers:{
-          'content-type':'application/json',
-          'autohorization':'Bearer FAKE_JWT_KEY'
-        }
+          'apikey': token,
+          'prefer': 'count=exact'
+        },
       }),
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "GET/todo/list/{list_id}",
+          "GET/todo_item?list_id=eq.${list_id}",
           statusByRoute
         )
       }
@@ -175,16 +190,16 @@ const loadTest = autocannon({
       method: 'GET',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todo/${context['todo_id']}`,
+        path:`/rest/v1/todo_item?id=eq.${context['todo_id']||1}`,
         headers:{
-          'content-type':'application/json',
-          'autohorization':'Bearer FAKE_JWT_KEY'
-        }
+          'apikey': token,
+          'prefer': 'count=exact'
+        },
       }),
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "GET/todo/{todo_id}",
+          "GET/todo_item?id=eq.${todo_id}",
           statusByRoute
         )
       }
@@ -192,16 +207,16 @@ const loadTest = autocannon({
       method:"DELETE",
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todo/${context['todo_id']}`,
+        path:`/rest/v1/todo_item?id=eq.${context['todo_id']||1}`,
         headers:{
-          'content-type':'application/json',
-          'autohorization':'Bearer FAKE_JWT_KEY'
-        }
+          'apikey': token,
+          'prefer': 'count=exact'
+        },
       }),
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "DELETE/todo/{todo_id}",
+          "DELETE/todo_item?id=eq.${todo_id}",
           statusByRoute
         )
       }

@@ -1,4 +1,5 @@
 const autocannon = require('autocannon')
+const { settings } = require('./utils')
 const utils = require('./utils')
 
 let abort=false
@@ -31,6 +32,7 @@ function saveResults(err, result){
     Created:{
       ...created
     },
+    system: utils.system,
     statusByRoute
   })
 }

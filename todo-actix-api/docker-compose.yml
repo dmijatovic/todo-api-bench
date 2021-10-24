@@ -19,9 +19,10 @@ services:
 
   todo-api:
     container_name: todo-api
-    # smaller image does not impact performance
+    # scratch image does not impact performance
     build:
       context: .
+      # dockerfile: Dockerfile_scratch
       dockerfile: Dockerfile_debian
     image: dv4all/todo-actix-api:0.0.9
     environment:

@@ -11,6 +11,7 @@ function buildTable(info){
       <tr><td class="tooltip-lbl">Latency (mean)</td><td>${info['latency']['mean']} ms</td></tr>
       <tr><td class="tooltip-lbl">Duration</td><td>${info.duration}</td></tr>
       <tr><td class="tooltip-lbl">Connections</td><td>${info.connections}</td></tr>
+      <tr><td class="tooltip-lbl">System</td><td>${info?.system}</td></tr>
     </table>
   `
   // <tr><td class="tooltip-lbl">Timeouts</td><td>${info.timeouts}</td></tr>

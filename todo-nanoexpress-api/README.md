@@ -37,7 +37,7 @@ cd ../tests
 # OPTIONAL: if not installed run npm install
 
 # run test
-npm run test:js-express
+npm run test:js-nanoexpress
 
 # see reports on localhost:3000
 npm run dev

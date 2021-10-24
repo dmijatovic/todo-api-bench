@@ -1,3 +1,4 @@
+const os = require('os')
 const fs = require('fs')
 const ldb = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
@@ -6,6 +7,14 @@ const adapter = new FileSync('./report/db.json')
 const db = ldb(adapter)
 
 module.exports = {
+  system: `${os.cpus()[0]?.model} [${os.cpus()[0]?.speed}MHz]`,
+  // settings
+  settings:{
+    //default url (actix)
+    url:"http://localhost:8080",
+    connections:10,
+    duration:30,
+  },
   saveToJsonFile: (err, result)=>{
     if (err) {
       console.error(err)
@@ -50,13 +59,6 @@ module.exports = {
       statusByRoute[route][status]=1;
     }
     return statusByRoute
-  },
-  // settings
-  settings:{
-    //default url (actix)
-    url:"http://localhost:8080",
-    connections:10,
-    duration:30,
   },
   // Test data for post and put
   todoList:{
