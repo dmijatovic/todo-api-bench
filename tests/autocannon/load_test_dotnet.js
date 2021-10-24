@@ -1,7 +1,6 @@
 const autocannon = require('autocannon')
 const utils = require('./utils')
-// const todos = require("./todos")
-const getEnv = require("../utils/getEnv")
+const saveAllResults = require('./saveResults')
 
 let abort=false
 const noId={
@@ -16,24 +15,25 @@ const created={
 let statusByRoute={}
 
 // get test title from env
-const TEST_TITLE = "dotnet-mssql-todo"
+const TEST_TITLE = "todo-dotnet-api"
 // update base url from env
 utils.settings.url = "http://localhost:5000"
+// record first core speed at the start of test
+const firstCoreStart = {
+  time: new Date().toISOString(),
+  speed: utils.getCoreSpeed(0)
+}
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,{
-    ...result,
-    IdNotRetuned:{
-      ...noId
-    },
-    Created:{
-      ...created
-    },
-    system: utils.system,
+  // save all stats
+  saveAllResults({
+    err,result,
+    noId,created,
+    firstCoreStart,
     statusByRoute
   })
 }

@@ -1,5 +1,6 @@
 const autocannon = require('autocannon')
 const utils = require('./utils')
+const saveAllResults = require('./saveResults')
 
 let abort=false
 const noId={
@@ -19,21 +20,22 @@ const TEST_TITLE = "todo-supabase-api"
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpYXQiOiAxNjM0NzY3MjAwLAogICAgImV4cCI6IDE3OTI1MzM2MDAKfQ.bo4PuooVKqKLC3C3tKDUQe09LKD04TdWKtJeKrTg5Wc'
 // update base url from env
 utils.settings.url = "http://localhost:8000"
+// record first core speed at the start of test
+const firstCoreStart = {
+  time: new Date().toISOString(),
+  speed: utils.getCoreSpeed(0)
+}
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,{
-    ...result,
-    IdNotRetuned:{
-      ...noId
-    },
-    Created:{
-      ...created
-    },
-    system: utils.system,
+  // save all stats
+  saveAllResults({
+    err,result,
+    noId,created,
+    firstCoreStart,
     statusByRoute
   })
 }

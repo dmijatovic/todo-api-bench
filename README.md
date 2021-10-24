@@ -21,16 +21,16 @@ Below it the overview of tested techologies and my personal opinion. The perform
 | todo-actix-api    | Rust           | actix-web   | excellent   | hard | 10 - 80     | 1       |
 | todo-dotnet-api   | C# dotnet MS   | Entity      | fair        | hard | 215 - 1000  | 5       |
 | todo-express-api  | NodeJS         | express     | good        | easy | 40 - 200    | 3       |
-| todo-fast-api     | Python         | fastapi     | good        | fair | 300         | 2       |
+| todo-fast-api     | Python         | fastapi     | good        | fair | 300         | 3       |
 | todo-fastify-api  | NodeJS         | fastify     | very good   | easy | 40 - 200    | 1       |
-| todo-fiber-api    | Golang         | fiber       | good        | fair | 16          | 2       |
+| todo-fiber-api    | Golang         | fiber       | good        | fair | 16          | 3       |
 | todo-flask-api    | Python         | flask       | fair        | easy | 70          | 4       |
 | todo-hasura-api   | Haskel/GraphQL | hasura      | fair        | easy | ??          | 4       |
-| todo-mux-api      | Golang         | net/http    | good        | hard | 14          | 3       |
-| todo-nanoexpress  | NodeJS         | nanoexpress | very good   | fair | 160 - 210   | 1       |
+| todo-mux-api      | Golang         | net/http    | good        | hard | 14          | 4       |
+| todo-nanoexpress  | NodeJS         | nanoexpress | very good   | fair | 160 - 210   | 3       |
 | todo-oak-api      | Deno           | oak         | good        | fair | 131         | 2       |
 | todo-polka-api    | NodeJS         | polka       | very good   | fair | 40          | 2       |
-| todo-supabase-api | Haskel         | supabase    | fair        | easy | ??          | 2       |
+| todo-supabase-api | Haskel         | supabase    | fair        | easy | ??          | 3       |
 
 \*\* Docker image size produced by Dockerfile used for the benchmark run. Minimal image size is achieved using alpine but it has impact on the maximum performance of node libraries (fastify and express). It seems that maximal performance with node libraries and reasonable image size is achieved using node-debian-slim as base image.
 

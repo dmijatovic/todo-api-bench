@@ -7,13 +7,17 @@ const adapter = new FileSync('./report/db.json')
 const db = ldb(adapter)
 
 module.exports = {
-  system: `${os.cpus()[0]?.model} [${os.cpus()[0]?.speed}MHz]`,
   // settings
   settings:{
     //default url (actix)
     url:"http://localhost:8080",
     connections:10,
     duration:30,
+  },
+  system: `${os.cpus()[0]?.model}`,
+  coreCnt: os.cpus()?.length,
+  getCoreSpeed:(core=0)=>{
+    return os.cpus()[core]?.speed
   },
   saveToJsonFile: (err, result)=>{
     if (err) {
