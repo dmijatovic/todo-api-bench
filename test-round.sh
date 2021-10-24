@@ -191,6 +191,8 @@ loadtest test:js-polka
 # close docker
 cd ../todo-polka-api
 docker-compose down --volumes
+# wait
+take_a_break 5
 
 # ---------------------
 # Supabase load test
