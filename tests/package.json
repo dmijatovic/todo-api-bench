@@ -15,6 +15,7 @@
     "test:py-fast": "node autocannon/load_test_fastapi.js",
     "test:go-fiber": "node autocannon/load_test_fiber.js",
     "test:py-flask": "node autocannon/load_test_flask.js",
+    "test:js-h3": "node autocannon/load_test_h3.js",
     "test:ql-hasura": "node autocannon/load_test_hasura.js",
     "test:go-mux": "node autocannon/load_test_mux.js",
     "test:ts-oak": "node autocannon/load_test_oak.js",

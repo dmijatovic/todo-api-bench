@@ -2,6 +2,8 @@
 
 This api is build using [nanoexpress node server](https://nanoexpress.js.org/).
 
+NOTE! Nanoexpress is removed from benchmark due to uWebSockets binary dependecy and for me personaly somewhat cumbersome Dockerization steps. It was tested to check if the performance is better than other Node libraries. It appears that the performance is comparable to h3, fastify or polka.
+
 **In select statement there is a LIMIT set to 50 todo list items!**
 
 ## Usage

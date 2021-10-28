@@ -120,6 +120,22 @@ docker-compose down --volumes
 take_a_break 5
 
 # ---------------------
+# H3 load test
+# start h3 api
+cd ../todo-h3-api
+docker-compose up -d
+# wait
+take_a_break 30
+# run load tests
+loadtest test:js-h3
+# close docker
+cd ../todo-h3-api
+docker-compose down --volumes
+# wait
+take_a_break 5
+
+
+# ---------------------
 # Hasura GraphQL load test
 # start polka api
 cd ../todo-hasura-api
@@ -151,18 +167,20 @@ take_a_break 5
 
 # ---------------------
 # NANOEXPRESS load test
+# EXCLUDED because it is not easy crossplatform plugabble
+# and have errors when runned in benchmart
 # start express api
-cd ../todo-nanoexpress-api
-docker-compose up -d
-# wait - seem to need more time to spanup
-take_a_break 45
-# run load test
-loadtest test:js-nanoexpress
-# close docker
-cd ../todo-nanoexpress-api
-docker-compose down --volumes
-# wait
-take_a_break 5
+# cd ../todo-nanoexpress-api
+# docker-compose up -d
+# # wait - seem to need more time to spanup
+# take_a_break 45
+# # run load test
+# loadtest test:js-nanoexpress
+# # close docker
+# cd ../todo-nanoexpress-api
+# docker-compose down --volumes
+# # wait
+# take_a_break 5
 
 # ---------------------
 # DENO OAK load test
