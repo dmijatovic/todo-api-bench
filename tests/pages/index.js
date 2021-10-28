@@ -50,7 +50,7 @@ function HomePage() {
         You can clone this repo and run all load tests on your own. There is a shell
         script in the root of the repo that will run one round of tests for all api's once.
         Your figures will high likely be different. I excpect that running this benchmark on different machines
-        and processors will provide us some interessing insights!
+        and processors will provide us some interessting insights!
       </p>
     </article>
   )
