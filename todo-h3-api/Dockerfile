@@ -1,4 +1,4 @@
-FROM node:12-buster-slim as build
+FROM node:16-buster-slim as build
 
 WORKDIR /home/dv4all
 
@@ -8,8 +8,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# node:12 on debian:10
-FROM node:12-buster-slim
+# node:16 on debian:10
+FROM node:16-buster-slim
 
 WORKDIR /home/dv4all
 

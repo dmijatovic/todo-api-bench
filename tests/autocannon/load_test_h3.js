@@ -16,7 +16,7 @@ let statusByRoute={}
 // get test title from env
 const TEST_TITLE = "todo-h3-api"
 // update base url from env
-utils.settings.url = "http://localhost:8081"
+utils.settings.url = "http://localhost:8091"
 
 function saveResults(err, result){
   if (abort===true) {

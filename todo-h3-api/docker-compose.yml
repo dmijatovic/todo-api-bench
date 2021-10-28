@@ -20,9 +20,9 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-h3-api:0.0.1
+    image: dv4all/todo-h3-api:0.0.3
     environment:
-      API_PORT: 8081
+      API_PORT: 8091
       API_NAME: todo-h3-api
       PG_HOST: pgdb
       PG_PORT: 5432
@@ -31,7 +31,7 @@ services:
       PG_DB: todo_db
       PG_POOL_MAX_SIZE: 30
     ports:
-      - "8081:8081"
+      - "8091:8091"
     networks:
       - net
     depends_on:

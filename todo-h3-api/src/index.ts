@@ -14,38 +14,38 @@ import {
   DeleteTodoItem
 } from './db/todos'
 
-const PORT = getEnv("PORT","8081")
+const PORT = getEnv("API_PORT","8091")
 
 const app = createApp()
 
 app.use(loggerMiddleware)
 
-app.useAsync("/list",GetAllTodoLists,
+app.use("/list",GetAllTodoLists,
   {match:(url,req) => req?.method==="GET"}
 )
-app.useAsync("/list", AddTodoList,
+app.use("/list", AddTodoList,
   {match:(url,req) => req?.method==="POST"}
 )
-app.useAsync("/list", UpdateTodoList,
+app.use("/list", UpdateTodoList,
   {match:(url,req) => req?.method==="PUT"}
 )
-app.useAsync("/todo/list", GetTodoItems,
+app.use("/todo/list", GetTodoItems,
   {match:(url,req) => req?.method==="GET"}
 )
-app.useAsync("/todo", GetTodoItem,
+app.use("/todo", GetTodoItem,
   {match:(url,req) => req?.method==="GET"}
 )
-app.useAsync("/todo", AddTodoItem,
+app.use("/todo", AddTodoItem,
   {match:(url,req) => req?.method==="POST"}
 )
-app.useAsync("/todo", UpdateTodoItem,
+app.use("/todo", UpdateTodoItem,
   {match:(url,req) => req?.method==="PUT"}
 )
-app.useAsync("/todo", DeleteTodoItem,
+app.use("/todo", DeleteTodoItem,
   {match:(url,req) => req?.method==="DELETE"}
 )
 
-app.useAsync("/",()=>{
+app.use("/",()=>{
   return {
     message:"h3 api server active!"
   }

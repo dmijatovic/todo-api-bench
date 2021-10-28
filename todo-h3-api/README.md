@@ -6,7 +6,7 @@ This api is build using [h3 node server](https://github.com/unjs/h3).
 
 ## Usage
 
-To start the todo api use docker-compose file. The api should be available on localhost:8083 by default.
+To start the todo api use docker-compose file. The api should be available on localhost:8091 by default.
 
 ```bash
 
