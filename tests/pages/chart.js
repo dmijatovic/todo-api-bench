@@ -18,7 +18,7 @@ export default(props)=>{
     }else{
       return <ReportChart
         className="hc-chart-section"
-        options={getOptions(report)} />
+        options={getOptions(report, 60)} />
     }
   }
 

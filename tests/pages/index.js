@@ -19,7 +19,7 @@ function HomePage() {
     }else{
       return <ReportChart
         className="hc-chart-section"
-        options={getOptions(report,30)} />
+        options={getOptions(report,60)} />
     }
   }
 
@@ -49,9 +49,8 @@ function HomePage() {
       <p>
         You can clone this repo and run all load tests on your own. There is a shell
         script in the root of the repo that will run one round of tests for all api's once.
-        Your figures will high likely be different but I would expect the order to be
-        similair. If this is not the case then there might be a connection
-        between machine (processor) and the framework performance?!?
+        Your figures will high likely be different. I excpect that running this benchmark on different machines
+        and processors will provide us some interessing insights!
       </p>
     </article>
   )

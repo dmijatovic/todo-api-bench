@@ -82,10 +82,9 @@ const options = {
  */
 export function getOptions(report=[], testTime=30){
   const categories={}, cat=[], series=[]
-
+  // console.log("getOptions.testTime...", testTime)
   // convert data to tools
   report.filter(({duration})=>{
-      // debugger
       return (parseInt(duration) === testTime)
     }).forEach(item=>{
     //extract title for key

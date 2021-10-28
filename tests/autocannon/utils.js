@@ -12,7 +12,7 @@ module.exports = {
     //default url (actix)
     url:"http://localhost:8080",
     connections:10,
-    duration:3,
+    duration:60,
   },
   system: `${os.cpus()[0]?.model}`,
   coreCnt: os.cpus()?.length,
