@@ -107,10 +107,16 @@ export function getOptions(report=[], testTime=30){
     //categories
     const item = categories[key]
     // cat.push(key)
-    //series
+    // debugger
+    // series
     series.push({
       type:"line",
       name:key,
+      // dataSorting:{
+      //   enabled:true,
+      //   matchByName: true,
+      //   // sortKey: 'value'
+      // },
       data: item.data,
       report: item.src
     })
