@@ -20,6 +20,7 @@
     "test:go-mux": "node autocannon/load_test_mux.js",
     "test:ts-oak": "node autocannon/load_test_oak.js",
     "test:js-polka": "node autocannon/load_test_polka.js",
+    "test:postgrest-api": "node autocannon/load_test_postgrest.js",
     "test:supabase-api": "node autocannon/load_test_supabase.js",
     "dev": "next",
     "build": "next build",

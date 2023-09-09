@@ -1,0 +1,45 @@
+version: "3"
+services:
+  pgdb:
+    container_name: pgdb
+    # use latest official postgres version
+    image: "postgres:15.3"
+    env_file:
+      # configure postgres
+      - ../postgres/database.env
+    # expose:
+    #   - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      # persist data even if container shuts down
+      - pgdb:/var/lib/postgresql/data/
+      # run init sql script to create tables
+      - ../postgres/init-postgrest.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - net
+
+  todo-api:
+    image: postgrest/postgrest
+    # env_file:
+    #   # configure postgres
+    #   - ../postgres/database.env
+    ports:
+      - "8000:8000"
+    networks:
+      - net
+    environment:
+      # PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@pgdb:5432/${POSTGRES_DB}
+      PGRST_DB_URI: postgres://authenticator:changeme@pgdb:5432/todo_db
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://127.0.0.1:8000
+      PGRST_DB_ANON_ROLE: api_anon
+      PGRST_SERVER_PORT: 8000
+    depends_on:
+      - pgdb
+
+networks:
+  net:
+
+# named volumes can be managed easier using docker-compose
+volumes:
+  pgdb:

@@ -29,20 +29,20 @@ docker-compose down --volumes
 # wait
 take_a_break 5
 
-# ---------------------
-# DOTNET load test
-# start express api
-cd ../todo-dotnet-api
-docker-compose up -d
-# wait - needs more time to spanup
-take_a_break 60
-# run load test
-loadtest test:dotnet-mssql
-# close docker
-cd ../todo-dotnet-api
-docker-compose down --volumes
-# wait
-take_a_break 5
+# # ---------------------
+# # DOTNET load test
+# # start express api
+# cd ../todo-dotnet-api
+# docker-compose up -d
+# # wait - needs more time to spanup
+# take_a_break 60
+# # run load test
+# loadtest test:dotnet-mssql
+# # close docker
+# cd ../todo-dotnet-api
+# docker-compose down --volumes
+# # wait
+# take_a_break 5
 
 # ---------------------
 # EXPRESS load test
@@ -59,20 +59,20 @@ docker-compose down --volumes
 # wait
 take_a_break 5
 
-# ---------------------
-# FASTAPI load test
-# start fast api
-cd ../todo-fast-api
-docker-compose up -d
-# wait
-take_a_break 30
-# run load tests
-loadtest test:py-fast
-# close docker
-cd ../todo-fast-api
-docker-compose down --volumes
-# wait
-take_a_break 5
+# # ---------------------
+# # FASTAPI load test
+# # start fast api
+# cd ../todo-fast-api
+# docker-compose up -d
+# # wait
+# take_a_break 30
+# # run load tests
+# loadtest test:py-fast
+# # close docker
+# cd ../todo-fast-api
+# docker-compose down --volumes
+# # wait
+# take_a_break 5
 
 # ---------------------
 # FASTIFY load test
@@ -107,17 +107,17 @@ take_a_break 5
 # ---------------------
 # FLASK load test
 # start flask api
-cd ../todo-flask-api
-docker-compose up -d
-# wait
-take_a_break 30
-# run load tests
-loadtest test:py-flask
-# close docker
-cd ../todo-flask-api
-docker-compose down --volumes
-# wait
-take_a_break 5
+# cd ../todo-flask-api
+# docker-compose up -d
+# # wait
+# take_a_break 30
+# # run load tests
+# loadtest test:py-flask
+# # close docker
+# cd ../todo-flask-api
+# docker-compose down --volumes
+# # wait
+# take_a_break 5
 
 # ---------------------
 # H3 load test
@@ -213,15 +213,33 @@ docker-compose down --volumes
 take_a_break 5
 
 # ---------------------
-# Supabase load test
-# start polka api
-cd ../todo-supabase-api
+# Haskel Postgrest load test
+# start postgrest api
+cd ../todo-postgrest-api
 docker-compose up -d
 # wait
 take_a_break 30
 # run load tests
-loadtest test:supabase-api
+loadtest test:postgrest-api
 # close docker
-cd ../todo-supabase-api
+cd ../todo-postgrest-api
 docker-compose down --volumes
+# wait
+# take_a_break 5
+# notify
+echo "All load tests completed..."
+
+# # ---------------------
+# # Supabase load test
+# # start polka api
+# cd ../todo-supabase-api
+# docker-compose up -d
+# # wait
+# take_a_break 30
+# # run load tests
+# loadtest test:supabase-api
+# # close docker
+# cd ../todo-supabase-api
+# docker-compose down --volumes
+
 
