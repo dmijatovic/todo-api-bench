@@ -1,0 +1,31 @@
+FROM golang:1.21 AS build
+
+# install build tools
+# RUN apk add --update gcc musl-dev
+
+WORKDIR /app
+
+COPY . .
+
+RUN go build -o=todoapi
+
+# RELEASE image - 132MB
+# there is a problem when using multiple processes in fiber on DEBIAN image
+# https://github.com/gofiber/fiber/issues/1036
+FROM debian:12
+
+# RUN apt update && \
+  # apt install curl -y
+
+WORKDIR /app
+
+COPY --from=build /app/todoapi /app/
+COPY ./static /app/static
+
+EXPOSE 5432
+
+# use pid=host to avoid fiber "bug" when using multiple processes
+# CMD pid=host ./todoapi
+ENTRYPOINT ["/app/todoapi"]
+
+

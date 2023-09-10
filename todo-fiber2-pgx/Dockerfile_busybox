@@ -1,0 +1,24 @@
+FROM golang:1.21 AS build
+
+# install build tools
+# RUN apk add --update gcc musl-dev
+
+WORKDIR /app
+
+COPY . .
+
+RUN go build -o=todoapi
+
+# RELEASE image - 20MB
+# ADD pid:host when running fiber in prefork (multiple processes) mode!!!
+FROM busybox
+
+WORKDIR /app
+
+COPY --from=build /app/todoapi /app/
+COPY ./static /app/static/
+
+EXPOSE 5432
+# EXPOSE 8080
+
+ENTRYPOINT ["/app/todoapi"]
