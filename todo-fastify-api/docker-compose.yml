@@ -3,7 +3,7 @@ services:
   pgdb:
     container_name: pgdb
     # use latest official postgres version
-    image: "postgres:12-alpine"
+    image: "postgres:15.3"
     env_file:
       # configure postgres
       - ../postgres/database.env

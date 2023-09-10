@@ -20,14 +20,14 @@ take_a_break(){
 cd todo-actix-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load test
 loadtest test:rs-actix
 # close docker
 cd ../todo-actix-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # # ---------------------
 # # DOTNET load test
@@ -50,29 +50,29 @@ take_a_break 5
 cd ../todo-express-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load test
 loadtest test:js-express
 # close docker
 cd ../todo-express-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # # ---------------------
 # # FASTAPI load test
 # # start fast api
-# cd ../todo-fast-api
-# docker-compose up -d
-# # wait
-# take_a_break 30
-# # run load tests
-# loadtest test:py-fast
-# # close docker
-# cd ../todo-fast-api
-# docker-compose down --volumes
-# # wait
-# take_a_break 5
+cd ../todo-fast-api
+docker-compose up -d
+# wait
+take_a_break 20
+# run load tests
+loadtest test:py-fast
+# close docker
+cd ../todo-fast-api
+docker-compose down --volumes
+# wait
+take_a_break 10
 
 # ---------------------
 # FASTIFY load test
@@ -80,14 +80,14 @@ take_a_break 5
 cd ../todo-fastify-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load test
 loadtest test:js-fastify
 # close docker
 cd ../todo-fastify-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # ---------------------
 # FIBER load test
@@ -95,29 +95,29 @@ take_a_break 5
 cd ../todo-fiber-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load tests
 loadtest test:go-fiber
 # close docker
 cd ../todo-fiber-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # ---------------------
 # FLASK load test
 # start flask api
-# cd ../todo-flask-api
-# docker-compose up -d
-# # wait
-# take_a_break 30
-# # run load tests
-# loadtest test:py-flask
-# # close docker
-# cd ../todo-flask-api
-# docker-compose down --volumes
-# # wait
-# take_a_break 5
+cd ../todo-flask-api
+docker-compose up -d
+# wait
+take_a_break 20
+# run load tests
+loadtest test:py-flask
+# close docker
+cd ../todo-flask-api
+docker-compose down --volumes
+# wait
+take_a_break 10
 
 # ---------------------
 # H3 load test
@@ -125,14 +125,14 @@ take_a_break 5
 cd ../todo-h3-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load tests
 loadtest test:js-h3
 # close docker
 cd ../todo-h3-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 
 # ---------------------
@@ -148,7 +148,7 @@ loadtest test:ql-hasura
 cd ../todo-hasura-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # ---------------------
 # GO MUX load test
@@ -156,14 +156,14 @@ take_a_break 5
 cd ../todo-mux-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load tests
 loadtest test:go-mux
 # close docker
 cd ../todo-mux-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # ---------------------
 # NANOEXPRESS load test
@@ -188,14 +188,14 @@ take_a_break 5
 cd ../todo-oak-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load tests
 loadtest test:ts-oak
 # close docker
 cd ../todo-oak-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # ---------------------
 # Node Polka load test
@@ -203,14 +203,14 @@ take_a_break 5
 cd ../todo-polka-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load tests
 loadtest test:js-polka
 # close docker
 cd ../todo-polka-api
 docker-compose down --volumes
 # wait
-take_a_break 5
+take_a_break 10
 
 # ---------------------
 # Haskel Postgrest load test
@@ -218,7 +218,7 @@ take_a_break 5
 cd ../todo-postgrest-api
 docker-compose up -d
 # wait
-take_a_break 30
+take_a_break 20
 # run load tests
 loadtest test:postgrest-api
 # close docker
@@ -241,5 +241,3 @@ echo "All load tests completed..."
 # # close docker
 # cd ../todo-supabase-api
 # docker-compose down --volumes
-
-
