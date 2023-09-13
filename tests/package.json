@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test:rs-actix": "node autocannon/load_test_actix.js",
+    "test:bun-elysia": "node autocannon/load_test_bun_elysia.js",
     "test:dotnet-mssql": "node autocannon/load_test_dotnet.js",
     "test:js-express": "node autocannon/load_test_express.js",
     "test:py-fast-api": "node autocannon/load_test_fastapi.js",

@@ -29,6 +29,21 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
+# ---------------------
+# BUN elysa load test
+# start api
+cd ../todo-bun-elysia
+docker compose up -d
+# wait
+take_a_break 20
+# run load test
+loadtest test:bun-elysia
+# close docker
+cd ../todo-bun-elysia
+docker compose down --volumes
+# wait
+take_a_break 10
+
 # # ---------------------
 # # DOTNET load test
 # # start express api
