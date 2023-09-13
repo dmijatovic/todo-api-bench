@@ -30,9 +30,10 @@ services:
       API_NAME: todo-api
       API_HOST: 0.0.0.0:8080
       # run multiple processes, default is false
+      # when true uses all cores if API_MAXPROC not defined
       API_PREFORK: true
       # how many child processes to run, total API_MAXPROC + 1
-      API_MAXPROC: 3
+      # API_MAXPROC: 3
       PG_HOST: pgdb
       PG_PORT: 5432
       PG_USER: postgres

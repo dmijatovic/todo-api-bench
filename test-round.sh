@@ -60,6 +60,7 @@ docker compose down --volumes
 take_a_break 10
 
 # DOES NOT work in 2023
+# NOT WORKING ON Mac M2 chip?
 # # # ---------------------
 # # # FASTAPI load test
 # # # start fast api
@@ -197,18 +198,19 @@ take_a_break 10
 # take_a_break 10
 
 # DOES NOT work in 2023
-# # ---------------------
-# # DENO OAK load test
-# # start oak api
+# DOES not work on Mac M2 chip
+# ---------------------
+# DENO OAK load test
+# start oak api
 # cd ../todo-oak-api
-# docker compose up -d
+# docker-compose up -d
 # # wait
 # take_a_break 20
 # # run load tests
 # loadtest test:ts-oak
 # # close docker
 # cd ../todo-oak-api
-# docker compose down --volumes
+# docker-compose down --volumes
 # # wait
 # take_a_break 10
 
