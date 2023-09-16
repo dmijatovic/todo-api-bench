@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	// import postgres driver
 	_ "github.com/lib/pq"
@@ -29,12 +30,17 @@ func ConnectionStr(conf Settings) string {
 
 // Connect to Postgres database
 // func Connect(cfg *Settings) *sql.DB {
-func Connect(cnnStr string) *sql.DB {
+func Connect(cnnStr string, maxCnn int) *sql.DB {
 	// cnnStr := "host=localhost port=5432 user=postgres password=changeme dbname=auth_db sslmode=disable"
 	db, err := sql.Open("postgres", cnnStr)
 	if err != nil {
 		log.Fatal(err)
 	}
+	// set connection pool?!?
+	db.SetMaxOpenConns(maxCnn)
+	// test connection after 10 sec.
+	time.Sleep(time.Second * 10)
+	// try to connect
 	db.Ping()
 	if err != nil {
 		log.Fatal(err)

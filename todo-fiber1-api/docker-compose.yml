@@ -19,17 +19,20 @@ services:
 
   todo-api:
     container_name: todo-api
-    build: .
-    image: dv4all/todo-fiber-api:0.0.3
+    build: 
+      context: .
+      # dockerfile to use for build
+      dockerfile: Dockerfile_scratch
+    image: dv4all/todo-fiber1-api:0.0.2
     environment:
       API_HOST: 0.0.0.0:8082
-      API_NAME: todo-fiber-api
+      API_NAME: todo-fiber1-api
       PG_HOST: pgdb
       PG_PORT: 5432
       PG_USER: postgres
       PG_PASS: changeme
       PG_DB: todo_db
-      # PG_POOL.MAX_SIZE: 30
+      PG_POOL.MAX_SIZE: 30
     ports:
       - "8082:8082"
     networks:

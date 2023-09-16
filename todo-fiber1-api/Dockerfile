@@ -10,6 +10,7 @@ COPY . .
 RUN go build -o=todoapi
 
 # RELEASE image
+# THERE IS A PROBLEM when using multiple processes in fiber on ALPINE image
 FROM alpine:3.12
 
 WORKDIR /home/dv4all

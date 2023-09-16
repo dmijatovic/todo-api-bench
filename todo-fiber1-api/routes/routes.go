@@ -15,7 +15,10 @@ import (
 func Register() error {
 	// get host url and port
 	apiHost := utils.GetEnv("API_HOST", ":8080")
+
 	api := fiber.New()
+	// use multiple processes DOES NOT WORK with docker-compose
+	// api.Settings.Prefork = true
 
 	// basic log middleware comparable with
 	// api.Use(logger.LogMiddleware())

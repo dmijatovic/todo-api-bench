@@ -128,7 +128,7 @@ const loadTest = autocannon({
       setupRequest:(req, context)=>({
         ...req,
         method:'PUT',
-        path:`/todo/${context['todo_id']}`,
+        path:`/todos/item`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
@@ -138,27 +138,27 @@ const loadTest = autocannon({
           context['todo_id']
         ))
       }),
-      onResponse:(status, body, context)=>{
+      onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          `PUT/todo/{todo_id}`,
+          `PUT/todos/item`,
           statusByRoute
         )
       }
     },{
       method:'GET',
-      path:'/list',
+      path:'/todos',
       onResponse:(status)=>{
         statusByRoute = utils.writeStatusByRoute(
           status,
-          "GET/list",
+          "GET/todos",
           statusByRoute
         )
       }
     },{
-      method: 'GET',
       setupRequest:(req, context)=>({
         ...req,
+        method: 'GET',
         path:`/todos/${context['list_id']}/items`,
         headers:{
           'content-type':'application/json',
@@ -173,9 +173,9 @@ const loadTest = autocannon({
         )
       }
     },{
-      method:"DELETE",
       setupRequest: (req, context) => ({
         ...req,
+        method:"DELETE",
         path: `/todos/item/${context['todo_id']}`,
         headers: {
           'content-type': 'application/json',

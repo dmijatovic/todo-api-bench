@@ -22,6 +22,7 @@ func initDB() *sql.DB {
 	pgUser := utils.GetEnv("PG_USER", "postgres")
 	pgPass := utils.GetEnv("PG_PASS", "changeme")
 	pgDb := utils.GetEnv("PG_DB", "todo_db")
+	maxCnn, _ := strconv.Atoi(utils.GetEnv("PG_POOL.MAX_SIZE", "20"))
 	// connect to postgres database
 	cnnStr := pgdb.ConnectionStr(pgdb.Settings{
 		Host:     pgHost,
@@ -31,7 +32,7 @@ func initDB() *sql.DB {
 		Dbname:   pgDb,
 	})
 	// println(cnnStr)
-	db := pgdb.Connect(cnnStr)
+	db := pgdb.Connect(cnnStr, maxCnn)
 	//close connection at the end
 	return db
 }
