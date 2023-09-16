@@ -38,7 +38,7 @@ services:
       PG_USER: postgres
       PG_PASS: changeme
       PG_DB: todo_db
-      # PG_POOL.MAX_SIZE: 30
+      PG_POOL.MAX_SIZE: 30
     ports:
       - "8080:8080"
     networks:

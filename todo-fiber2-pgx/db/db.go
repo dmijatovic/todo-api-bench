@@ -19,6 +19,7 @@ type Settings struct {
 	User     string
 	Password string
 	Dbname   string
+	MaxConns int
 }
 
 var sqlDB *pgxpool.Pool
@@ -26,6 +27,7 @@ var sqlDB *pgxpool.Pool
 func getConnectionStr() string {
 	// extract port from env
 	pgPort, _ := strconv.Atoi(utils.GetEnv("PG_PORT", "5432"))
+	maxCnn, _ := strconv.Atoi(utils.GetEnv("PG_POOL.MAX_SIZE", "20"))
 
 	// constuct configuration
 	cfg := Settings{
@@ -34,12 +36,14 @@ func getConnectionStr() string {
 		User:     utils.GetEnv("PG_USER", "postgres"),
 		Password: utils.GetEnv("PG_PASS", "changeme"),
 		Dbname:   utils.GetEnv("PG_DB", "todo_db"),
+		MaxConns: maxCnn,
 	}
 
 	// build pg connection string
 	// "postgres://username:password@localhost:5432/database_name"
-	cnnStr := fmt.Sprintf("postgres://%v:%v@%v:%v/%v",
-		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Dbname)
+	// "postgres://jack:secret@pg.example.com:5432/mydb?sslmode=verify-ca&pool_max_conns=10"
+	cnnStr := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?pool_max_conns=%v",
+		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Dbname, cfg.MaxConns)
 
 	// return connection string
 	return cnnStr
@@ -47,7 +51,6 @@ func getConnectionStr() string {
 
 func Connect() *pgxpool.Pool {
 	cnnStr := getConnectionStr()
-	// urlExample := "postgres://username:password@localhost:5432/database_name"
 	pgxdb, err := pgxpool.New(context.Background(), cnnStr)
 	// conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
