@@ -196,20 +196,21 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
-# ---------------------
-# GO MUX load test
-# start mux api
-cd ../todo-mux-api
-docker compose up -d
-# wait
-take_a_break 20
-# run load tests
-loadtest test:go-mux
-# close docker
-cd ../todo-mux-api
-docker compose down --volumes
-# wait
-take_a_break 10
+# remove to keep to 12 items
+# # ---------------------
+# # GO MUX load test
+# # start mux api
+# cd ../todo-mux-api
+# docker compose up -d
+# # wait
+# take_a_break 20
+# # run load tests
+# loadtest test:go-mux
+# # close docker
+# cd ../todo-mux-api
+# docker compose down --volumes
+# # wait
+# take_a_break 10
 
 # DOES NOT work in 2023
 # # ---------------------
