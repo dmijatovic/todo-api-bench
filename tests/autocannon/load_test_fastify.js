@@ -17,7 +17,7 @@ let statusByRoute={}
 // get test title from env
 const TEST_TITLE = "todo-fastify-api"
 // update base url from env
-utils.settings.url = "http://localhost:8090"
+utils.settings.url = "http://localhost:8085"
 // record first core speed at the start of test
 const firstCoreStart = {
   time: new Date().toISOString(),
