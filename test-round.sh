@@ -121,7 +121,7 @@ docker compose down --volumes
 take_a_break 10
 
 # ---------------------
-# FIBER v2 load test
+# FIBER v2  pgx load test
 # start fiber api
 cd ../todo-fiber2-pgx
 docker compose up -d
@@ -135,6 +135,20 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
+# ---------------------
+# FIBER v2 pg load test
+# start fiber api
+cd ../todo-fiber2-pg
+docker compose up -d
+# wait
+take_a_break 20
+# run load tests
+loadtest test:go-fiber2-pg
+# close docker
+cd ../todo-fiber2-pg
+docker compose down --volumes
+# wait
+take_a_break 10
 
 # ---------------------
 # FLASK load test

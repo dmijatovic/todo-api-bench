@@ -1,0 +1,55 @@
+version: '3'
+services:
+  pgdb:
+    container_name: pgdb
+    # use latest official postgres version
+    image: "postgres:15.3"
+    env_file:
+      # configure postgres
+      - ./postgres/database.env
+    expose:
+      - "5432"
+    volumes:
+      # persist data even if container shuts down
+      - pgdb:/var/lib/postgresql/data/
+      # run init sql script to create tables
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - net
+
+  todo-api:
+    container_name: todo-api
+    build:
+      context: .
+      # dockerfile to use for build
+      dockerfile: Dockerfile_scratch
+    image: dv4all/todo-fiber2-pg:0.0.1
+    # added to prevent fiber using pid=1 which disables prefork mode!!!
+    pid: host
+    environment:
+      API_NAME: todo-api
+      API_HOST: 0.0.0.0:8081
+      # run multiple processes, default is false
+      # when true uses all cores if API_MAXPROC not defined
+      API_PREFORK: true
+      # how many child processes to run, total API_MAXPROC + 1
+      # API_MAXPROC: 3
+      PG_HOST: pgdb
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASS: changeme
+      PG_DB: todo_db
+      # PG_POOL.MAX_SIZE: 30
+    ports:
+      - "8081:8081"
+    networks:
+      - net
+    depends_on:
+      - pgdb
+
+networks:
+  net:
+
+# named volumes can be managed easier using docker-compose
+volumes:
+  pgdb:

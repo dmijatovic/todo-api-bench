@@ -1,0 +1,29 @@
+## Build
+FROM golang:1.21 AS build
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+
+RUN apt-get update && apt-get install -y dumb-init
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o /todoapi
+
+## Deploy - 36MB image
+FROM gcr.io/distroless/base-debian12
+
+WORKDIR /app
+COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
+COPY --from=build /app/todoapi /app/
+COPY ./static /app/static
+
+EXPOSE 5432
+# use non root use prebaked in the image
+USER nonroot:nonroot
+# use this to ocuppy PID=1 and avoid fiber bug to exit
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+# run app
+CMD ["/app/todoapi"]

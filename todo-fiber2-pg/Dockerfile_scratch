@@ -1,0 +1,32 @@
+FROM golang:1.21 AS build
+
+# install build tools
+# RUN apk add --update gcc musl-dev
+
+WORKDIR /app
+
+COPY . .
+
+# Build standalone executable for use in scratch (no container)!
+RUN CGO_ENABLED=0 go build \
+    -installsuffix 'static' \
+    -o todoapi
+
+# RELEASE image - 16MB
+# CANNOT run fiber in multiple processes!!!
+FROM scratch
+
+WORKDIR /app
+
+# copy compiled file
+COPY --from=build /app/todoapi /app/
+# copy static folder (serving static files)
+COPY ./static /app/static
+
+# port to connect to postgres
+EXPOSE 5432
+# EXPOSE 8080
+
+ENTRYPOINT ["/app/todoapi"]
+# CMD ["/app/todoapi"]
+
