@@ -55,6 +55,9 @@ func Connect() *sql.DB {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
+	// extract max cnn pool from env
+	maxCnn, _ := strconv.Atoi(utils.GetEnv("PG_POOL.MAX_SIZE", "20"))
+	pgdb.SetMaxOpenConns(maxCnn)
 	// test connection after 10 sec.
 	time.Sleep(time.Second * 10)
 	err = pgdb.Ping()
