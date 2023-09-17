@@ -1,6 +1,6 @@
-FROM node:16-buster-slim as build
+FROM node:20-slim as build
 
-WORKDIR /home/dv4all
+WORKDIR /api
 
 COPY ./package*.json ./
 RUN npm install
@@ -9,10 +9,10 @@ COPY . .
 RUN npm run build
 
 # node:16 on debian:10
-FROM node:16-buster-slim
+FROM node:20-slim
 
-WORKDIR /home/dv4all
+WORKDIR /api
 
-COPY --from=build /home/dv4all/dist .
+COPY --from=build /api/dist .
 
 CMD ["node","index.js"]

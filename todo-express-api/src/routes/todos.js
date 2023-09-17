@@ -24,9 +24,10 @@ function addTodoList(req, res){
     })
 }
 
-function updateTodoList(req, res){
+function updateTodoList(req, res) {
+  const {lid} = req.params
   const todolist = req.body
-  return db.UpdateTodoList(todolist)
+  return db.UpdateTodoList(lid,todolist)
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)
@@ -37,8 +38,8 @@ function updateTodoList(req, res){
 }
 
 function deleteTodoList(req, res){
-  const {id} = req.params
-  return db.DeleteTodoList(id)
+  const {lid} = req.params
+  return db.DeleteTodoList(lid)
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)
@@ -77,7 +78,7 @@ function getTodoList(req, res){
   return db.GetTodoList(lid)
     .then(data=>{
       // console.log("data received...", data)
-      resp.respOK(res,data)
+      resp.respOK(res,data[0])
     })
     .catch(err=>{
       resp.respErr(res,500,err.message)
@@ -98,9 +99,10 @@ function addTodoItem(req, res){
     })
 }
 
-function updateTodoItem(req, res){
+function updateTodoItem(req, res) {
+  const {id} = req.params
   const todo = req.body
-  return db.UpdateTodoItem(todo)
+  return db.UpdateTodoItem(id,todo)
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)

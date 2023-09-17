@@ -7,11 +7,7 @@ function writeHead(res, status=200){
 }
 
 function respOK(res, data={}){
-  const json = JSON.stringify({
-    status:200,
-    statusText: "OK",
-    payload: data
-  })
+  const json = JSON.stringify(data)
   writeHead(res,200)
   res.end(json)
 }

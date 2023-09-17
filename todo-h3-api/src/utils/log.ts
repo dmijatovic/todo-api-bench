@@ -10,7 +10,7 @@ export function logError(message="", service="todo-h3-api"){
   process.stderr.write(err)
 }
 
-export function loggerMiddleware(req:IncomingMessage, res:ServerResponse, next:Function){
+export async function loggerMiddleware(req:IncomingMessage, res:ServerResponse, next:Function){
   logInfo(`${req.method} ${res.statusCode} ${req.url}`)
   next()
 }

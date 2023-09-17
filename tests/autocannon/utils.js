@@ -9,6 +9,8 @@ const db = ldb(adapter)
 module.exports = {
   // settings
   settings:{
+    // default title (change)
+    title: "default title",
     //default url (actix)
     url:"http://localhost:8080",
     connections:10,

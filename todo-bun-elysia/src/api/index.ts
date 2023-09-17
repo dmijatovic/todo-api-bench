@@ -1,6 +1,11 @@
 
-import {AddTodoItem, AddTodoList, DeleteTodoItem, DeleteTodoList, GetAllTodoLists, GetTodoItem, GetTodoItems, GetTodoList, UpdateTodoItem, UpdateTodoList} from "../db/todos"
-import { logInfo } from "../utils/log"
+import {
+  AddTodoItem, AddTodoList,
+  DeleteTodoItem, DeleteTodoList,
+  GetAllTodoLists, GetTodoItem,
+  GetTodoItems, GetTodoList,
+  UpdateTodoItem, UpdateTodoList
+} from "../db/todos"
 
 type ApiMessage = {
   set: any,
@@ -19,8 +24,7 @@ function sendError({ set, status=500, message }: ApiMessage) {
 
 export async function getHome() {
   return {
-    status: 200,
-    statusMessage: "Todo Bun Elysia api server running!"
+    status: "OK"
   }
 }
 
@@ -34,11 +38,7 @@ export async function getTodoLists({set}:{set:any}) {
       set.headers['x-powered-by'] = 'bun-elysia-api'
 
       // return data
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -60,11 +60,7 @@ export async function getTodoList({set,params}:{set:any,params:any}) {
     const payload = await GetTodoList(id)
     if (payload) {
       // return data
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -85,11 +81,7 @@ export async function postTodoList({set,body}:{set:any,body:any}) {
     const title = body['title']
     const payload = await AddTodoList(title)
     if (payload) {
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -105,18 +97,15 @@ export async function postTodoList({set,body}:{set:any,body:any}) {
   }
 }
 
-export async function updateTodoList({ set, body }: { set: any, body: any }) {
+export async function updateTodoList({ set, body,params }: { set: any, body: any, params:any }) {
   try {
+    const { id } = params
     const payload = await UpdateTodoList({
-      id: body['id'],
+      id,
       title: body['title']
     })
     if (payload) {
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -138,11 +127,7 @@ export async function deleteTodoList({ set, params }: { set: any, params: any })
     const payload = await DeleteTodoList(id)
     if (payload) {
       // return data
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -164,11 +149,7 @@ export async function getTodoItems({ set, params }: { set: any, params: any }) {
     const payload = await GetTodoItems(id)
     if (payload) {
       // return data
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -184,19 +165,15 @@ export async function getTodoItems({ set, params }: { set: any, params: any }) {
   }
 }
 
-export async function addTodoItem({ set, body, params }: { set: any, body: any, params:any }) {
+export async function addTodoItem({ set, body }: { set: any, body: any}) {
   try {
     const payload = await AddTodoItem({
-      list_id: params['id'],
+      list_id: body['list_id'],
       title: body['title'],
       checked: body['checked']
     })
     if (payload) {
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -218,11 +195,7 @@ export async function getTodoItem({ set, params }: { set: any, params: any }) {
     const payload = await GetTodoItem(id)
     if (payload) {
       // return data
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -247,11 +220,7 @@ export async function updateTodoItem({ set, body, params }: { set: any, body: an
       checked: body['checked']
     })
     if (payload) {
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,
@@ -273,11 +242,7 @@ export async function deleteTodoItem({ set, params }: { set: any, params: any })
     const payload = await DeleteTodoItem(id)
     if (payload) {
       // return data
-      return {
-        status: 200,
-        statusMessage: "OK",
-        payload
-      }
+      return payload
     }
     return sendError({
       set,

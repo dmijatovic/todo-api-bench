@@ -49,7 +49,7 @@ func Start() {
 	app.Use(logger.New())
 
 	//static
-	app.Static("/", "./static")
+	app.Static("/static", "./static")
 
 	// register all other routes
 	registerRoutes(app)
@@ -69,17 +69,24 @@ func Start() {
 }
 
 func registerRoutes(api *fiber.App) {
+	//home
+	api.Get("/", getHome)
+
 	//todo list
 	api.Get("/list", getTodoLists)
 	api.Post("/list", addTodoList)
-	api.Put("/list", updateTodoList)
+	api.Get("/list/:listid", getTodoList)
+	api.Put("/list/:listid", updateTodoList)
 	api.Delete("/list/:listid", deleteTodoList)
 
-	// todo items from specific list
-	api.Get("/todos/list/:listid", getTodoItems)
-	api.Post("/todos/list/:listid", addTodoItem)
+	// todo item
+	api.Post("/todo", addTodoItem)
+	api.Get("/todo/:id", getTodoItem)
 	api.Put("/todo/:id", updateTodoItem)
 	api.Delete("/todo/:id", deleteTodoItem)
+
+	// todo items of list
+	api.Get("/list/:listid/todo", getTodoItems)
 
 	// log this
 	utils.LogOnMainProcess("api.registerRoutes...OK")

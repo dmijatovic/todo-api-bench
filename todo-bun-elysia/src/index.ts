@@ -22,22 +22,23 @@ app.get("/", getHome)
 
 // list
 app.get("/list", getTodoLists)
-app.get("/list/:id", getTodoList)
 app.post("/list", postTodoList)
-app.put("/list", updateTodoList)
+app.get("/list/:id", getTodoList)
+app.put("/list/:id", updateTodoList)
 app.delete("/list/:id", deleteTodoList)
 
 // ITEMS
-// get items of an list
-app.get("/todos/list/:id", getTodoItems)
 // add item to list
-app.post("/todos/list/:id", addTodoItem)
+app.post("/todo", addTodoItem)
 // get item
 app.get("/todo/:id", getTodoItem)
 // update todo item
 app.put("/todo/:id", updateTodoItem)
 // delete todo item
 app.delete("/todo/:id", deleteTodoItem)
+
+// get items of an list
+app.get("/list/:id/todo", getTodoItems)
 
 // start listening
 app.listen(PORT)

@@ -23,6 +23,10 @@ type Response struct {
 	Payload interface{} `json:"payload"`
 }
 
+type Home struct {
+	Status string `json:"status"`
+}
+
 // SetErrorResponse creates standardized api response
 func SetErrorResponse(err error, state ServerStatus) Response {
 	if state.Status == 0 {
@@ -41,14 +45,21 @@ func SetErrorResponse(err error, state ServerStatus) Response {
 }
 
 // SetOKResponse creates standard response with status and payload
-func SetOKResponse(data interface{}) Response {
-	var r Response
+// func SetOKResponse(data interface{}) Response {
+// 	var r Response
 
-	r.Status = 200
-	r.StatusText = "OK"
-	r.Payload = data
+// 	r.Status = 200
+// 	r.StatusText = "OK"
+// 	r.Payload = data
 
-	return r
+// 	return r
+// }
+
+func getHome(ctx *fiber.Ctx) error {
+	ok := Home{
+		Status: "OK",
+	}
+	return ctx.JSON(ok)
 }
 
 func getTodoLists(ctx *fiber.Ctx) error {
@@ -61,8 +72,8 @@ func getTodoLists(ctx *fiber.Ctx) error {
 		return ctx.Status(500).JSON(errResp)
 	}
 	// construct response
-	response := SetOKResponse(tls)
-	return ctx.JSON(response)
+	// response := SetOKResponse(tls)
+	return ctx.JSON(tls)
 }
 
 func addTodoList(ctx *fiber.Ctx) error {
@@ -81,29 +92,61 @@ func addTodoList(ctx *fiber.Ctx) error {
 		return ctx.Status(400).JSON(errResp)
 	}
 	// construct response
-	response := SetOKResponse(res)
-	return ctx.JSON(response)
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
+}
+
+func getTodoList(ctx *fiber.Ctx) error {
+	//extract listid from path
+	i64, err := strconv.ParseInt(ctx.Params("listid"), 10, 64)
+	if err != nil {
+		// construct error message
+		status := ServerStatus{Status: 400, StatusText: "Bad request"}
+		errResp := SetErrorResponse(err, status)
+		return ctx.Status(400).JSON(errResp)
+	}
+	lid := int32(i64)
+
+	res, err := db.GetTodoList(lid)
+	if err != nil {
+		errResp := SetErrorResponse(err, ServerStatus{Status: 0, StatusText: ""})
+		return ctx.Status(400).JSON(errResp)
+	}
+	// construct response
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
 }
 
 func updateTodoList(ctx *fiber.Ctx) error {
 	var tl db.TodoList
+
+	//extract listid from path
+	i64, err := strconv.ParseInt(ctx.Params("listid"), 10, 64)
+	if err != nil {
+		// construct error message
+		status := ServerStatus{Status: 400, StatusText: "Bad request"}
+		errResp := SetErrorResponse(err, status)
+		return ctx.Status(400).JSON(errResp)
+	}
+	lid := int32(i64)
+
 	//extract data from body
-	err := ctx.BodyParser(&tl)
+	err = ctx.BodyParser(&tl)
 	if err != nil {
 		// construct error message
 		errResp := SetErrorResponse(err, ServerStatus{Status: 0, StatusText: ""})
 		return ctx.Status(400).JSON(errResp)
 	}
 	// update list to db
-	res, err := db.UpdateTodoList(tl)
+	res, err := db.UpdateTodoList(lid, tl)
 	if err != nil {
 		errResp := SetErrorResponse(err, ServerStatus{Status: 400, StatusText: "Incorrect request"})
 		return ctx.Status(400).JSON(errResp)
 	}
 
 	// construct response
-	response := SetOKResponse(res)
-	return ctx.JSON(response)
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
 }
 
 func deleteTodoList(ctx *fiber.Ctx) error {
@@ -126,8 +169,8 @@ func deleteTodoList(ctx *fiber.Ctx) error {
 	}
 
 	// construct response
-	response := SetOKResponse(res)
-	return ctx.JSON(response)
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
 }
 
 func getTodoItems(ctx *fiber.Ctx) error {
@@ -147,23 +190,35 @@ func getTodoItems(ctx *fiber.Ctx) error {
 		return ctx.Status(400).JSON(errResp)
 	}
 	// construct response
-	response := SetOKResponse(todos)
-	return ctx.JSON(response)
+	// response := SetOKResponse(todos)
+	return ctx.JSON(todos)
 }
 
-func addTodoItem(ctx *fiber.Ctx) error {
-	var li db.BaseTodoItem
-	//extract listid from path
-	i64, err := strconv.ParseInt(ctx.Params("listid"), 10, 64)
+func getTodoItem(ctx *fiber.Ctx) error {
+	//extract id from path
+	id64, err := strconv.ParseInt(ctx.Params("id"), 10, 32)
 	if err != nil {
 		// construct error message
 		status := ServerStatus{Status: 400, StatusText: "Bad request"}
 		errResp := SetErrorResponse(err, status)
 		return ctx.Status(400).JSON(errResp)
 	}
-	lid := int32(i64)
-	//extract data from body
-	err = ctx.BodyParser(&li)
+	id32 := int32(id64)
+
+	res, err := db.GetTodoItem(id32)
+	if err != nil {
+		// construct error message
+		status := ServerStatus{Status: 400, StatusText: "Bad request"}
+		errResp := SetErrorResponse(err, status)
+		return ctx.Status(400).JSON(errResp)
+	}
+
+	return ctx.JSON(res)
+}
+
+func addTodoItem(ctx *fiber.Ctx) error {
+	var li db.BaseTodoItem
+	err := ctx.BodyParser(&li)
 	if err != nil {
 		// construct error message
 		status := ServerStatus{Status: 400, StatusText: "Bad request"}
@@ -171,7 +226,7 @@ func addTodoItem(ctx *fiber.Ctx) error {
 		return ctx.Status(400).JSON(errResp)
 	}
 	// add todo item to db
-	res, err := db.AddTodoItem(lid, li)
+	res, err := db.AddTodoItem(li)
 	if err != nil {
 		// construct error message
 		status := ServerStatus{Status: 400, StatusText: "Bad request"}
@@ -179,8 +234,8 @@ func addTodoItem(ctx *fiber.Ctx) error {
 		return ctx.Status(400).JSON(errResp)
 	}
 	// construct response
-	response := SetOKResponse(res)
-	return ctx.JSON(response)
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
 }
 
 func updateTodoItem(ctx *fiber.Ctx) error {
@@ -206,8 +261,8 @@ func updateTodoItem(ctx *fiber.Ctx) error {
 		return ctx.Status(400).JSON(errResp)
 	}
 	// construct response
-	response := SetOKResponse(res)
-	return ctx.JSON(response)
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
 }
 
 func deleteTodoItem(ctx *fiber.Ctx) error {
@@ -230,6 +285,6 @@ func deleteTodoItem(ctx *fiber.Ctx) error {
 	}
 
 	// construct response
-	response := SetOKResponse(res)
-	return ctx.JSON(response)
+	// response := SetOKResponse(res)
+	return ctx.JSON(res)
 }

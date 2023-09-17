@@ -20,7 +20,9 @@ services:
   todo-api:
     container_name: todo-api
     # alpine image impacts node performance
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile_node12
     image: dv4all/todo-express-api:0.0.5
     environment:
       API_PORT: 8084

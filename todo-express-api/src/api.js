@@ -16,22 +16,25 @@ api.use(loggerMiddleware)
 
 // Home route (not protected)
 api.get("/",(req,res)=>{
-  res.end(resp.respOK(res,{response:"It works"}))
+  res.end(resp.respOK(res,{status:"OK"}))
 })
 
 
 // TODO LIST
-api.post("/list", todos.addTodoList)
-api.put("/list", todos.updateTodoList)
-api.get("/list/:lid", todos.getTodoList)
 api.get("/list", todos.getAllTodoLists)
+api.post("/list", todos.addTodoList)
+api.get("/list/:lid", todos.getTodoList)
+api.put("/list/:lid", todos.updateTodoList)
+api.delete("/list/:lid", todos.deleteTodoList)
 
 //TODO ITEMS
 api.post("/todo", todos.addTodoItem)
+api.get("/todo/:id", todos.getTodoItem)
 api.put("/todo/:id", todos.updateTodoItem)
 api.delete("/todo/:id", todos.deleteTodoItem)
-api.get("/todo/list/:lid", todos.getTodoItems)
-api.get("/todo/:id", todos.getTodoItem)
+
+// get items of an list
+api.get("/list/:lid/todo", todos.getTodoItems)
 
 module.exports={
   api,

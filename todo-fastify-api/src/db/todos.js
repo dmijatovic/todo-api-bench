@@ -2,10 +2,7 @@
 const pgdb = require('./pgdb')
 
 function sendPayload(res,payload){
-  return res.status(200).send({
-      payload,
-      error:undefined
-    })
+  return res.status(200).send(payload)
 }
 
 function sendError(res,message){
@@ -49,10 +46,11 @@ function AddTodoList(req,res){
     })
 }
 
-function UpdateTodoList(req,res){
-  const {id,title} = req.body
+function UpdateTodoList(req, res) {
+  const {lid} = req.params
+  const {title} = req.body
   // validate
-  if (!id){
+  if (!lid){
     return sendError(res,"Missing property id")
   }
   if (!title){
@@ -60,7 +58,7 @@ function UpdateTodoList(req,res){
   }
   // SQL statement
   const sql=`UPDATE todo_list SET title=$1 WHERE id=$2 RETURNING id, title;`
-  const values = [title,id]
+  const values = [title,lid]
   return pgdb.query(sql,values)
     .then( result =>{
       const {rows} = result

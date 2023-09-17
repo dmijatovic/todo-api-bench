@@ -47,8 +47,8 @@ npm run dev
 
 ```bash
 
-npm i -s h3 listhen pg
+npm i -s h3@latest listhen@latest pg@latest
 
-npm i -D @vercel/ncc @types/node @types/express @types/pg typescript nodemon ts-node-dev
+npm i -D @vercel/ncc@latest @types/node@latest @types/pg@latest typescript@latest
 
 ```

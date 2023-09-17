@@ -18,14 +18,14 @@ type TodoList struct {
 
 // BaseTodoItem used to extract POST data
 type BaseTodoItem struct {
+	ListID  int32  `pg:"list_id, type:integer, NOT NULL" json:"list_id"`
 	Title   string `pg:"title, type:VARCHAR(150), NOT NULL" json:"title"`
 	Checked bool   `pg:"checked, type:boolean, NOT NULL, default:false" json:"checked"`
 }
 
 // TodoItem structure model
 type TodoItem struct {
-	ID     int32 `pg:"id,type:serial, pk" json:"id"`
-	ListID int32 `pg:"list_id, type:integer, NOT NULL" json:"list_id"`
+	ID int32 `pg:"id,type:serial, pk" json:"id"`
 	BaseTodoItem
 }
 
@@ -71,13 +71,29 @@ func AddTodoList(todolist BaseList) (TodoList, error) {
 	return tl, nil
 }
 
+// GetTodoList returns list from db
+func GetTodoList(id int32) (TodoList, error) {
+	var tl TodoList
+
+	err := sqlDB.QueryRow(context.Background(),
+		`SELECT id, title from todo_list WHERE id = $1;`,
+		id).Scan(&tl.ID, &tl.Title)
+
+	if err != nil {
+		log.Println("GetTodoList...", err)
+		return tl, err
+	}
+
+	return tl, nil
+}
+
 // UpdateTodoList will update todo list in db
-func UpdateTodoList(todolist TodoList) (TodoList, error) {
+func UpdateTodoList(lid int32, todolist TodoList) (TodoList, error) {
 	var tl TodoList
 
 	err := sqlDB.QueryRow(context.Background(), `UPDATE todo_list SET title = $1
 		WHERE id = $2
-		RETURNING id, title;`, todolist.Title, todolist.ID).Scan(&tl.ID, &tl.Title)
+		RETURNING id, title;`, todolist.Title, lid).Scan(&tl.ID, &tl.Title)
 
 	if err != nil {
 		log.Println("UpdateTodoList...", err)
@@ -129,16 +145,32 @@ func GetTodoItems(listID int32) ([]TodoItem, error) {
 }
 
 // AddTodoItem will add item to todo_item table
-func AddTodoItem(listID int32, todo BaseTodoItem) (TodoItem, error) {
+func AddTodoItem(todo BaseTodoItem) (TodoItem, error) {
 	var item TodoItem
 	// insert item into table
 	err := sqlDB.QueryRow(context.Background(), `INSERT into todo_item (list_id, title, checked) VALUES($1,$2,$3)
-	RETURNING id, list_id, title, checked;`, &listID, &todo.Title, &todo.Checked).Scan(&item.ID, &item.ListID, &item.Title, &item.Checked)
+	RETURNING id, list_id, title, checked;`, &todo.ListID, &todo.Title, &todo.Checked).Scan(&item.ID, &item.ListID, &item.Title, &item.Checked)
 	if err != nil {
 		log.Println("AddNewTodoList...", err)
 		return item, err
 	}
 	return item, nil
+}
+
+// GetTodoList returns list from db
+func GetTodoItem(id int32) (TodoItem, error) {
+	var todo TodoItem
+
+	err := sqlDB.QueryRow(context.Background(),
+		`SELECT id, title, checked, list_id from todo_item WHERE id = $1;`,
+		id).Scan(&todo.ID, &todo.Title, &todo.Checked, &todo.ListID)
+
+	if err != nil {
+		log.Println("GetTodoItem...", err)
+		return todo, err
+	}
+
+	return todo, nil
 }
 
 // UpdateTodoItem will add item to todo_item table

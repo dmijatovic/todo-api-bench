@@ -20,7 +20,7 @@ services:
   todo-api:
     container_name: todo-api
     build: .
-    image: dv4all/todo-h3-api:0.0.3
+    image: dv4all/todo-h3-api:0.0.4
     environment:
       API_PORT: 8091
       API_NAME: todo-h3-api
