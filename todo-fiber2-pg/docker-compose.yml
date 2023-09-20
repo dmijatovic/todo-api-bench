@@ -23,7 +23,7 @@ services:
       context: .
       # dockerfile to use for build
       dockerfile: Dockerfile_scratch
-    image: dv4all/todo-fiber2-pg:0.0.1
+    image: dv4all/todo-fiber2-pg:0.0.2
     # added to prevent fiber using pid=1 which disables prefork mode!!!
     pid: host
     environment:

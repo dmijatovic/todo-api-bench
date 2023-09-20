@@ -25,8 +25,9 @@ function addTodoList(req, res){
 }
 
 function updateTodoList(req, res){
+  const {lid} = req.params
   const todolist = req.body
-  return db.UpdateTodoList(todolist)
+  return db.UpdateTodoList(lid,todolist['title'])
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)
@@ -37,8 +38,8 @@ function updateTodoList(req, res){
 }
 
 function deleteTodoList(req, res){
-  const {id} = req.params
-  return db.DeleteTodoList(id)
+  const {lid} = req.params
+  return db.DeleteTodoList(lid)
     .then(data=>{
       // console.log("data received...", data)
       resp.respOK(res,data)

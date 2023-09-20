@@ -25,7 +25,7 @@ services:
       context: .
       dockerfile: Dockerfile_distroless
       # dockerfile: Dockerfile_bun
-    image: dv4all/todo-bun-elysia:0.0.4
+    image: dv4all/todo-bun-elysia:0.0.5
     environment:
       API_PORT: 8081
       API_NAME: todo-bun-elysia

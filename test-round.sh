@@ -44,21 +44,6 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
-# # ---------------------
-# # DOTNET load test
-# # start express api
-# cd ../todo-dotnet-api
-# docker compose up -d
-# # wait - needs more time to spanup
-# take_a_break 60
-# # run load test
-# loadtest test:dotnet-mssql
-# # close docker
-# cd ../todo-dotnet-api
-# docker compose down --volumes
-# # wait
-# take_a_break 5
-
 # ---------------------
 # EXPRESS load test
 # start express api
@@ -180,7 +165,6 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
-
 # ---------------------
 # Hasura GraphQL load test
 # start polka api
@@ -198,7 +182,7 @@ take_a_break 10
 
 # remove to keep to 12 items
 # # ---------------------
-# # GO MUX load test
+# # GO MUX load testclear
 # # start mux api
 # cd ../todo-mux-api
 # docker compose up -d

@@ -20,8 +20,10 @@ services:
   todo-api:
     container_name: todo-api
     # alpine image impacts node performance
-    build: .
-    image: dv4all/todo-fastify-api:0.0.4
+    build: 
+      context: .
+      dockerfile: Dockerfile_v20
+    image: dv4all/todo-fastify-api:0.0.5
     environment:
       API_PORT: 8085
       API_NAME: todo-fastify-api

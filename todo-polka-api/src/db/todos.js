@@ -40,14 +40,14 @@ function AddTodoList(todolist){
     // better to catch error in other function
 }
 
-function UpdateTodoList(todolist){
-  if (!todolist['title']){
+function UpdateTodoList(lid,title){
+  if (!title){
     throw Error("Missing property title")
   }
   // console.log("todolist:", todolist)
   // constuct SQL statement
   const sql=`UPDATE todo_list SET title=$1 WHERE id=$2 RETURNING id, title;`
-  const values = [todolist['title'],todolist['id']]
+  const values = [title,lid]
   return pgdb.query(sql,values)
     .then( result =>{
       const {rows} = result
@@ -104,7 +104,7 @@ function GetTodoItem(id=0){
     .then( result =>{
       const {rows} = result
       if (rows){
-        return rows
+        return rows[0]
       } else {
         return null
       }
@@ -115,7 +115,7 @@ function GetTodoList(lid=0){
   if (lid===0){
     throw Error("Missing list id property")
   }
-  const sql=`SELECT id, title, checked FROM todo_list WHERE id=$1 ;`
+  const sql=`SELECT id, title FROM todo_list WHERE id=$1 ;`
   const values = [lid]
   return pgdb.query(sql,values)
     .then( result =>{
