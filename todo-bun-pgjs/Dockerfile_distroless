@@ -1,0 +1,25 @@
+# taken over from issue
+# https://github.com/oven-sh/bun/issues/4836
+
+# using default image for build
+FROM oven/bun:1.0.1 as build
+
+# define user
+ARG USERNAME=nonroot
+ARG USER_GROUP=nonroot
+RUN groupadd -g 10001 $USER_GROUP && useradd -m -u 10000 -g $USER_GROUP $USERNAME
+USER ${USERNAME}:${USER_GROUP}
+
+WORKDIR /app
+
+COPY --chown=${USERNAME}:${USER_GROUP} . .
+
+# install dependencies and build app
+RUN bun install --production --no-cache && bun build src/index.ts --compile --minify --outfile build/app
+
+# use distroless image to run app - 120MB
+FROM gcr.io/distroless/base:nonroot
+
+COPY --from=build --chown=nonroot:nonroot /app/build .
+
+CMD ["./app"]

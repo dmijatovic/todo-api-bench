@@ -1,12 +1,12 @@
 import { Context } from 'elysia';
 import {IncomingMessage,ServerResponse} from 'http';
 
-export function logInfo(message="", service="todo-bun-elysia"){
+export function logInfo(message="", service="todo-bun-pgjs"){
   const log=`${Date.now()} ${service} ${message}\n`
   process.stdout.write(log)
 }
 
-export function logError(message = "", service ="todo-bun-elysia"){
+export function logError(message = "", service ="todo-bun-pgjs"){
   const err=`${Date.now()} ${service} ${message}\n`
   process.stderr.write(err)
 }

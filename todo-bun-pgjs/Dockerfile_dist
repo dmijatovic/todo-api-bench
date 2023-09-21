@@ -1,0 +1,24 @@
+FROM oven/bun:1.0.1 as build
+
+WORKDIR /app
+
+COPY package.json .
+COPY bun.lockb .
+
+RUN bun install --production
+
+# copy all files not in .dockerignore
+COPY . .
+
+RUN bun build ./src/index.ts --outfile=./todo-api.js --target=bun
+
+# Bun container to run app - 277MB
+FROM oven/bun:1.0.1
+
+WORKDIR /app
+
+COPY --from=build /app/todo-api.js /app/
+
+ENV NODE_ENV production
+
+CMD ["bun", "todo-api.js"]

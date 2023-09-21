@@ -30,7 +30,7 @@ docker compose down --volumes
 take_a_break 10
 
 # ---------------------
-# BUN elysa load test
+# BUN elysa pg load test
 # start api
 cd ../todo-bun-elysia
 docker compose up -d
@@ -40,6 +40,21 @@ take_a_break 20
 loadtest test:bun-elysia
 # close docker
 cd ../todo-bun-elysia
+docker compose down --volumes
+# wait
+take_a_break 10
+
+# ---------------------
+# BUN elysa postgres.js load test
+# start api
+cd ../todo-bun-pgjs
+docker compose up -d
+# wait
+take_a_break 20
+# run load test
+loadtest test:bun-pgjs
+# close docker
+cd ../todo-bun-pgjs
 docker compose down --volumes
 # wait
 take_a_break 10
@@ -91,20 +106,22 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
-# ---------------------
-# FIBER v1 load test
-# start fiber api
-cd ../todo-fiber1-api
-docker compose up -d
-# wait
-take_a_break 20
-# run load tests
-loadtest test:go-fiber1
-# close docker
-cd ../todo-fiber1-api
-docker compose down --volumes
-# wait
-take_a_break 10
+# OLD version is slow
+# excluded to stay at 12 items
+# # ---------------------
+# # FIBER v1 load test
+# # start fiber api
+# cd ../todo-fiber1-api
+# docker compose up -d
+# # wait
+# take_a_break 20
+# # run load tests
+# loadtest test:go-fiber1
+# # close docker
+# cd ../todo-fiber1-api
+# docker compose down --volumes
+# # wait
+# take_a_break 10
 
 # ---------------------
 # FIBER v2  pgx load test
