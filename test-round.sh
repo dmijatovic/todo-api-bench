@@ -136,32 +136,49 @@ docker compose down --volumes
 # wait
 take_a_break 10
 
+# FLASK IS SLOW
+# EXCLUDED from bench to keep 12 items
+# # ---------------------
+# # FLASK load test
+# # start flask api
+# cd ../todo-flask-api
+# docker compose up -d
+# # wait
+# take_a_break 20
+# # run load tests
+# loadtest test:py-flask
+# # close docker
+# cd ../todo-flask-api
+# docker compose down --volumes
+# # wait
+# take_a_break 10
+
 # ---------------------
-# FLASK load test
-# start flask api
-cd ../todo-flask-api
+# H3 load test
+# start h3 pg.js api
+cd ../todo-h3-api
 docker compose up -d
 # wait
 take_a_break 20
 # run load tests
-loadtest test:py-flask
+loadtest test:js-h3-api
 # close docker
-cd ../todo-flask-api
+cd ../todo-h3-api
 docker compose down --volumes
 # wait
 take_a_break 10
 
 # ---------------------
 # H3 load test
-# start h3 api
-cd ../todo-h3-api
+# start h3 postgres.js
+cd ../todo-h3-pgjs
 docker compose up -d
 # wait
 take_a_break 20
 # run load tests
-loadtest test:js-h3
+loadtest test:js-h3-pgjs
 # close docker
-cd ../todo-h3-api
+cd ../todo-h3-pgjs
 docker compose down --volumes
 # wait
 take_a_break 10

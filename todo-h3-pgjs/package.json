@@ -1,0 +1,26 @@
+{
+  "name": "todo-h3-pgjs",
+  "version": "0.0.1",
+  "description": "h3 web api using postgres.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "bun --watch src/index.ts",
+    "build": "ncc build src/index.ts -o dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "h3": "^1.8.1",
+    "listhen": "^1.5.3",
+    "postgres": "^3.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.2",
+    "@types/pg": "^8.10.2",
+    "@vercel/ncc": "^0.38.0",
+    "typescript": "^5.2.2"
+  }
+}
