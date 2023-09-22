@@ -31,6 +31,9 @@ const options = {
   chart:{
     height:600
   },
+  accessibility:{
+    enabled:false
+  },
   credits:{
     enabled:false
   },
@@ -59,7 +62,7 @@ const options = {
     formatter:function(){
       const i = this.point.index
       const info = this.series.options.report[i]
-      console.log("data.point.info", info)
+      // console.log("data.point.info", info)
       // return `<pre>${JSON.stringify(info)}</pre>`
       return buildTable(info)
     }

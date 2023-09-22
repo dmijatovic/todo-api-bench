@@ -1,10 +1,10 @@
-import {useReport} from "../utils/useReport"
-import ReportTable from "../components/ReportTable"
-import EmptyPlaceholder from "../components/EmptyPlaceholder"
+import ReportTable from "../../../components/ReportTable"
+import EmptyPlaceholder from "../../../components/EmptyPlaceholder"
+import { getTableData } from "../apiTable"
 
 
-export default()=>{
-  const [report, _] = useReport()
+export default async function TablePage({params}){
+  const report =  await getTableData(params['db'])
   const header=['title','2xx', 'non2xx','duration','connections','system','coreCnt','speedBefore','speedAfter','finish']
 
   const tableSection = () =>{
