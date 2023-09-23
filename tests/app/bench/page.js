@@ -2,6 +2,7 @@
 import {getImageList} from "./apiBench"
 import BenchmarkImage from "../../components/BenchmarkImage"
 
+// Next app metadata export
 export const metadata = {
   title: 'Benchmarks',
 }

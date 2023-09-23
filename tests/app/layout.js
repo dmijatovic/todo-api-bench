@@ -1,4 +1,3 @@
-import Link from "next"
 
 export const metadata = {
   title: 'Next.js',

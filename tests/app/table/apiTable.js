@@ -1,6 +1,6 @@
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 export async function getTableData(file){
   try{
@@ -16,4 +16,4 @@ export async function getTableData(file){
     console.error("Failed to get db data. ", e.metadata)
     return []
   }
-} 
+}

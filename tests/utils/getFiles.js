@@ -2,9 +2,9 @@ const fs = require('fs');
 
 /**
  * getFiles list from directory. It traverses all subdirectories.
- * 
- * @param {string} dir 
- * @param {array} files [{path,dir,file,type}] 
+ *
+ * @param {string} dir
+ * @param {array} files [{path,dir,file,type}]
  * @returns [{path,dir,file,type}]
  */
 function getFiles(dir, files = []) {

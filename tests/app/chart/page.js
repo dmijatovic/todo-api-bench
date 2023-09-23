@@ -1,5 +1,5 @@
 
-import { getDataList } from "./apiChart"
+import { getDataList } from "../apiDataList"
 
 import BarCharts from "./BarCharts"
 

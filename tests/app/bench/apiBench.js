@@ -1,6 +1,6 @@
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 export async function getImageList(){
   try{
@@ -16,4 +16,4 @@ export async function getImageList(){
     console.error("Failed to get image list. ", e.metadata)
     return []
   }
-} 
+}

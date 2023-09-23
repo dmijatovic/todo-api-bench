@@ -19,7 +19,7 @@ function BarChartsBody({loading,options}){
     return (
       <ReportChart
         className="hc-chart-section"
-        options={options} 
+        options={options}
       />
     )
   }
@@ -31,7 +31,7 @@ function BarChartsBody({loading,options}){
 export default function BarCharts({dbList=[]}){
   const [selected, setSelected] = useState()
   const {loading,options} = useOptions(selected?.file)
-  
+
   // console.group("BarChart")
   // console.log("loading...", loading)
   // console.log("options...", options)
@@ -58,14 +58,14 @@ export default function BarCharts({dbList=[]}){
             marginBottom:'1rem'
           }}
           onChange={({target})=>{
-            const item = dbList[parseInt(target.value)] 
+            const item = dbList[parseInt(target.value)]
             setSelected(item)
           }}
         >
           {dbList.map((item,pos)=><option key={item.file} value={pos}>{item.file}</option>)}
         </select>
       </h2>
-      <BarChartsBody 
+      <BarChartsBody
         loading={loading}
         options={options}
       />

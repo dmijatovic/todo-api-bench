@@ -1,6 +1,7 @@
 
-import { getDataList } from "./chart/apiChart"
+import { getDataList } from "./apiDataList"
 import BarCharts from "./chart/BarCharts"
+
 
 export default async function Homepage(){
   const dbList = await getDataList()
@@ -15,9 +16,9 @@ export default async function Homepage(){
         Load tests are performed with <a href="https://github.com/mcollina/autocannon" target="_new">autocannon</a>. The duration of load test can
         be changed in the configuration of autocannon scripts (autocannon/utils.js).
       </p>
-      
+
       <BarCharts dbList={dbList} />
-      
+
       <h3>How to reproduce the results?</h3>
       <p>
         You can clone this repo and run all load tests on your own. There is a shell
@@ -25,6 +26,6 @@ export default async function Homepage(){
         Your figures will high likely be different. I excpect that running this benchmark on different machines
         and processors will provide us some interessting insights!
       </p>
-    </article>    
+    </article>
   )
 }
