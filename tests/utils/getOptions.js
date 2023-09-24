@@ -47,7 +47,9 @@ const options = {
   yAxis:{
     title:{
       text:"Requests returned with 2xx (OK)"
-    }
+    },
+    // set minimum to 0
+    min:0
   },
   plotOptions: {
     series: {

@@ -3,8 +3,9 @@ const fs = require('fs')
 const ldb = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-const adapter = new FileSync('./report/db.json')
-const db = ldb(adapter)
+// const JSONFile = require('lowdb/node')
+// const adapter = new FileSync('./report/db.json')
+// const db = ldb(adapter,)
 
 module.exports = {
   // settings
@@ -18,6 +19,23 @@ module.exports = {
   },
   system: `${os.cpus()[0]?.model}`,
   coreCnt: os.cpus()?.length,
+  jsonFileName: () => {
+    const baseInfo = os.cpus()[0]?.model ?? "db.json"
+    // if no info return file name
+    if (baseInfo === "db.json") return baseInfo
+    const fileName = baseInfo
+      .trim()
+      .replaceAll(" ", "_")
+      .replaceAll("-", "_")
+      .replaceAll("(", "")
+      .replaceAll(")", "")
+      .replaceAll("@", "")
+      .replaceAll(".", "")
+      .replaceAll("____", "_")
+      .replaceAll("___", "_")
+      .replaceAll("__", "_")
+    return `./report/${fileName}.json`
+  },
   getCoreSpeed:(core=0)=>{
     return os.cpus()[core]?.speed
   },
@@ -36,20 +54,25 @@ module.exports = {
       console.log("Saved to file:", fileName)
     }
   },
-  saveToLowdb:(err, result)=>{
+  saveToLowdb:(err, result, file)=>{
     if (err) {
       console.error(err)
-    }else{
+    } else {
+      const adapter = new FileSync(file)
+      const db = ldb(adapter)
+      // create default report
+      db.defaults({report:[]})
+        .write()
       // basic stats
       const {IdNotRetuned, Created} = result
       console.log(`IdNotRetuned tot: ${(IdNotRetuned.list + IdNotRetuned.item)}, lists: ${IdNotRetuned.list}, items:${IdNotRetuned.item}`)
       console.log(`Created tot: ${(Created.list + Created.item)}, lists: ${Created.list}, items: ${Created.item}`)
       // add to report
-      db.get('report')
+      db.get("report")
         .push(result)
         .write()
 
-      console.log("Saved to lowdb json file")
+      console.log("Saved to lowdb json file...", file)
     }
   },
   writeStatusByRoute:(status,route,statusByRoute)=>{

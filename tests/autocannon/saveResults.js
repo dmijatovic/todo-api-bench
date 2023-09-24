@@ -19,7 +19,7 @@ function saveResults({err, result, noId, created, firstCoreStart, statusByRoute}
     speedBefore:`${firstCoreStart.speed}MHz`,
     speedAfter:`${firstCoreEnd.speed}MHz`,
     statusByRoute
-  })
+  },utils.jsonFileName())
 }
 
 module.exports = saveResults
