@@ -49,7 +49,7 @@ npm run dev
 
 ## Endpoints tested
 
-In the 2021 update we want to test identical endpoints and achieve idential load as much as possible. There might be slight differences but the idea is to align (at least) all REST api to use identical tests. GraphQL is different concerning the endpoint approach but the comparable load and operations will be tested.
+In the 2023 update we want to test identical endpoints and achieve idential load as much as possible. There might be slight differences but the idea is to align (at least) all REST api to use identical tests. GraphQL is different concerning the endpoint approach but the comparable load and operations will be tested. [Detailed description of api endpoints is here](./tests/autocannon/README.md)
 
 - `GET /` homepage is simple json return with message:"OK" or something like that
 - `POST /list` create new todo list
